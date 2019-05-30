@@ -1,0 +1,15 @@
+{% extends 'layout/main.twig.html' %}
+{% block content %}
+
+<h1>Hello world!</h1>
+
+<h2>{{ class }}</h2>
+
+<ul>
+    {% for gallery in galleries %}
+    <li>{{ gallery.title }} (<b>{{ gallery.profile.name }}</b>) {{ input.text('code', ('https://images.cubecloud.one' ~ gallery.cover.path)) }}</li>
+    {% endfor %}
+</ul>
+
+{% endblock %}
+{% block title %}{{ class }}{% endblock %}
