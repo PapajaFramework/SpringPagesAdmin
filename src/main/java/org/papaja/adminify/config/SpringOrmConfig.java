@@ -16,13 +16,13 @@ import java.util.Properties;
 @Configuration
 @EnableTransactionManagement
 @PropertySource("classpath:database.properties")
-@ComponentScan({"org.papaja.application.adminify"})
-public class SpringRootConfig {
+@ComponentScan({"org.papaja.adminify"})
+public class SpringOrmConfig {
 
     private Environment environment;
 
     @Autowired
-    public SpringRootConfig(Environment environment) {
+    public SpringOrmConfig(Environment environment) {
         this.environment = environment;
     }
 
@@ -61,8 +61,6 @@ public class SpringRootConfig {
 
     private Properties getHibernateProperties() {
         Properties properties = new Properties();
-
-        System.out.println(environment.getProperty("test"));
 
         // Hibernate Settings
         properties.put("hibernate.dialect", environment.getProperty("hibernate.dialect"));
