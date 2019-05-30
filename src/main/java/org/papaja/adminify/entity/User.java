@@ -3,30 +3,26 @@ package org.papaja.adminify.entity;
 import javax.persistence.*;
 import java.sql.Timestamp;
 
+@SuppressWarnings({"unused"})
 @Entity
-@Table(name = "galleries")
-public class Gallery {
+@Table(name = "users")
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "title")
-    private String title;
+    @Column(name = "username")
+    private String name;
 
-    @OneToOne
-    @JoinColumn(name = "cover_id")
-    private Resource cover;
+    @Column(name = "password")
+    private String password;
 
-    @ManyToOne
-    @JoinColumn(name = "profile_id")
-    private Profile profile;
-
-    @Column(name = "created_at")
+    @Column(name = "created")
     private Timestamp created;
 
-    @Column(name = "updated_at")
+    @Column(name = "updated")
     private Timestamp updated;
 
     public Integer getId() {
@@ -37,28 +33,20 @@ public class Gallery {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Profile getProfile() {
-        return profile;
+    public String getPassword() {
+        return password;
     }
 
-    public Resource getCover() {
-        return cover;
-    }
-
-    public void setCover(Resource cover) {
-        this.cover = cover;
-    }
-
-    public void setProfile(Profile profile) {
-        this.profile = profile;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public Timestamp getCreated() {
