@@ -20,7 +20,7 @@ public class ProfileController {
 
     @RequestMapping("/")
     public String list(Model model) {
-        String template = "profiles";
+        String template = "home";
 
         model.addAttribute("class", getClass().getName());
 
