@@ -8,13 +8,11 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.session.web.http.CookieSerializer;
 import org.springframework.session.web.http.DefaultCookieSerializer;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SuppressWarnings({"unused"})
 @Configuration
-@EnableTransactionManagement
 @PropertySource("classpath:application.properties")
-@ComponentScan({"org.papaja.application.adminify"})
+@ComponentScan({"org.papaja.adminify"})
 public class SpringSessionConfig {
 
     private Environment environment;
