@@ -3,6 +3,7 @@ package org.papaja.adminify.controller;
 import org.papaja.adminify.entity.User;
 import org.papaja.adminify.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 
 @SuppressWarnings({"unused"})
 @Controller
+@Secured("ADMIN")
 public class ProfileController {
 
     @Autowired
@@ -27,7 +29,7 @@ public class ProfileController {
         return template;
     }
 
-    @RequestMapping("/profile/{id}")
+    @RequestMapping("/user/{id}")
     public String update(Model model, @PathVariable("id") Integer id) {
         String template = "user";
         User   user     = profiles.getProfile(id);
