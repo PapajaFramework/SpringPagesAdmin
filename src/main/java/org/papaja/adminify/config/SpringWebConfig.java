@@ -8,7 +8,6 @@ import org.jtwig.spring.asset.SpringAssetExtension;
 import org.jtwig.spring.asset.resolver.AssetResolver;
 import org.jtwig.spring.asset.resolver.BaseAssetResolver;
 import org.jtwig.web.servlet.JtwigRenderer;
-import org.papaja.adminify.core.spring.web.servlet.resource.AssetsVersionStrategy;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -19,7 +18,6 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.resource.VersionResourceResolver;
 
 @SuppressWarnings({"unused"})
 @Configuration
@@ -62,14 +60,9 @@ public class SpringWebConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        VersionResourceResolver resolver = new VersionResourceResolver();
-
-        resolver.addVersionStrategy(new AssetsVersionStrategy(), "/**");
         registry.addResourceHandler("assets/**")
                 .addResourceLocations("classpath:/web/")
-                .setCachePeriod(31556926)
-                .resourceChain(true)
-                .addResolver(resolver);
+                .setCachePeriod(31556926);
     }
 
     @Override

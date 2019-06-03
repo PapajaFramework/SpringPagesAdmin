@@ -7,9 +7,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/auth")
 public class AuthController {
 
+    @RequestMapping("/")
+    public String home() {
+        return "redirect:/auth/login";
+    }
+
     @RequestMapping("/login")
-    public String loginPage() {
-        return "login";
+    public void login() {
+
+    }
+
+    @RequestMapping("/logout")
+    public void logout() {
+
     }
 
 }
