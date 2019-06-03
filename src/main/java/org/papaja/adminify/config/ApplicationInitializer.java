@@ -8,7 +8,7 @@ public class ApplicationInitializer extends AbstractAnnotationConfigDispatcherSe
     @Override
     protected Class<?>[] getRootConfigClasses() {
         return new Class[]{
-                SpringOrmConfig.class, SpringSessionConfig.class, SpringSecureConfig.class,
+                SpringOrmConfig.class, SpringSessionConfig.class, SpringSecurityConfig.class,
         };
     }
 

@@ -14,7 +14,15 @@ public class SpringUserDetails implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return service.loadUserByUsername(username);
+        UserDetails user = service.loadUserByUsername(username);
+
+        System.out.println(user);
+
+        if (user == null) {
+            throw new UsernameNotFoundException(username);
+        }
+
+        return user;
     }
 
 }
