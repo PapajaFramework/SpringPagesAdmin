@@ -16,8 +16,6 @@ public class SpringUserDetails implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserDetails user = service.loadUserByUsername(username);
 
-        System.out.println(user);
-
         if (user == null) {
             throw new UsernameNotFoundException(username);
         }
