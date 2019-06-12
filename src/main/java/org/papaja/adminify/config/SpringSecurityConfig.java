@@ -1,6 +1,6 @@
 package org.papaja.adminify.config;
 
-import org.papaja.adminify.service.SpringUserDetails;
+import org.papaja.adminify.service.AuthUserDetails;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -21,7 +21,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     @Override
     public UserDetailsService userDetailsService() {
-        return new SpringUserDetails();
+        return new AuthUserDetails();
     }
 
     @Bean
@@ -29,7 +29,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
 
         provider.setUserDetailsService(userDetailsService());
-        provider.setPasswordEncoder(getPasswordEncoder());
+        provider.setPasswordEncoder(passwordEncoder());
 
         return provider;
     }
@@ -61,7 +61,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public PasswordEncoder getPasswordEncoder() {
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 

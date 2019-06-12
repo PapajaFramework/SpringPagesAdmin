@@ -3,7 +3,6 @@ package org.papaja.adminify.service;
 import org.papaja.adminify.dao.UserDao;
 import org.papaja.adminify.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,7 +13,7 @@ public class UserService {
     private UserDao dao;
 
     @Transactional
-    public UserDetails loadUserByUsername(String username) {
+    public User loadUserByUsername(String username) {
         return dao.getUser(username);
     }
 

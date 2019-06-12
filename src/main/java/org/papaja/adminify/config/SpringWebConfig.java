@@ -61,7 +61,7 @@ public class SpringWebConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("assets/**")
-                .addResourceLocations("web:/assets/")
+                .addResourceLocations("classpath:/assets/")
                 .setCachePeriod(31556926);
     }
 
