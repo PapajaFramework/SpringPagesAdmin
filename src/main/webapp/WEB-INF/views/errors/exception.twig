@@ -1,0 +1,10 @@
+{% extends '../layout/main.twig' %}
+{% block content %}
+    <div class="card text-white bg-secondary mb-3">
+        <div class="card-header">Exception</div>
+        <div class="card-body">
+            <h4 class="card-title">{{ className }}</h4>
+            <p class="card-text">{{ message }}</p>
+        </div>
+    </div>
+{% endblock %}

@@ -46,16 +46,16 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
-        http.authorizeRequests().anyRequest().authenticated().and();
+        http.authorizeRequests().anyRequest().hasAnyRole("ADMIN", "USER").and();
 
         http.authorizeRequests().antMatchers("/auth/**")
-                .permitAll().and();
+            .permitAll().and();
 
-        http.formLogin().loginPage("/auth/login").loginProcessingUrl("/auth/login")
-                .permitAll().and();
+        http.formLogin().loginPage("/auth/login")
+            .permitAll().and();
 
         http.logout().logoutUrl("/auth/logout").logoutSuccessUrl("/auth/login")
-                .permitAll().and();
+            .permitAll().and();
 
         http.csrf().disable();
     }

@@ -35,7 +35,7 @@ public class SpringWebConfig implements WebMvcConfigurer {
         resolver.setRenderer(new JtwigRenderer(configuration));
         resolver.setViewClass(JtwigView.class);
         resolver.setPrefix("web:/WEB-INF/views/");
-        resolver.setSuffix(".twig.html");
+        resolver.setSuffix(".twig");
 
         return resolver;
     }
@@ -61,7 +61,7 @@ public class SpringWebConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("assets/**")
-                .addResourceLocations("classpath:/web/")
+                .addResourceLocations("web:/assets/")
                 .setCachePeriod(31556926);
     }
 

@@ -18,7 +18,11 @@ public class UserDao {
 
         query.setParameter("username", name);
 
-        return (User) query.uniqueResult();
+        User user = (User) query.uniqueResult();
+
+        System.out.println(user);
+
+        return user;
     }
 
     public User getUser(Integer id) {
