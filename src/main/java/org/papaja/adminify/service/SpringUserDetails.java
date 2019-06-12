@@ -20,6 +20,9 @@ public class SpringUserDetails implements UserDetailsService {
             throw new UsernameNotFoundException(username);
         }
 
+        System.out.println(user.getUsername());
+        System.out.println(user.getPassword());
+
         return user;
     }
 

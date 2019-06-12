@@ -7,11 +7,12 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class GlobalExceptionController {
 
-    @ExceptionHandler({Exception.class})
-    public String handleException(Exception exception, Model model) {
+    @ExceptionHandler({Throwable.class})
+    public String handleException(Throwable exception, Model model) {
         String template = "errors/exception";
 
-        model.addAttribute("exception", exception);
+        model.addAttribute("message", exception.getMessage());
+        model.addAttribute("className", exception.getClass().getName());
 
         return template;
     }

@@ -1,0 +1,12 @@
+{% import '../macro/input.twig' as input %}
+<!DOCTYPE html>
+<html lang="en">
+{% include 'partials/head.twig' %}
+<body>
+{% include 'partials/menu.twig' %}
+<div class="container">
+    {% block content %}{% endblock %}
+</div>
+{% include 'partials/js.twig' %}
+</body>
+</html>
