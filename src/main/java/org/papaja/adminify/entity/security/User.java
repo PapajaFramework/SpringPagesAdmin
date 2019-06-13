@@ -1,7 +1,8 @@
-package org.papaja.adminify.entity;
+package org.papaja.adminify.entity.security;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Collection;
 
 @SuppressWarnings({"unused"})
 @Entity
@@ -19,11 +20,31 @@ public class User {
     @Column(name = "password")
     private String password;
 
+    @Column(name = "enabled", columnDefinition = "TINYINT(1)")
+    private Boolean enabled;
+
+    @Column(name = "expired")
+    private Timestamp expired;
+
     @Column(name = "created")
     private Timestamp created;
 
     @Column(name = "updated")
     private Timestamp updated;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "users_roles",
+        joinColumns = @JoinColumn(
+            name = "user_id",
+            referencedColumnName = "id"
+        ),
+        inverseJoinColumns = @JoinColumn(
+            name = "role_id",
+            referencedColumnName = "id"
+        )
+    )
+    private Collection<Role> roles;
 
     public Integer getId() {
         return id;
@@ -49,6 +70,26 @@ public class User {
         this.password = password;
     }
 
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public Timestamp getExpired() {
+        return expired;
+    }
+
+    public void setExpired(Timestamp expired) {
+        this.expired = expired;
+    }
+
     public Timestamp getCreated() {
         return created;
     }
@@ -65,8 +106,12 @@ public class User {
         this.updated = updated;
     }
 
+    public Collection<Role> getRoles() {
+        return roles;
+    }
+
     @Override
     public String toString() {
-        return String.format("User{id=%d, username='%s', password='*HIDDEN*', created=%s, updated=%s}", id, username, created, updated);
+        return String.format("User{id=%d, username='%s', roles=%s}", id, username, roles);
     }
 }
