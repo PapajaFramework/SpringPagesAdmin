@@ -17,12 +17,12 @@ import java.util.Properties;
 @EnableTransactionManagement
 @PropertySource("classpath:database.properties")
 @ComponentScan({"org.papaja.adminify"})
-public class SpringOrmConfig {
+public class OrmConfig {
 
     private Environment environment;
 
     @Autowired
-    public SpringOrmConfig(Environment environment) {
+    public OrmConfig(Environment environment) {
         this.environment = environment;
     }
 

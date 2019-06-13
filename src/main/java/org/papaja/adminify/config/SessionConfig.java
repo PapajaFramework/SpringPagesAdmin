@@ -13,12 +13,12 @@ import org.springframework.session.web.http.DefaultCookieSerializer;
 @Configuration
 @PropertySource("classpath:application.properties")
 @ComponentScan({"org.papaja.adminify"})
-public class SpringSessionConfig {
+public class SessionConfig {
 
     private Environment environment;
 
     @Autowired
-    public SpringSessionConfig(Environment environment) {
+    public SessionConfig(Environment environment) {
         this.environment = environment;
     }
 

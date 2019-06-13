@@ -3,7 +3,7 @@ package org.papaja.adminify.dao;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
-import org.papaja.adminify.entity.User;
+import org.papaja.adminify.entity.security.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -19,8 +19,6 @@ public class UserDao {
         query.setParameter("username", name);
 
         User user = (User) query.uniqueResult();
-
-        System.out.println(user);
 
         return user;
     }
