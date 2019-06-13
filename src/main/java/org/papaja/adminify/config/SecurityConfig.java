@@ -16,9 +16,30 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SuppressWarnings({"all"})
-@Configuration
-@EnableGlobalMethodSecurity(securedEnabled = true)
-public class SecurityConfig extends GlobalMethodSecurityConfiguration {
+@EnableWebSecurity
+@EnableGlobalMethodSecurity(securedEnabled = true, jsr250Enabled = true, prePostEnabled = true)
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Override
+    public void configure(final WebSecurity web) {
+        web.ignoring().antMatchers("/assets/**");
+    }
+
+    @Override
+    protected void configure(final HttpSecurity http) throws Exception {
+        http.authorizeRequests().anyRequest().hasAnyRole("ADMIN", "SUPERUSER").and();
+
+        http.authorizeRequests().antMatchers("/auth/**")
+            .permitAll().and();
+
+        http.formLogin().loginPage("/auth/login")
+            .permitAll().and();
+
+        http.logout().logoutUrl("/auth/logout").logoutSuccessUrl("/auth/login")
+            .permitAll().and();
+
+        http.csrf().disable();
+    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) {
@@ -43,33 +64,6 @@ public class SecurityConfig extends GlobalMethodSecurityConfiguration {
     @Bean
     public UserDetailsService userDetailsService() {
         return new AuthUserDetails();
-    }
-
-    @Configuration
-    @EnableWebSecurity
-    public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
-        @Override
-        public void configure(final WebSecurity web) {
-            web.ignoring().antMatchers("/assets/**");
-        }
-
-        @Override
-        protected void configure(final HttpSecurity http) throws Exception {
-            http.authorizeRequests().anyRequest().hasAnyRole("ADMIN", "SUPERUSER").and();
-
-            http.authorizeRequests().antMatchers("/auth/**")
-                    .permitAll().and();
-
-            http.formLogin().loginPage("/auth/login")
-                    .permitAll().and();
-
-            http.logout().logoutUrl("/auth/logout").logoutSuccessUrl("/auth/login")
-                    .permitAll().and();
-
-            http.csrf().disable();
-        }
-
     }
 
 }
