@@ -14,7 +14,7 @@ public class AuthController {
         return "redirect:/auth/login";
     }
 
-    @GetMapping("/login")
+    @RequestMapping(value = "/login", produces = "text/html; charset=UTF-8")
     public void login() {
 
     }

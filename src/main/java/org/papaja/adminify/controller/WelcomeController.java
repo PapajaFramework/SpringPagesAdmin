@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @SuppressWarnings({"unused"})
-@PreAuthorize("hasAuthority('REMOVE')")
 public class WelcomeController {
 
     @RequestMapping("/")
@@ -18,6 +17,12 @@ public class WelcomeController {
     }
 
     @PreAuthorize("hasAuthority('REMOVE')")
+    @RequestMapping(value = "/name")
+    @ResponseBody
+    public String getClassName() {
+        return getClass().getName();
+    }
+
     @ResponseBody
     @RequestMapping(value = "/hello")
     public String hello(Authentication authentication) {
