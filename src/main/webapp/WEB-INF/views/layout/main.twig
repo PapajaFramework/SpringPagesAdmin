@@ -1,7 +1,10 @@
 {% import '../macro/input.twig' as input %}
 <!DOCTYPE html>
 <html lang="en">
-{% include 'partials/head.twig' %}
+<head>
+    <title>Adminify - {% block title %}Home{% endblock %}</title>
+    {% include 'partials/meta.twig' %}
+</head>
 <body>
 {% include 'partials/menu.twig' %}
 <div class="container">
