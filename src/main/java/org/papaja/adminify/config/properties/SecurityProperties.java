@@ -3,27 +3,28 @@ package org.papaja.adminify.config.properties;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+@SuppressWarnings({"unused"})
 @Component
 public class SecurityProperties {
 
-    @Value("${app.session.sessionCookie}")
-    private String sessionCookie;
+    @Value("${app.security.session.cookieName}")
+    private String sessionCookieName;
 
-    @Value("${app.session.rememberMeName}")
-    private String rememberMeName;
+    @Value("${app.security.session.rememberMeCookieName}")
+    private String sessionRememberMeCookieName;
 
-    @Value("${app.session.rememberMeSecret}")
-    private String rememberMeSecret;
+    @Value("${app.security.session.rememberMeSecretKey}")
+    private String sessionRememberMeSecretKey;
 
-    public String getSessionCookie() {
-        return sessionCookie;
+    public String getSessionCookieName() {
+        return sessionCookieName;
     }
 
-    public String getRememberMeName() {
-        return rememberMeName;
+    public String getSessionRememberMeCookieName() {
+        return sessionRememberMeCookieName;
     }
 
-    public String getRememberMeSecret() {
-        return rememberMeSecret;
+    public String getSessionRememberMeSecretKey() {
+        return sessionRememberMeSecretKey;
     }
 }

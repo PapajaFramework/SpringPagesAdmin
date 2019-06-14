@@ -64,11 +64,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.formLogin().loginPage("/auth/login")
                 .permitAll();
 
-        http.logout().logoutUrl("/auth/logout").deleteCookies(properties.getSessionCookie())
+        http.logout().logoutUrl("/auth/logout").logoutSuccessUrl("/auth/login")
+                .deleteCookies(properties.getSessionCookieName())
                 .permitAll();
 
-        http.rememberMe().rememberMeCookieName(properties.getRememberMeName())
-                .key(properties.getRememberMeSecret()).tokenValiditySeconds(86400);
+        http.rememberMe().rememberMeCookieName(properties.getSessionRememberMeCookieName())
+                .key(properties.getSessionRememberMeSecretKey()).tokenValiditySeconds(86400);
 
         http.csrf().disable();
     }

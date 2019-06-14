@@ -1,0 +1,9 @@
+{% extends 'layout/main.twig' %}
+{% block title %}[[{{ authentication.name }}]]{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+            <h1>{{ authentication.name }}, привет!</h1>
+        </div>
+    </div>
+{% endblock %}
