@@ -5,17 +5,19 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.SessionCookieConfig;
+import java.util.ResourceBundle;
 
 @SuppressWarnings({"unused"})
 public class ApplicationInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
     @Override
-    public void onStartup(ServletContext servletContext) throws ServletException {
-        super.onStartup(servletContext);
+    public void onStartup(ServletContext context) throws ServletException {
+        super.onStartup(context);
 
-        SessionCookieConfig config = servletContext.getSessionCookieConfig();
+        ResourceBundle      resource = ResourceBundle.getBundle("application.properties");
+        SessionCookieConfig config   = context.getSessionCookieConfig();
 
-        config.setName("J_ADMINIFY");
+        config.setName(resource.getString("app.session.sessionCookie"));
     }
 
     @Override
