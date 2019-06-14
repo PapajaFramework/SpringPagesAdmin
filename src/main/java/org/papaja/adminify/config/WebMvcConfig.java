@@ -9,10 +9,7 @@ import org.jtwig.spring.asset.resolver.AssetResolver;
 import org.jtwig.spring.asset.resolver.BaseAssetResolver;
 import org.jtwig.web.servlet.JtwigRenderer;
 import org.springframework.context.MessageSource;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.context.annotation.*;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
@@ -25,6 +22,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableWebMvc
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 @ComponentScan("org.papaja.adminify.controller")
+@PropertySource("classpath:application.properties")
 public class WebMvcConfig implements WebMvcConfigurer {
 
     @Bean
