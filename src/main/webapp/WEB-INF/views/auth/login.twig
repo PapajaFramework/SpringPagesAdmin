@@ -5,7 +5,7 @@
         <div class="col-lg-8 offset-lg-2">
             <div class="card bg-light">
                 <div class="card-header">
-                    <h2 class="text-center m-3">Authentication</h2>
+                    <h4 class="text-center m-3">Authentication</h4>
                 </div>
                 <div class="card-body">
                     <div class="row">
@@ -13,17 +13,23 @@
                             <form class="bs-component" method="post" action="/auth/login">
                                 <div class="form-group has-success">
                                     <label class="form-control-label" for="login">
-                                        <h4>Login</h4>
+                                        Login
                                     </label>
-                                    <input name="username" type="text" placeholder="type login here" class="form-control form-control-lg" id="login">
+                                    <input name="username" type="text" placeholder="type login here" class="form-control" id="login">
                                 </div>
                                 <div class="form-group has-success">
                                     <label class="form-control-label" for="password">
-                                        <h4>Password</h4>
+                                        Password
                                     </label>
-                                    <input name="password" type="password" placeholder="your secret password" class="form-control form-control-lg" id="password">
+                                    <input name="password" type="password" placeholder="your secret password" class="form-control" id="password">
                                 </div>
-                                <button type="submit" class="btn btn-primary btn-lg btn-block">Authorize! Войти!</button>
+                                <div class="form-group has-success">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" name="remember-me" id="remember-me">
+                                        <label class="custom-control-label" for="remember-me">Remember me</label>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-block">Authorize! Войти!</button>
                             </form>
                         </div>
                     </div>

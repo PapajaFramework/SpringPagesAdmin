@@ -1,6 +1,8 @@
 package org.papaja.adminify.config;
 
+import org.papaja.adminify.config.properties.SessionConfiguration;
 import org.papaja.adminify.service.AuthUserDetails;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -18,8 +20,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    private SessionConfiguration sessionConfiguration;
+
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) {
+    protected void configure(final AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(getAuthenticationProvider());
     }
 
@@ -50,13 +55,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
-        http.authorizeRequests().anyRequest().authenticated();
+        http.authorizeRequests().anyRequest()
+                .authenticated();
 
-        http.authorizeRequests().antMatchers("/auth/**").permitAll().and();
+        http.authorizeRequests().antMatchers("/auth/**")
+                .permitAll();
 
-        http.formLogin().loginPage("/auth/login").permitAll().and();
+        http.formLogin().loginPage("/auth/login")
+                .permitAll();
 
-        http.logout().logoutUrl("/auth/logout").logoutSuccessUrl("/auth/login").permitAll().and();
+        http.logout().logoutUrl("/auth/logout").deleteCookies(sessionConfiguration.getSessionCookie())
+                .permitAll();
+
+        http.rememberMe().rememberMeCookieName(sessionConfiguration.getRememberMeName())
+                .key(sessionConfiguration.getRememberMeSecret()).tokenValiditySeconds(86400);
 
         http.csrf().disable();
     }

@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import java.util.Properties;
 
+@SuppressWarnings({"unused"})
 @Configuration
 @EnableTransactionManagement
 @PropertySource("classpath:database.properties")
