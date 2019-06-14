@@ -1,6 +1,6 @@
 package org.papaja.adminify.config;
 
-import org.papaja.adminify.config.properties.SessionConfiguration;
+import org.papaja.adminify.config.properties.SecurityProperties;
 import org.papaja.adminify.service.AuthUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -21,7 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private SessionConfiguration sessionConfiguration;
+    private SecurityProperties properties;
 
     @Override
     protected void configure(final AuthenticationManagerBuilder auth) {
@@ -64,11 +64,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.formLogin().loginPage("/auth/login")
                 .permitAll();
 
-        http.logout().logoutUrl("/auth/logout").deleteCookies(sessionConfiguration.getSessionCookie())
+        http.logout().logoutUrl("/auth/logout").deleteCookies(properties.getSessionCookie())
                 .permitAll();
 
-        http.rememberMe().rememberMeCookieName(sessionConfiguration.getRememberMeName())
-                .key(sessionConfiguration.getRememberMeSecret()).tokenValiditySeconds(86400);
+        http.rememberMe().rememberMeCookieName(properties.getRememberMeName())
+                .key(properties.getRememberMeSecret()).tokenValiditySeconds(86400);
 
         http.csrf().disable();
     }
