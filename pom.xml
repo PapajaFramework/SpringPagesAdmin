@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.papaja</groupId>
-    <artifactId>Adminify</artifactId>
+    <artifactId>Adminifly</artifactId>
     <version>1.0.0-DEV</version>
 
     <packaging>war</packaging>
@@ -15,6 +15,7 @@
         <spring.version>5.1.7.RELEASE</spring.version>
         <spring.session.version>1.3.5.RELEASE</spring.session.version>
         <spring.secure.version>5.1.5.RELEASE</spring.secure.version>
+        <spring.dataCore.version>2.1.8.RELEASE</spring.dataCore.version>
 
         <javax.servlet.api.version>4.0.1</javax.servlet.api.version>
         <jtwig.version>5.87.0.RELEASE</jtwig.version>
@@ -52,12 +53,19 @@
             <version>${spring.version}</version>
         </dependency>
 
-        <!-- Spring Session -->
+        <!-- Spring Data Core -->
         <dependency>
-            <groupId>org.springframework.session</groupId>
-            <artifactId>spring-session</artifactId>
-            <version>${spring.session.version}</version>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-commons</artifactId>
+            <version>${spring.dataCore.version}</version>
         </dependency>
+
+        <!--&lt;!&ndash; Spring Session &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.session</groupId>-->
+            <!--<artifactId>spring-session</artifactId>-->
+            <!--<version>${spring.session.version}</version>-->
+        <!--</dependency>-->
 
         <!-- Spring Security -->
         <dependency>

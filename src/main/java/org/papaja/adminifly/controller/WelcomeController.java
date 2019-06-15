@@ -1,4 +1,4 @@
-package org.papaja.adminify.controller;
+package org.papaja.adminifly.controller;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;

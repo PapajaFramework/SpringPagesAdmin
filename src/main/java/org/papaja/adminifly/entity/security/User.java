@@ -1,4 +1,4 @@
-package org.papaja.adminify.entity.security;
+package org.papaja.adminifly.entity.security;
 
 import javax.persistence.*;
 import java.sql.Timestamp;

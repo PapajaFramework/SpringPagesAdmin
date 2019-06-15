@@ -1,6 +1,6 @@
-package org.papaja.adminify.controller.secure;
+package org.papaja.adminifly.controller.secure;
 
-import org.papaja.adminify.service.UserService;
+import org.papaja.adminifly.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

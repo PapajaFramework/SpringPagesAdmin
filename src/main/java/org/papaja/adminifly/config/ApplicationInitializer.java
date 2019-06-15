@@ -1,4 +1,4 @@
-package org.papaja.adminify.config;
+package org.papaja.adminifly.config;
 
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;

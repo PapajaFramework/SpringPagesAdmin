@@ -1,4 +1,4 @@
-package org.papaja.adminify.config;
+package org.papaja.adminifly.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -17,7 +17,7 @@ import java.util.Properties;
 @Configuration
 @EnableTransactionManagement
 @PropertySource("classpath:database.properties")
-@ComponentScan({"org.papaja.adminify"})
+@ComponentScan({"org.papaja.adminifly"})
 public class OrmConfig {
 
     private Environment environment;
@@ -40,7 +40,7 @@ public class OrmConfig {
     public LocalSessionFactoryBean getSessionFactory() {
         LocalSessionFactoryBean factory = new LocalSessionFactoryBean();
 
-        factory.setPackagesToScan("org.papaja.adminify.entity");
+        factory.setPackagesToScan("org.papaja.adminifly.entity");
         factory.setDataSource(getDataSource());
         factory.setHibernateProperties(getHibernateProperties());
 

@@ -1,4 +1,4 @@
-package org.papaja.adminify.config.properties;
+package org.papaja.adminifly.config.properties;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;

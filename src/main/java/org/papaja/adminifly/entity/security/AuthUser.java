@@ -1,4 +1,4 @@
-package org.papaja.adminify.entity.security;
+package org.papaja.adminifly.entity.security;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
