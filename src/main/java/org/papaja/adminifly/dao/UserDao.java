@@ -1,9 +1,9 @@
-package org.papaja.adminify.dao;
+package org.papaja.adminifly.dao;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
-import org.papaja.adminify.entity.security.User;
+import org.papaja.adminifly.entity.security.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 

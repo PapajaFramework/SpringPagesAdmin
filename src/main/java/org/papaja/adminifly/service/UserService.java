@@ -1,7 +1,7 @@
-package org.papaja.adminify.service;
+package org.papaja.adminifly.service;
 
-import org.papaja.adminify.dao.UserDao;
-import org.papaja.adminify.entity.security.User;
+import org.papaja.adminifly.dao.UserDao;
+import org.papaja.adminifly.entity.security.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

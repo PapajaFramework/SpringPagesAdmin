@@ -1,4 +1,4 @@
-package org.papaja.adminify.dao;
+package org.papaja.adminifly.dao;
 
 abstract public class AbstractDao {
 }

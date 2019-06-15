@@ -1,7 +1,7 @@
-package org.papaja.adminify.service;
+package org.papaja.adminifly.service;
 
-import org.papaja.adminify.entity.security.AuthUser;
-import org.papaja.adminify.entity.security.User;
+import org.papaja.adminifly.entity.security.AuthUser;
+import org.papaja.adminifly.entity.security.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

@@ -1,4 +1,4 @@
-package org.papaja.adminify.config;
+package org.papaja.adminifly.config;
 
 import org.jtwig.environment.EnvironmentConfigurationBuilder;
 import org.jtwig.spring.JtwigView;
@@ -23,7 +23,7 @@ import java.nio.charset.Charset;
 @Configuration
 @EnableWebMvc
 @EnableAspectJAutoProxy(proxyTargetClass = true)
-@ComponentScan("org.papaja.adminify.controller")
+@ComponentScan("org.papaja.adminifly.controller")
 @PropertySource("classpath:application.properties")
 public class WebMvcConfig implements WebMvcConfigurer {
 

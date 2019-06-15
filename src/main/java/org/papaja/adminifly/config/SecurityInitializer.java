@@ -1,4 +1,4 @@
-package org.papaja.adminify.config;
+package org.papaja.adminifly.config;
 
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 
