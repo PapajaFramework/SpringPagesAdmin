@@ -7,6 +7,8 @@ import org.papaja.adminify.entity.security.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class UserDao {
 
@@ -18,9 +20,11 @@ public class UserDao {
 
         query.setParameter("username", name);
 
-        User user = (User) query.uniqueResult();
+        return (User) query.uniqueResult();
+    }
 
-        return user;
+    public List<User> getUsers() {
+        return getSession().createQuery("from User").getResultList();
     }
 
     public User getUser(Integer id) {
