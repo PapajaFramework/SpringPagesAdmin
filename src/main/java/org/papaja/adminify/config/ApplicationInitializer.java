@@ -1,6 +1,9 @@
 package org.papaja.adminify.config;
 
+import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
+import org.springframework.web.servlet.DispatcherServlet;
+import org.springframework.web.servlet.FrameworkServlet;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import javax.servlet.Filter;
@@ -23,6 +26,15 @@ public class ApplicationInitializer extends AbstractAnnotationConfigDispatcherSe
         SessionCookieConfig config     = context.getSessionCookieConfig();
 
         config.setName(properties.getProperty("app.security.session.cookieName"));
+    }
+
+    @Override
+    protected FrameworkServlet createDispatcherServlet(WebApplicationContext context) {
+        final DispatcherServlet servlet = (DispatcherServlet) super.createDispatcherServlet(context);
+
+        servlet.setThrowExceptionIfNoHandlerFound(true);
+
+        return servlet;
     }
 
     @Override

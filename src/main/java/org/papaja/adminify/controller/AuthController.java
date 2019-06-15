@@ -1,5 +1,6 @@
 package org.papaja.adminify.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -13,11 +14,13 @@ public class AuthController {
         return "redirect:/auth/login";
     }
 
-    @RequestMapping(value = "/login", produces = "text/html; charset=UTF-8")
+    @PreAuthorize("isAnonymous()")
+    @RequestMapping(value = "/login")
     public void login() {
 
     }
 
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping("/logout")
     public void logout() {
 
