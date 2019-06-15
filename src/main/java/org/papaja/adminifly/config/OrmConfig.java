@@ -16,7 +16,10 @@ import java.util.Properties;
 @SuppressWarnings({"unused"})
 @Configuration
 @EnableTransactionManagement
-@PropertySource("classpath:database.properties")
+@PropertySource({
+        "classpath:database.properties",
+        "classpath:database.development.properties"
+})
 @ComponentScan({"org.papaja.adminifly"})
 public class OrmConfig {
 
