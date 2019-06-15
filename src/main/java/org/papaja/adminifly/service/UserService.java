@@ -11,6 +11,8 @@ import java.util.List;
 @Service
 public class UserService {
 
+    private static final int MAX_RESULT_PER_PAGE = 5;
+
     @Autowired
     private UserDao dao;
 
@@ -25,8 +27,8 @@ public class UserService {
     }
 
     @Transactional
-    public List<User> getUsers() {
-        return dao.getUsers();
+    public List<User> getUsers(int offset) {
+        return dao.getUsers(offset, MAX_RESULT_PER_PAGE);
     }
 
     @Transactional
