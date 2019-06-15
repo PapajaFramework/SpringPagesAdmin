@@ -4,6 +4,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.papaja.adminifly.entity.security.User;
+import org.papaja.adminifly.service.hibernate.Pagination;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -16,15 +17,19 @@ public class UserDao {
     private SessionFactory factory;
 
     public User getUser(String name) {
-        Query query = getSession().createQuery("from User where username = :username");
+        Query query = getSession().createQuery("FROM User WHERE username = :username");
 
         query.setParameter("username", name);
 
         return (User) query.uniqueResult();
     }
 
-    public List<User> getUsers() {
-        return getSession().createQuery("from User").getResultList();
+    public List<User> getUsers(int offset, int limit) {
+        Query query = getSession().createQuery("FROM User");
+
+        Pagination<User> pagination = Pagination.of(query, offset, limit);
+
+        return pagination.getResult();
     }
 
     public User getUser(Integer id) {
