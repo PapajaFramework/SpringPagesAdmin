@@ -6,12 +6,7 @@ import java.util.Collection;
 @SuppressWarnings({"unused"})
 @Entity
 @Table(name = "roles")
-public class Role {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Integer id;
+public class Role extends AbstractEntity {
 
     @Column(name = "name")
     private String name;
@@ -32,14 +27,6 @@ public class Role {
         )
     )
     private Collection<Privilege> privileges;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
