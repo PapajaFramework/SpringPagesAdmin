@@ -1,6 +1,7 @@
 package org.papaja.adminifly.controller.secure;
 
 import org.papaja.adminifly.entity.security.User;
+import org.papaja.adminifly.service.RoleService;
 import org.papaja.adminifly.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,21 +20,23 @@ public class UserController {
     @Autowired
     private UserService users;
 
+    @Autowired
+    private RoleService roles;
+
     @RequestMapping("/list")
     public void list(
-            @RequestParam(value = "page", defaultValue = "1") int page, Model model
+        @RequestParam(value = "page", defaultValue = "1") int page, Model model
     ) {
         model.addAttribute("users", users.getUsers(page));
     }
 
     @RequestMapping({"/edit/{id}", "/create"})
-    public ModelAndView form(@PathVariable(value = "id", required = false) int id, ModelAndView model) {
-        User user = id > 0 ? users.getProfile(id) : new User();
-
-        System.out.println(user);
+    public ModelAndView form(@PathVariable(value = "id", required = false) Integer id, ModelAndView model) {
+        User user = users.getProfile(id);
 
         model.setViewName("user/form");
         model.addObject("user", user);
+        model.addObject("roles", roles.getRoles());
 
         return model;
     }
@@ -41,12 +44,10 @@ public class UserController {
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST)
     public String process(
-            @ModelAttribute("user") @Validated User user,
-            BindingResult result,
-            Model model,
-            final RedirectAttributes attributes
+        @ModelAttribute("user") @Validated User user, BindingResult result, Model model, final RedirectAttributes attributes
     ) {
         System.out.println(user);
+        System.out.println(user.getPassword());
 
         return user.toString();
     }

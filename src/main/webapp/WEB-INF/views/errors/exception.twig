@@ -1,10 +1,23 @@
 {% extends '../layout/main.twig' %}
 {% block content %}
-    <div class="card text-white bg-danger mb-3">
-        <div class="card-header">Error Page</div>
+    <div class="card border-danger mb-3">
+        <div class="card-header"><h4 class="card-title mt-3">{{ name }}</h4></div>
         <div class="card-body">
-            <h4 class="card-title">{{ name }}</h4>
             <p class="card-text">{{ message }}</p>
+            <button type="button" class="btn btn-outline-danger" onclick="$('#stackTraceModal').modal();">Stack Trace</button>
+        </div>
+    </div>
+    <div id="stackTraceModal" class="modal fade" tabindex='-1'>
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Stack: [{{ name }}]</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <pre class="p-3">{{ stack }}</pre>
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}

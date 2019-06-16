@@ -1,20 +1,14 @@
 package org.papaja.adminifly.dao;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
+import org.papaja.adminifly.core.hibernate.Pagination;
 import org.papaja.adminifly.entity.security.User;
-import org.papaja.adminifly.service.hibernate.Pagination;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public class UserDao {
-
-    @Autowired
-    private SessionFactory factory;
+public class UserDao extends AbstractDao {
 
     public User getUser(String name) {
         Query query = getSession().createQuery("FROM User WHERE username = :username");
@@ -42,10 +36,6 @@ public class UserDao {
 
     public void persist(User user) {
         getSession().saveOrUpdate(user);
-    }
-
-    private Session getSession() {
-        return factory.getCurrentSession();
     }
 
 }
