@@ -3,16 +3,12 @@ package org.papaja.adminfly.entity.security;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.HashSet;
 
 @SuppressWarnings({"unused"})
 @Entity
 @Table(name = "users")
-public class User {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Integer id;
+public class User extends AbstractEntity {
 
     @Column(name = "username")
     private String username;
@@ -46,12 +42,8 @@ public class User {
     )
     private Collection<Role> roles;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
+    public User() {
+        roles = new HashSet<>();
     }
 
     public String getUsername() {
@@ -108,6 +100,14 @@ public class User {
 
     public Collection<Role> getRoles() {
         return roles;
+    }
+
+    public void setRoles(Collection<Role> roles) {
+        this.roles = roles;
+    }
+
+    public void addRole(Role role) {
+        roles.add(role);
     }
 
     @Override

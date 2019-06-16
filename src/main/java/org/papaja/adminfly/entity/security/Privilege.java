@@ -6,26 +6,13 @@ import java.util.Collection;
 @SuppressWarnings({"unused"})
 @Entity
 @Table(name = "privileges")
-public class Privilege {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Integer id;
+public class Privilege extends AbstractEntity {
 
     @Column(name = "name")
     private String name;
 
     @ManyToMany(mappedBy = "privileges")
     private Collection<Role> roles;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
