@@ -19,9 +19,9 @@
                     </thead>
                     <tbody>
                     {% for user in users %}
-                        {% set edit = '/user/edit/' ~ user.id %}
-                        {% set disable = '/user/status/disable/' ~ user.id %}
-                        {% set enable = '/user/status/enable/' ~ user.id %}
+                        {% set edit = '/users/edit/' ~ user.id %}
+                        {% set disable = '/users/status/disable/' ~ user.id %}
+                        {% set enable = '/users/status/enable/' ~ user.id %}
                     <tr>
                         <th scope="row">{{ user.id }}</th>
                         <td>{{ user.username }}</td>
