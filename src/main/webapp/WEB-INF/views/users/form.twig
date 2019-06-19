@@ -47,11 +47,11 @@
                                 {% set counter = 0 %}
                                 {% for role in roles %}
                                     <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" name="user.roles[{{ counter }}].id" value="{{ role.id }}"
-                                               class="custom-control-input" id="userRole{{ role.id }}" checked>
+                                        <input type="checkbox" name="roles[{{ counter }}].id" value="{{ role.id }}"
+                                               class="custom-control-input" id="userRole{{ role.id }}"
+                                               {% if role.id in user.rolesIds %}checked{% endif %}>
                                         <label class="custom-control-label"
                                                for="userRole{{ role.id }}">{{ role.name }}</label>
-                                        <input type="hidden" name="_user.roles[{{ counter }}].id" value="{{ role.id }}">
                                     </div>
                                     {% set counter = counter + 1 %}
                                 {% endfor %}

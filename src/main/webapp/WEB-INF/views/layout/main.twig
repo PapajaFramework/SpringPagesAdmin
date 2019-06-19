@@ -8,6 +8,7 @@
 <body>
 {% include 'partials/menu/' ~ default(menu, 'main') ~ '.twig' %}
 <div class="container">
+    {% include 'partials/flash/success.twig' %}
     {% block content %}{% endblock %}
 </div>
 {% include 'partials/js.twig' %}

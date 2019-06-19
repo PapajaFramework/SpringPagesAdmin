@@ -5,6 +5,10 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
+import static java.util.Objects.nonNull;
 
 @SuppressWarnings({"unused"})
 @Entity
@@ -103,12 +107,22 @@ public class User extends AbstractEntity {
         return roles;
     }
 
+    public Collection<Integer> getRolesIds() {
+        return getRoles().stream().map(Role::getId).collect(Collectors.toList());
+    }
+
     public void setRoles(Collection<Role> roles) {
         this.roles = roles;
     }
 
     public void addRole(Role role) {
         roles.add(role);
+    }
+
+    public void addRole(Integer id) {
+        if (nonNull(id)) {
+            addRole(new Role(id));
+        }
     }
 
     @Override

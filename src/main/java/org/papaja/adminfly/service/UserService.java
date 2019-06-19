@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.List;
 
 @Service
@@ -33,6 +35,8 @@ public class UserService {
 
     @Transactional
     public void persist(User user) {
+        user.setUpdated(Timestamp.from(Instant.now()));
+
         dao.persist(user);
     }
 
