@@ -2,6 +2,7 @@ package org.papaja.adminfly.entity.security;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -43,7 +44,7 @@ public class User extends AbstractEntity {
     private Collection<Role> roles;
 
     public User() {
-        roles = new HashSet<>();
+        roles = new ArrayList<>();
     }
 
     public String getUsername() {
