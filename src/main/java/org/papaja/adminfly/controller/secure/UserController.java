@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -61,22 +63,22 @@ public class UserController {
     }
 
     @ResponseBody
-    @RequestMapping(method = RequestMethod.POST, consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
+    @RequestMapping(method = RequestMethod.POST)
     public String process(
-        @RequestBody UserRequest request,
-        @ModelAttribute("user") @Validated User user,
+        UserRequest request,
+        @ModelAttribute("user") @Valid User user,
         BindingResult result,
         Model model,
         final RedirectAttributes attributes
     ) {
-        System.out.println(user);
-        System.out.println(user.getPassword());
+//        System.out.println(user);
+//        System.out.println(user.getPassword());
 
+        System.out.println();
+        System.out.println(user);
         System.out.println();
         System.out.println(request);
         System.out.println();
-
-//        users.persist(user);
 
         return user.toString();
     }

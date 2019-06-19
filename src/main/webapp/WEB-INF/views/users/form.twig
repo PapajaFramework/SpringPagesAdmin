@@ -1,10 +1,10 @@
 {% extends '../layout/main.twig' %}
-{#{% block title %}{% if user.new %}Create{% else %}Update{% endif %}{% endblock %}#}
+{% block title %}{% if not user.old %}Create{% else %}Update user {{ user.username }}{% endif %}{% endblock %}
 {% block content %}
-    <div class="row">
-        <div class="col-lg-6">
-            <div class="bs-component">
-                <form method="post" action="/users">
+    <form method="post" action="/users">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="bs-component">
                     <fieldset>
                         <legend>Information</legend>
                         {% if user.new %}
@@ -35,36 +35,45 @@
                                 <label class="custom-control-label" for="userEnable">Enabled user</label>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary">Save</button>
                     </fieldset>
-                </form>
+                </div>
             </div>
-        </div>
-        <div class="col-lg-6">
-            <div class="bs-component">
-                <fieldset>
-                    <legend>Roles</legend>
-                    <div class="form-group">
-                        {% if user.old %}
-                            {% for role in roles %}
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" name="role[]" value="{{ role.id }}" class="custom-control-input" id="userRole{{ role.id }}" checked>
-                                <label class="custom-control-label" for="userRole{{ role.id }}">{{ role.name }}</label>
-                            </div>
-                            {% endfor %}
-                        {% else %}
-                            <div class="card border-primary mb-3">
-                                <div class="card-header">Attention!</div>
-                                <div class="card-body">
-                                    <p class="card-text">
-                                        Save from the beginning of a new user to be able to assign roles
-                                    </p>
+            <div class="col-lg-6">
+                <div class="bs-component">
+                    <fieldset>
+                        <legend>Roles</legend>
+                        <div class="form-group">
+                            {% if user.old %}
+                                {% set counter = 0 %}
+                                {% for role in roles %}
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" name="user.roles[{{ counter }}].id" value="{{ role.id }}"
+                                               class="custom-control-input" id="userRole{{ role.id }}" checked>
+                                        <label class="custom-control-label"
+                                               for="userRole{{ role.id }}">{{ role.name }}</label>
+                                        <input type="hidden" name="_user.roles[{{ counter }}].id" value="{{ role.id }}">
+                                    </div>
+                                    {% set counter = counter + 1 %}
+                                {% endfor %}
+                            {% else %}
+                                <div class="card border-primary mb-3">
+                                    <div class="card-header">Attention!</div>
+                                    <div class="card-body">
+                                        <p class="card-text">
+                                            Save from the beginning of a new user to be able to assign roles
+                                        </p>
+                                    </div>
                                 </div>
-                            </div>
-                        {% endif %}
-                    </div>
-                </fieldset>
+                            {% endif %}
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="bs-component">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
             </div>
         </div>
-    </div>
+    </form>
 {% endblock %}
