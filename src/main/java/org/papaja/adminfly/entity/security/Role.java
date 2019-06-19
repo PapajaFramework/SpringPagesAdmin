@@ -28,6 +28,14 @@ public class Role extends AbstractEntity {
     )
     private Collection<Privilege> privileges;
 
+    public Role() {
+        this(null);
+    }
+
+    public Role(Integer id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }

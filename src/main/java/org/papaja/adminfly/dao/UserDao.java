@@ -30,10 +30,6 @@ public class UserDao extends AbstractDao {
         return getSession().get(User.class, id);
     }
 
-    public User getUserDetails(Integer id) {
-        return getSession().get(User.class, id);
-    }
-
     public void persist(User user) {
         getSession().saveOrUpdate(user);
     }
