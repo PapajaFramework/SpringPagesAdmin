@@ -42,15 +42,14 @@ public class UserController {
 
     @RequestMapping({"/edit/{id}", "/create"})
     public ModelAndView form(
-        @PathVariable(value = "id", required = false) Integer id, ModelAndView model
+        @PathVariable(value = "id", required = false) Integer id,
+        ModelAndView model
     ) {
         User user = null;
 
         if (nonNull(id)) {
             user = users.getProfile(id);
-        users.persist(user);
         }
-
 
         model.setViewName("users/form");
 

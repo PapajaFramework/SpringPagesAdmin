@@ -71,6 +71,7 @@ public class OrmConfig {
         properties.put("hibernate.hbm2ddl.auto", environment.getProperty("hibernate.hbm2ddl.auto"));
         properties.put("hibernate.show_sql", environment.getProperty("hibernate.showSql"));
         properties.put("hibernate.connection.provider_class", environment.getProperty("hibernate.connection.provider"));
+        properties.put("hibernate.connection.autocommit", environment.getProperty("hibernate.connection.autocommit"));
 
         // Hikari Settings
         properties.put("hibernate.hikari.connectionTimeout", environment.getProperty("hikari.connectionTimeout"));
