@@ -1,5 +1,6 @@
 package org.papaja.adminfly.dao;
 
+import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.papaja.adminfly.core.hibernate.Pagination;
 import org.papaja.adminfly.entity.security.User;
@@ -31,7 +32,10 @@ public class UserDao extends AbstractDao {
     }
 
     public void persist(User user) {
-        getSession().saveOrUpdate(user);
+        Session session = getSession();
+        session.getTransaction().begin();
+        session.saveOrUpdate(user);
+        session.getTransaction().commit();
     }
 
 }
