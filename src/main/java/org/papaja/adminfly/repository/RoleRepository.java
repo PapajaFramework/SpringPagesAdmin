@@ -1,4 +1,4 @@
-package org.papaja.adminfly.dao;
+package org.papaja.adminfly.repository;
 
 import org.papaja.adminfly.entity.security.Role;
 import org.springframework.stereotype.Repository;
@@ -6,10 +6,10 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class RoleDao extends AbstractDao {
+public class RoleRepository extends AbstractRepository {
 
     public List<Role> getRoles() {
-        return getSession().createQuery("from Role").getResultList();
+        return session().createQuery("from Role").getResultList();
     }
 
 }

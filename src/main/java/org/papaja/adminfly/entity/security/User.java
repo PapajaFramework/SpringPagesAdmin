@@ -1,16 +1,17 @@
 package org.papaja.adminfly.entity.security;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static java.util.Objects.nonNull;
 
 @SuppressWarnings({"unused"})
+@DynamicUpdate
 @Entity
 @Table(name = "users")
 public class User extends AbstractEntity {

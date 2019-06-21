@@ -1,6 +1,6 @@
 package org.papaja.adminfly.service;
 
-import org.papaja.adminfly.dao.UserDao;
+import org.papaja.adminfly.repository.UserRepository;
 import org.papaja.adminfly.entity.security.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,28 +16,28 @@ public class UserService {
     private static final int MAX_RESULT_PER_PAGE = 5;
 
     @Autowired
-    private UserDao dao;
+    private UserRepository repository;
 
     @Transactional
     public User loadUserByUsername(String username) {
-        return dao.getUser(username);
+        return repository.getUser(username);
     }
 
     @Transactional
     public User getProfile(Integer id) {
-        return dao.getUser(id);
+        return repository.getUser(id);
     }
 
     @Transactional
     public List<User> getUsers(int offset) {
-        return dao.getUsers(offset, MAX_RESULT_PER_PAGE);
+        return repository.getUsers(offset, MAX_RESULT_PER_PAGE);
     }
 
     @Transactional
     public void persist(User user) {
         user.setUpdated(Timestamp.from(Instant.now()));
 
-        dao.persist(user);
+        repository.merge(user);
     }
 
 }
