@@ -1,5 +1,7 @@
 package org.papaja.adminfly.entity.security;
 
+import org.papaja.adminfly.entity.AbstractEntity;
+
 import javax.persistence.*;
 import java.util.Collection;
 

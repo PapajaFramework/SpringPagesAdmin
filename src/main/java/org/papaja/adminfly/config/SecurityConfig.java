@@ -1,7 +1,7 @@
 package org.papaja.adminfly.config;
 
 import org.papaja.adminfly.config.properties.SecurityProperties;
-import org.papaja.adminfly.service.AuthUserDetails;
+import org.papaja.adminfly.service.security.AuthUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;

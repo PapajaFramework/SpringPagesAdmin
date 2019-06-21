@@ -1,8 +1,8 @@
 package org.papaja.adminfly.controller.secure;
 
 import org.papaja.adminfly.entity.security.User;
-import org.papaja.adminfly.service.RoleService;
-import org.papaja.adminfly.service.UserService;
+import org.papaja.adminfly.service.security.RoleService;
+import org.papaja.adminfly.service.security.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
