@@ -1,5 +1,6 @@
 package org.papaja.adminfly.config;
 
+import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -65,10 +66,10 @@ public class OrmConfig {
         properties.put("hibernate.hikari.idleTimeout", environment.getProperty("hikari.idleTimeout"));
 
         // Data Source Settings
-        properties.put("hibernate.hikari.dataSourceClassName", environment.getProperty("connection.dataSource"));
-        properties.put("hibernate.hikari.dataSource.url", environment.getProperty("connection.url"));
-        properties.put("hibernate.hikari.dataSource.user", environment.getProperty("connection.username"));
-        properties.put("hibernate.hikari.dataSource.password", environment.getProperty("connection.password"));
+        properties.put("hibernate.connection.driver_class", environment.getProperty("connection.driver"));
+        properties.put("hibernate.connection.url", environment.getProperty("connection.url"));
+        properties.put("hibernate.connection.username", environment.getProperty("connection.username"));
+        properties.put("hibernate.connection.password", environment.getProperty("connection.password"));
 
         return properties;
     }
