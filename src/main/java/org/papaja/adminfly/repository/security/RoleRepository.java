@@ -1,4 +1,4 @@
-package org.papaja.adminfly.repository;
+package org.papaja.adminfly.repository.security;
 
 import org.papaja.adminfly.entity.security.Role;
 import org.springframework.stereotype.Repository;

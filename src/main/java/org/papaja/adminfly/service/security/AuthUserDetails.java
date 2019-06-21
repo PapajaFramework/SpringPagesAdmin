@@ -1,4 +1,4 @@
-package org.papaja.adminfly.service;
+package org.papaja.adminfly.service.security;
 
 import org.papaja.adminfly.entity.security.AuthUser;
 import org.papaja.adminfly.entity.security.User;

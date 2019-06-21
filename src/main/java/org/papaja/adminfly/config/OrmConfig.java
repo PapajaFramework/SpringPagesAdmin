@@ -6,7 +6,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -31,36 +30,22 @@ public class OrmConfig {
     }
 
     @Bean
-    public HibernateTransactionManager getTransactionManager() {
+    public HibernateTransactionManager getDefaultTransactionManager() {
         HibernateTransactionManager manager = new HibernateTransactionManager();
 
-        manager.setSessionFactory(getSessionFactory().getObject());
+        manager.setSessionFactory(getDefaultSessionFactory().getObject());
 
         return manager;
     }
 
     @Bean
-    public LocalSessionFactoryBean getSessionFactory() {
+    public LocalSessionFactoryBean getDefaultSessionFactory() {
         LocalSessionFactoryBean factory = new LocalSessionFactoryBean();
 
         factory.setPackagesToScan("org.papaja.adminfly.entity");
-        factory.setDataSource(getDataSource());
         factory.setHibernateProperties(getHibernateProperties());
 
         return factory;
-    }
-
-    @Bean
-    public DriverManagerDataSource getDataSource() {
-        DriverManagerDataSource source = new DriverManagerDataSource();
-
-        // Connection
-        source.setDriverClassName(environment.getProperty("connection.driver"));
-        source.setUrl(environment.getProperty("connection.url"));
-        source.setUsername(environment.getProperty("connection.username"));
-        source.setPassword(environment.getProperty("connection.password"));
-
-        return source;
     }
 
     private Properties getHibernateProperties() {
@@ -68,7 +53,6 @@ public class OrmConfig {
 
         // Hibernate Settings
         properties.put("hibernate.dialect", environment.getProperty("hibernate.dialect"));
-        // properties.put("hibernate.current_session_context_class", environment.getProperty("hibernate.current_session_context_class"));
         properties.put("hibernate.hbm2ddl.auto", environment.getProperty("hibernate.hbm2ddl.auto"));
         properties.put("hibernate.show_sql", environment.getProperty("hibernate.showSql"));
         properties.put("hibernate.connection.provider_class", environment.getProperty("hibernate.connection.provider"));

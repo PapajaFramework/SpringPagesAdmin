@@ -1,4 +1,4 @@
-package org.papaja.adminfly.entity.security;
+package org.papaja.adminfly.entity;
 
 import javax.persistence.*;
 import java.util.Objects;

@@ -1,4 +1,4 @@
-package org.papaja.adminfly.repository;
+package org.papaja.adminfly.repository.security;
 
 import org.hibernate.query.Query;
 import org.papaja.adminfly.core.hibernate.Pagination;

@@ -1,6 +1,6 @@
-package org.papaja.adminfly.service;
+package org.papaja.adminfly.service.security;
 
-import org.papaja.adminfly.repository.UserRepository;
+import org.papaja.adminfly.repository.security.UserRepository;
 import org.papaja.adminfly.entity.security.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +11,7 @@ import java.time.Instant;
 import java.util.List;
 
 @Service
+@Transactional
 public class UserService {
 
     private static final int MAX_RESULT_PER_PAGE = 5;
@@ -18,22 +19,18 @@ public class UserService {
     @Autowired
     private UserRepository repository;
 
-    @Transactional
     public User loadUserByUsername(String username) {
         return repository.getUser(username);
     }
 
-    @Transactional
     public User getProfile(Integer id) {
         return repository.getUser(id);
     }
 
-    @Transactional
     public List<User> getUsers(int offset) {
         return repository.getUsers(offset, MAX_RESULT_PER_PAGE);
     }
 
-    @Transactional
     public void persist(User user) {
         user.setUpdated(Timestamp.from(Instant.now()));
 
