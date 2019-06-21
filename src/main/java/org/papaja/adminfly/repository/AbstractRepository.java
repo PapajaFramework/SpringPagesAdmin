@@ -1,16 +1,16 @@
-package org.papaja.adminfly.dao;
+package org.papaja.adminfly.repository;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-abstract public class AbstractDao {
+abstract public class AbstractRepository {
 
     @Autowired
     private SessionFactory factory;
 
-    protected Session getSession() {
-        return factory.openSession();
+    protected Session session() {
+        return factory.getCurrentSession();
     }
 
 }

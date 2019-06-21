@@ -67,6 +67,8 @@ public class UserController {
     ) {
         users.persist(user);
 
+        System.out.println(user);
+
         attributes.addFlashAttribute("message", String.format("User '%s' successfully saved", user.getUsername()));
 
         return "redirect:/users/list";

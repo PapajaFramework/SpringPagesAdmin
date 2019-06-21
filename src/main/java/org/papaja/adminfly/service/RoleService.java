@@ -1,9 +1,10 @@
 package org.papaja.adminfly.service;
 
-import org.papaja.adminfly.dao.RoleDao;
+import org.papaja.adminfly.repository.RoleRepository;
 import org.papaja.adminfly.entity.security.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -11,10 +12,11 @@ import java.util.List;
 public class RoleService {
 
     @Autowired
-    private RoleDao dao;
+    private RoleRepository repository;
 
+    @Transactional
     public List<Role> getRoles() {
-        return dao.getRoles();
+        return repository.getRoles();
     }
 
 }

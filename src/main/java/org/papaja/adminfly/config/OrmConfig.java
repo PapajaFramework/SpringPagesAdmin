@@ -68,6 +68,7 @@ public class OrmConfig {
 
         // Hibernate Settings
         properties.put("hibernate.dialect", environment.getProperty("hibernate.dialect"));
+        // properties.put("hibernate.current_session_context_class", environment.getProperty("hibernate.current_session_context_class"));
         properties.put("hibernate.hbm2ddl.auto", environment.getProperty("hibernate.hbm2ddl.auto"));
         properties.put("hibernate.show_sql", environment.getProperty("hibernate.showSql"));
         properties.put("hibernate.connection.provider_class", environment.getProperty("hibernate.connection.provider"));
