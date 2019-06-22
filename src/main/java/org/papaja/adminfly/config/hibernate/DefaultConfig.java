@@ -1,6 +1,5 @@
-package org.papaja.adminfly.config;
+package org.papaja.adminfly.config.hibernate;
 
-import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -16,17 +15,14 @@ import java.util.Properties;
 @SuppressWarnings({"unused"})
 @Configuration
 @EnableTransactionManagement
-@PropertySource({
-        "classpath:database.properties",
-        "classpath:database.development.properties"
-})
+@PropertySource({"classpath:database.properties", "classpath:database.development.properties"})
 @ComponentScan({"org.papaja.adminfly"})
-public class OrmConfig {
+public class DefaultConfig {
 
     private Environment environment;
 
     @Autowired
-    public OrmConfig(Environment environment) {
+    public DefaultConfig(Environment environment) {
         this.environment = environment;
     }
 

@@ -1,38 +1,39 @@
 package org.papaja.adminfly.repository.security;
 
 import org.hibernate.query.Query;
-import org.papaja.adminfly.core.hibernate.Pagination;
-import org.papaja.adminfly.entity.security.User;
+import org.papaja.adminfly.entity.security.UserEntity;
+import org.papaja.adminfly.repository.AbstractRepository;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.List;
 
 @Repository
-public class UserRepository extends AbstractRepository {
+public class UserRepository extends AbstractRepository<UserEntity> {
 
-    public User getUser(String name) {
-        Query query = session().createQuery("FROM User WHERE username = :username");
+    public UserEntity getUser(String name) {
+        CriteriaBuilder           builder = criteriaBuilder();
+        CriteriaQuery<UserEntity> query   = builder.createQuery(UserEntity.class);
+        Root<UserEntity>          root    = query.from(UserEntity.class);
 
-        query.setParameter("username", name);
+        query.select(root);
+        query.where(builder.equal(root.get("username"), name));
 
-        return (User) query.uniqueResult();
+        return uniqueResult(query);
     }
 
-    public List<User> getUsers(int offset, int limit) {
-        Query query = session().createQuery("FROM User");
-
-        Pagination<User> pagination = Pagination.of(query, offset, limit);
-
-        return pagination.getResult();
+    public UserEntity getUser(Integer id) {
+        return session().get(UserEntity.class, id);
     }
 
-    public User getUser(Integer id) {
-        return session().get(User.class, id);
+    public List<UserEntity> getUsers() {
+        return getList(UserEntity.class);
     }
 
-    public void merge(User user) {
-        session().refresh(user);
-//        session().merge(user);
+    public Query<UserEntity> getUsersQuery() {
+        return createQuery(UserEntity.class);
     }
 
 }

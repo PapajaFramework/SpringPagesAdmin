@@ -2,29 +2,51 @@ package org.papaja.adminfly.entity.blog;
 
 import org.papaja.adminfly.entity.AbstractEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.sql.Timestamp;
 
-//@Entity
-//@Table(name = "posts")
+@Entity
+@Table(name = "blog_posts")
 public class Post extends AbstractEntity {
+
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name="domain_id")
+    private Domain domain;
+
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name="category_id")
+    private Category category;
 
     @Column(name = "title")
     private String title;
 
-    @Column(name = "body")
+    @Column(name = "body", columnDefinition = "TEXT")
     private String body;
 
     @Column(name = "views")
-    protected Integer views;
+    private Integer views;
 
     @Column(name = "created")
     private Timestamp created;
 
     @Column(name = "updated")
     private Timestamp updated;
+
+    public Domain getDomain() {
+        return domain;
+    }
+
+    public void setDomain(Domain domain) {
+        this.domain = domain;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
 
     public String getTitle() {
         return title;
@@ -66,4 +88,9 @@ public class Post extends AbstractEntity {
         this.updated = updated;
     }
 
+    @Override
+    public String toString() {
+        return String.format("Post{domain=%s, category=%s, title='%s', body='%s', views=%d, created=%s, updated=%s}",
+            domain, category, title, body, views, created, updated);
+    }
 }

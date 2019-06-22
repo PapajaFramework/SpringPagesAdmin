@@ -1,15 +1,16 @@
 package org.papaja.adminfly.repository.security;
 
-import org.papaja.adminfly.entity.security.Role;
+import org.papaja.adminfly.entity.security.RoleEntity;
+import org.papaja.adminfly.repository.AbstractRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public class RoleRepository extends AbstractRepository {
+public class RoleRepository extends AbstractRepository<RoleEntity> {
 
-    public List<Role> getRoles() {
-        return session().createQuery("from Role").getResultList();
+    public List<RoleEntity> getRoles() {
+        return getList(RoleEntity.class);
     }
 
 }

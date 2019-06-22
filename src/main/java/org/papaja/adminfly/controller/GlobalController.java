@@ -1,5 +1,6 @@
 package org.papaja.adminfly.controller;
 
+import com.google.common.base.Throwables;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -10,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @SuppressWarnings({"unused"})
 @ControllerAdvice
-public class ExceptionController {
+public class GlobalController {
 
     @ExceptionHandler({Exception.class})
     public String handleException(
@@ -19,8 +20,8 @@ public class ExceptionController {
         String template = "errors/exception";
 
         model.addAttribute("stack", ExceptionUtils.getStackTrace(exception));
-        model.addAttribute("name", exception.getClass().getName());
-        model.addAttribute("message", exception.getMessage());
+        model.addAttribute("exceptionClass", exception.getClass().getName());
+        model.addAttribute("rootMassage", Throwables.getRootCause(exception).getMessage());
 
         return template;
     }
