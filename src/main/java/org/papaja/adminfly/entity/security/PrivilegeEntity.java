@@ -7,14 +7,14 @@ import java.util.Collection;
 
 @SuppressWarnings({"unused"})
 @Entity
-@Table(name = "privileges")
-public class Privilege extends AbstractEntity {
+@Table(name = "security_privileges")
+public class PrivilegeEntity extends AbstractEntity {
 
     @Column(name = "name")
     private String name;
 
     @ManyToMany(mappedBy = "privileges")
-    private Collection<Role> roles;
+    private Collection<RoleEntity> roles;
 
     public String getName() {
         return name;
@@ -24,12 +24,12 @@ public class Privilege extends AbstractEntity {
         this.name = name;
     }
 
-    public Collection<Role> getRoles() {
+    public Collection<RoleEntity> getRoles() {
         return roles;
     }
 
     @Override
     public String toString() {
-        return String.format("Privilege{id=%d, name='%s'}", id, name);
+        return String.format("PrivilegeEntity{id=%d, name='%s'}", id, name);
     }
 }

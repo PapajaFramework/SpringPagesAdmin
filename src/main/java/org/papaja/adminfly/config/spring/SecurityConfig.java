@@ -1,4 +1,4 @@
-package org.papaja.adminfly.config;
+package org.papaja.adminfly.config.spring;
 
 import org.papaja.adminfly.config.properties.SecurityProperties;
 import org.papaja.adminfly.service.security.AuthUserDetails;

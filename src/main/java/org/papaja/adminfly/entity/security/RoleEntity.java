@@ -7,18 +7,18 @@ import java.util.Collection;
 
 @SuppressWarnings({"unused"})
 @Entity
-@Table(name = "roles")
-public class Role extends AbstractEntity {
+@Table(name = "security_roles")
+public class RoleEntity extends AbstractEntity {
 
     @Column(name = "name")
     private String name;
 
     @ManyToMany(mappedBy = "roles")
-    private Collection<User> users;
+    private Collection<UserEntity> users;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-        name = "roles_privileges",
+        name = "security_roles_privileges",
         joinColumns = @JoinColumn(
             name = "role_id",
             referencedColumnName = "id"
@@ -28,13 +28,13 @@ public class Role extends AbstractEntity {
             referencedColumnName = "id"
         )
     )
-    private Collection<Privilege> privileges;
+    private Collection<PrivilegeEntity> privileges;
 
-    public Role() {
+    public RoleEntity() {
         this(null);
     }
 
-    public Role(Integer id) {
+    public RoleEntity(Integer id) {
         this.id = id;
     }
 
@@ -46,16 +46,16 @@ public class Role extends AbstractEntity {
         this.name = name;
     }
 
-    public Collection<User> getUsers() {
+    public Collection<UserEntity> getUsers() {
         return users;
     }
 
-    public Collection<Privilege> getPrivileges() {
+    public Collection<PrivilegeEntity> getPrivileges() {
         return privileges;
     }
 
     @Override
     public String toString() {
-        return String.format("Role{id=%d, name='%s', privileges=%s}", id, name, privileges);
+        return String.format("RoleEntity{id=%d, name='%s', privileges=%s}", id, name, privileges);
     }
 }

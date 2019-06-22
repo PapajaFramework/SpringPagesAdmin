@@ -1,4 +1,4 @@
-package org.papaja.adminfly.config;
+package org.papaja.adminfly.config.spring;
 
 import org.jtwig.environment.EnvironmentConfigurationBuilder;
 import org.jtwig.spring.JtwigView;

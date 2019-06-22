@@ -25,7 +25,7 @@ public class Pagination<E> {
         processQuery(query);
     }
 
-    public static Pagination of(Query query, int current, int limit) {
+    public static <E> Pagination<E> of(Query<E> query, int current, int limit) {
         return new Pagination(query, current, limit);
     }
 

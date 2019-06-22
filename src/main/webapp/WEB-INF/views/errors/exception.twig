@@ -1,10 +1,10 @@
 {% extends '../layout/main.twig' %}
-{% block title %}Exception[{{ name }}]{% endblock %}
+{% block title %}Exception[{{ exceptionClass }}]{% endblock %}
 {% block content %}
     <div class="card border-danger mb-3">
-        <div class="card-header"><h4 class="card-title mt-3">{{ name }}</h4></div>
+        <div class="card-header"><h4 class="card-title mt-3">{{ exceptionClass }}</h4></div>
         <div class="card-body">
-            <p class="card-text">{{ message }}</p>
+            <p class="card-text">{{ rootMassage }}</p>
             <button type="button" class="btn btn-outline-danger" onclick="$('#stackTraceModal').modal();">Stack Trace</button>
         </div>
     </div>
@@ -12,7 +12,7 @@
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Stack: [{{ name }}]</h4>
+                    <h4 class="modal-title">Stack: [{{ exceptionClass }}]</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">

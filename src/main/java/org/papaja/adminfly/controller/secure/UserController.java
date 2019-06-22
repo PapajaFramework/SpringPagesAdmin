@@ -1,6 +1,7 @@
 package org.papaja.adminfly.controller.secure;
 
-import org.papaja.adminfly.entity.security.User;
+import org.papaja.adminfly.dto.security.UserDto;
+import org.papaja.adminfly.entity.security.UserEntity;
 import org.papaja.adminfly.service.security.RoleService;
 import org.papaja.adminfly.service.security.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.validation.Valid;
 import java.util.Optional;
 
 import static java.util.Objects.*;
@@ -45,7 +45,7 @@ public class UserController {
         @PathVariable(value = "id", required = false) Integer id,
         ModelAndView model
     ) {
-        User user = null;
+        UserEntity user = null;
 
         if (nonNull(id)) {
             user = users.getProfile(id);
@@ -53,7 +53,7 @@ public class UserController {
 
         model.setViewName("users/form");
 
-        model.addObject("user", Optional.ofNullable(user).orElseGet(User::new));
+        model.addObject("user", Optional.ofNullable(user).orElseGet(UserEntity::new));
         model.addObject("roles", roles.getRoles());
 
         return model;
@@ -61,15 +61,17 @@ public class UserController {
 
     @RequestMapping(method = RequestMethod.POST)
     public String process(
-        @ModelAttribute @Valid User user,
+        UserDto user,
         BindingResult result,
         final RedirectAttributes attributes
     ) {
-        users.persist(user);
-
         System.out.println(user);
 
-        attributes.addFlashAttribute("message", String.format("User '%s' successfully saved", user.getUsername()));
+//        users.store(user);
+//
+//        System.out.println(user.getId());
+
+        attributes.addFlashAttribute("message", String.format("UserDto '%s' successfully saved", user.getUsername()));
 
         return "redirect:/users/list";
     }

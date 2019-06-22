@@ -14,8 +14,8 @@ import static java.util.Objects.nonNull;
 @SuppressWarnings({"unused"})
 @DynamicUpdate
 @Entity
-@Table(name = "users")
-public class User extends AbstractEntity {
+@Table(name = "security_users")
+public class UserEntity extends AbstractEntity {
 
     @Column(name = "username")
     private String username;
@@ -37,7 +37,7 @@ public class User extends AbstractEntity {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-        name = "users_roles",
+        name = "security_users_roles",
         joinColumns = @JoinColumn(
             name = "user_id",
             referencedColumnName = "id"
@@ -47,9 +47,9 @@ public class User extends AbstractEntity {
             referencedColumnName = "id"
         )
     )
-    private Collection<Role> roles;
+    private Collection<RoleEntity> roles;
 
-    public User() {
+    public UserEntity() {
         roles = new ArrayList<>();
     }
 
@@ -105,30 +105,30 @@ public class User extends AbstractEntity {
         this.updated = updated;
     }
 
-    public Collection<Role> getRoles() {
+    public Collection<RoleEntity> getRoles() {
         return roles;
     }
 
     public Collection<Integer> getRolesIds() {
-        return getRoles().stream().map(Role::getId).collect(Collectors.toList());
+        return getRoles().stream().map(RoleEntity::getId).collect(Collectors.toList());
     }
 
-    public void setRoles(Collection<Role> roles) {
+    public void setRoles(Collection<RoleEntity> roles) {
         this.roles = roles;
     }
 
-    public void addRole(Role role) {
+    public void addRole(RoleEntity role) {
         roles.add(role);
     }
 
     public void addRole(Integer id) {
         if (nonNull(id)) {
-            addRole(new Role(id));
+            addRole(new RoleEntity(id));
         }
     }
 
     @Override
     public String toString() {
-        return String.format("User{id=%d, username='%s', enabled='%s', roles=%s}", id, username, enabled, roles);
+        return String.format("UserDto{id=%d, username='%s', enabled='%s', roles=%s}", id, username, enabled, roles);
     }
 }
