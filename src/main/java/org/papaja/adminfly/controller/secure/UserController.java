@@ -7,15 +7,11 @@ import org.papaja.adminfly.service.security.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Optional;
-
-import static java.util.Objects.*;
 
 @SuppressWarnings("unused")
 @Controller
@@ -33,23 +29,20 @@ public class UserController {
         //        binder.addValidators();
     }
 
-    @RequestMapping("/list")
-    public void list(
+    @RequestMapping
+    public String list(
         @RequestParam(value = "page", defaultValue = "1") int page, Model model
     ) {
-        model.addAttribute("users", users.getUsers(page));
+        model.addAttribute("pagination", users.getUsers(page));
+
+        return "users/list";
     }
 
-    @RequestMapping({"/edit/{id}", "/create"})
+    @RequestMapping({"/edit/{id:[0-9]+}", "/create"})
     public ModelAndView form(
-        @PathVariable(value = "id", required = false) Integer id,
-        ModelAndView model
+        @PathVariable(value = "id", required = false) Integer id, ModelAndView model
     ) {
-        UserEntity user = null;
-
-        if (nonNull(id)) {
-            user = users.getProfile(id);
-        }
+        UserEntity user = users.getUser(id);
 
         model.setViewName("users/form");
 
@@ -59,21 +52,14 @@ public class UserController {
         return model;
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    public String process(
-        UserDto user,
-        BindingResult result,
-        final RedirectAttributes attributes
-    ) {
-        System.out.println(user);
+    @RequestMapping(value = "/{id:[0-9]+}", method = RequestMethod.POST)
+    public String process(@PathVariable("id") Integer id, UserDto dto) {
+        UserEntity entity = users.getUser(id);
+        System.out.println(entity);
+        System.out.println(id);
+        users.store(dto, entity);
 
-//        users.store(user);
-//
-//        System.out.println(user.getId());
-
-        attributes.addFlashAttribute("message", String.format("UserDto '%s' successfully saved", user.getUsername()));
-
-        return "redirect:/users/list";
+        return "redirect:/users";
     }
 
 }

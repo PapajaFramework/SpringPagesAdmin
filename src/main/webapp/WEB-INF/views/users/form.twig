@@ -1,7 +1,7 @@
 {% extends '../layout/main.twig' %}
 {% block title %}{% if not user.old %}Create{% else %}Update user {{ user.username }}{% endif %}{% endblock %}
 {% block content %}
-    <form method="post" action="/users">
+    <form method="post" action="/users/{% if empty(user.id) %}0{% else %}{{ user.id }}{% endif %}">
         <div class="row">
             <div class="col-lg-6">
                 <div class="bs-component">

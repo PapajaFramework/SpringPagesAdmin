@@ -1,6 +1,5 @@
 package org.papaja.adminfly.controller;
 
-import com.google.common.base.Throwables;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -21,7 +20,7 @@ public class GlobalController {
 
         model.addAttribute("stack", ExceptionUtils.getStackTrace(exception));
         model.addAttribute("exceptionClass", exception.getClass().getName());
-        model.addAttribute("rootMassage", Throwables.getRootCause(exception).getMessage());
+        model.addAttribute("rootMassage", exception.getMessage());
 
         return template;
     }
