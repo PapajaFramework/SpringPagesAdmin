@@ -1,6 +1,6 @@
 {% macro pagination (total, limit, current, prefix) %}
     {% set pages = round(total / limit, 'CEIL') %}
-    <div class="btn-group" role="group">
+    <div class="btn-group btn-group-sm" role="group">
         {% for page in [1..pages] %}
             {% set link = prefix ~ page %}
             <button onclick="location.href='{{ link }}'" type="button"

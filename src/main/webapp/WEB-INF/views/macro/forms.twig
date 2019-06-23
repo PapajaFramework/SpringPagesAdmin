@@ -1,0 +1,11 @@
+{% macro checkbox(name, value, checked, label) %}
+    <input type="checkbox" name="{{ name }}]" value="{{ value }}"
+           class="custom-control-input" id="userRole{{ value }}"
+           {% if checked %}checked{% endif %}>
+    <label class="custom-control-label"
+           for="userRole{{ value }}">{{ label }}</label>
+{% endmacro %}
+{% macro button(text, link, color) %}
+    <button type="button" onclick="location.href='{{ link }}'" type="button"
+            class="btn btn-sm btn-{{ color }}">{{ text }}</button>
+{% endmacro %}

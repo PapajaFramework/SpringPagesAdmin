@@ -16,8 +16,8 @@ public class AuthController {
 
     @PreAuthorize("isAnonymous()")
     @RequestMapping(value = "/login")
-    public void login() {
-
+    public String login() {
+        return "login/login";
     }
 
     @PreAuthorize("isAuthenticated()")

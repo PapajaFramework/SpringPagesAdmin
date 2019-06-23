@@ -1,0 +1,80 @@
+{% extends '../layout/main.twig' %}
+{% block content %}
+    <div class="page-header">
+        <h1 id="tables">Authority</h1>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card border-light mb-3">
+                <div class="card-header">Roles</div>
+                <div class="card-body">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th scope="col" class="min-vh-100">ID</th>
+                            <th scope="col">Name</th>
+                            <th scope="col"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for role in roles %}
+                            {% set edit = '/authority/edit/role/' ~ role.id %}
+                            <tr>
+                                <td>{{ role.id }}</td>
+                                <td>{{ role.name }}</td>
+                                <td>
+                                    <button type="button" onclick="location.href='{{ edit }}'" type="button"
+                                            class="btn btn-sm btn-primary">Edit</button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer">
+                    <form method="post" action="/authority/process/role" class="form-inline my-2 my-lg-0 float-right">
+                        <input class="form-control form-control-sm" type="text" name="name" placeholder="ROLE_NAME">
+                        <button class="btn btn-secondary btn-sm my-2 my-sm-0" type="submit">Create</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card border-light mb-3">
+                <div class="card-header">Privileges</div>
+                <div class="card-body">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th scope="col" class="min-vh-100">ID</th>
+                            <th scope="col">Name</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for privilege in privileges %}
+                            <tr>
+                                <td>{{ privilege.id }}</td>
+                                <td>
+                                    <form id="privilegeForm{{ privilege.id }}" method="post" action="/authority/process/privilege/{{ privilege.id }}" class="form-inline">
+                                        <input class="form-control form-control-sm" type="text" name="name" value="{{ privilege.name }}">
+                                    </form>
+                                </td>
+                                <td>
+                                    <button type="button" onclick="document.forms['privilegeForm{{ privilege.id }}'].submit()"
+                                            class="btn btn-sm btn-warning">Update</button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer">
+                    <form method="post" action="/authority/process/privilege" class="form-inline my-2 my-lg-0 float-right">
+                        <input class="form-control mr-sm-2 form-control-sm" type="text" name="name" placeholder="PRIVILEGE_NAME">
+                        <button class="btn btn-secondary btn-sm my-2 my-sm-0" type="submit">Create</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

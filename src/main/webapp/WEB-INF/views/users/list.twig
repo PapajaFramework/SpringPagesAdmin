@@ -8,79 +8,59 @@
                 <h1 id="tables">Users</h1>
             </div>
 
-            <div class="row mb-3">
-                <div class="col-lg-12">
-                    <div class="btn-group" role="group">
+            <div class="card border-light mb-3">
+                <div class="card-header">
+                    <div class="btn-group btn-group-sm" role="group">
                         <button onclick="location.href='/users/create'" type="button" class="btn btn-primary">Create</button>
-                        <button onclick="location.href='/users/roles'" type="button" class="btn btn-primary">Roles</button>
                     </div>
                 </div>
-            </div>
-
-            <div class="bs-component">
-                <table class="table table-hover">
-                    <thead>
-                    <tr>
-                        <th scope="col" class="min-vh-100">ID</th>
-                        <th scope="col">Username</th>
-                        <th scope="col">Roles</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Registered</th>
-                        <th scope="col" class="w-25"></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for user in pagination.result %}
-                        {% set edit = '/users/edit/' ~ user.id %}
-                        {% set disable = '/users/status/disable/' ~ user.id %}
-                        {% set enable = '/users/status/enable/' ~ user.id %}
-                    <tr>
-                        <th scope="row">{{ user.id }}</th>
-                        <td>{{ user.username }}</td>
-                        <td>
-                            {% for role in user.roles %}
-                                <b>{{ role.name }}</b>
-                            {% endfor %}
-                        </td>
-                        <td>
-                            {% if user.enabled %}
-                                <span class="badge badge-pill badge-success">Enabled</span>
-                            {% else %}
-                                <span class="badge badge-pill badge-danger">Disabled</span>
-                            {% endif %}
-                        </td>
-                        <td>
-                            [{{ user.created }}]
-                        </td>
-                        <td class="text-lg-right">
-                            <div class="btn-group btn-group-sm" role="group">
-                                <button type="button" onclick="location.href='{{ edit }}'" type="button"
-                                        class="btn btn-sm btn-primary">Edit</button>
-                                <button type="button" class="btn btn-secondary" data-toggle="tooltip dropdown"
-                                        data-placement="bottom" title=""
-                                        data-original-title="{% if user.enabled %}Enabled{% esle %}Disabled{% endif %}">
-                                    Status
-                                </button>
-                                <div class="btn-group btn-group-sm" role="group">
-                                    <button id="userStatus{{ user.id }}" type="button"
-                                            class="btn btn-secondary dropdown-toggle"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-                                    <div class="dropdown-menu" aria-labelledby="userStatus{{ user.id }}"
-                                         x-placement="bottom-start"
-                                         style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
-                                        <a class="dropdown-item" href="{{ enable }}">Enable</a>
-                                        <a class="dropdown-item" href="{{ disable }}">Disable</a>
+                <div class="card-body">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th scope="col" class="min-vh-100">ID</th>
+                            <th scope="col">Username</th>
+                            <th scope="col">Roles</th>
+                            <th scope="col" class="d-none d-md-table-cell">Status</th>
+                            <th scope="col" class="d-none d-lg-table-cell">Registered</th>
+                            <th scope="col" class="w-25"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for user in pagination.result %}
+                            {% set edit = '/users/edit/' ~ user.id %}
+                            <tr>
+                                <th scope="row">{{ user.id }}</th>
+                                <td>{{ user.username }}</td>
+                                <td>
+                                    {% for role in user.roles %}
+                                        <b>[{{ role.name }}]</b>
+                                    {% endfor %}
+                                </td>
+                                <td class="d-none d-md-table-cell">
+                                    {% if user.enabled %}
+                                        <span class="badge badge-pill badge-success">Enabled</span>
+                                    {% else %}
+                                        <span class="badge badge-pill badge-danger">Disabled</span>
+                                    {% endif %}
+                                </td>
+                                <td class="d-none d-lg-table-cell">
+                                    [{{ user.created }}]
+                                </td>
+                                <td class="text-lg-right">
+                                    <div class="btn-group btn-group-sm" role="group">
+                                        <button type="button" onclick="location.href='{{ edit }}'" class="btn btn-sm btn-primary">Edit</button>
                                     </div>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer">
+                    {{ pagi.pagination(pagination.total, pagination.limit, pagination.current, '/users?page=') }}
+                </div>
             </div>
-
-            {{ pagi.pagination(pagination.total, pagination.limit, pagination.current, '/users?page=') }}
 
         </div>
     </div>

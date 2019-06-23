@@ -1,12 +1,15 @@
 {% extends '../layout/main.twig' %}
-{% block title %}{% if not user.old %}Create{% else %}Update user {{ user.username }}{% endif %}{% endblock %}
+{% block title %}{% if empty(user.id) %}Create{% else %}Update {{ user.username }}{% endif %}{% endblock %}
 {% block content %}
+    <div class="page-header">
+        <h1 id="tables">{% if empty(user.id) %}Create New User{% else %}Update [{{ user.username }}]{% endif %}</h1>
+    </div>
     <form method="post" action="/users/{% if empty(user.id) %}0{% else %}{{ user.id }}{% endif %}">
         <div class="row">
             <div class="col-lg-6">
-                <div class="bs-component">
-                    <fieldset>
-                        <legend>Information</legend>
+                <div class="card bg-light mb-3">
+                    <div class="card-header">Information</div>
+                    <div class="card-body">
                         {% if user.new %}
                             <div class="form-group">
                                 <label for="userName">Username</label>
@@ -35,13 +38,13 @@
                                 <label class="custom-control-label" for="userEnable">Enabled user</label>
                             </div>
                         </div>
-                    </fieldset>
+                    </div>
                 </div>
             </div>
             <div class="col-lg-6">
-                <div class="bs-component">
-                    <fieldset>
-                        <legend>Roles</legend>
+                <div class="card bg-light mb-3">
+                    <div class="card-header">Permissions</div>
+                    <div class="card-body">
                         <div class="form-group">
                             {% if user.old %}
                                 {% set counter = 0 %}
@@ -56,8 +59,7 @@
                                     {% set counter = counter + 1 %}
                                 {% endfor %}
                             {% else %}
-                                <div class="card border-primary mb-3">
-                                    <div class="card-header">Attention!</div>
+                                <div class="card border-dark mb-3">
                                     <div class="card-body">
                                         <p class="card-text">
                                             Save from the beginning of a new user to be able to assign roles
@@ -66,7 +68,7 @@
                                 </div>
                             {% endif %}
                         </div>
-                    </fieldset>
+                    </div>
                 </div>
             </div>
             <div class="col-lg-12">
