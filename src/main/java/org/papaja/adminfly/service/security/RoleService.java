@@ -33,4 +33,8 @@ public class RoleService {
         return repository.getRoles(ids);
     }
 
+    public void store(RoleEntity entity) {
+        repository.merge(entity);
+    }
+
 }
