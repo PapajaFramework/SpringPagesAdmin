@@ -1,0 +1,54 @@
+{% extends '../layout/main.twig' %}
+{% block title %}Server Status{% endblock %}
+{% block content %}
+    <div class="page-header">
+        <h1 id="tables">Server Status</h1>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card border-light mb-3">
+                <div class="card-header">Platform</div>
+                <div class="card-body">
+                    <h4 class="card-title">OS</h4>
+                    <p class="card-text">
+                        <b>{{ os }}</b>
+                    </p>
+                    <h4 class="card-title">Java Version</h4>
+                    <p class="card-text">
+                        <b>{{ java }}</b>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card border-light mb-3">
+                <div class="card-header">Memory</div>
+                <div class="card-body">
+                    <h4 class="card-title">Total</h4>
+                    <p class="card-text">{{ total }} MiB</p>
+                    <h4 class="card-title">Free</h4>
+                    <p class="card-text">{{ free }} MiB</p>
+                    <h4 class="card-title">Used</h4>
+                    <p class="card-text">{{ used }} MiB</p>
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped bg-danger" role="progressbar" style="width: {{ usedPercent }}%" aria-valuenow="{{ usedPercent }}" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <h4 class="card-title">Max</h4>
+                    <p class="card-text">{{ maximum }} MiB</p>
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width: {{ maximumPercent }}%" aria-valuenow="{{ maximumPercent }}" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button type="button" onclick="location.href='/server/gc'" type="button"
+                            class="btn btn-secondary">Run Garbage Collector</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        setInterval(function() {
+            location.reload();
+        }, 1500);
+    </script>
+{% endblock %}

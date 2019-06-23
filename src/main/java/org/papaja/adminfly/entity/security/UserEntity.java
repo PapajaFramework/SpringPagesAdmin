@@ -77,10 +77,6 @@ public class UserEntity extends AbstractEntity {
         return enabled;
     }
 
-    public void setEnabled(Boolean enabled) {
-        this.enabled = enabled;
-    }
-
     public Timestamp getExpired() {
         return expired;
     }
@@ -129,6 +125,6 @@ public class UserEntity extends AbstractEntity {
 
     @Override
     public String toString() {
-        return String.format("UserDto{id=%d, username='%s', enabled='%s', roles=%s}", id, username, enabled, roles);
+        return String.format("UserEntity{id=%d, username='%s', enabled='%s', roles=%s}", id, username, enabled, roles);
     }
 }

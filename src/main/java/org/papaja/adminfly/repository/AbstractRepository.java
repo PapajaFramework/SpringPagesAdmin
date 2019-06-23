@@ -1,5 +1,6 @@
 package org.papaja.adminfly.repository;
 
+import org.hibernate.MultiIdentifierLoadAccess;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import java.util.Arrays;
 import java.util.List;
 
 @SuppressWarnings({"all"})
@@ -16,12 +18,12 @@ abstract public class AbstractRepository<E extends AbstractEntity> {
     @Autowired
     protected SessionFactory factory;
 
-    protected Session session() {
-        return factory.getCurrentSession();
-    }
-
     public void persist(E entity) {
         session().persist(entity);
+    }
+
+    protected Session session() {
+        return factory.getCurrentSession();
     }
 
     public void save(E entity) {
@@ -36,14 +38,6 @@ abstract public class AbstractRepository<E extends AbstractEntity> {
         session().refresh(entity);
     }
 
-    public Query<E> createQuery(Class<E> reflection) {
-        return session().createQuery(String.format("from %s", reflection.getSimpleName()));
-    }
-
-    public Query<E> createQuery(CriteriaQuery<E> criteria) {
-        return session().createQuery(criteria);
-    }
-
     public CriteriaBuilder criteriaBuilder() {
         return session().getCriteriaBuilder();
     }
@@ -52,8 +46,16 @@ abstract public class AbstractRepository<E extends AbstractEntity> {
         return createQuery(criteria).getResultList();
     }
 
+    public Query<E> createQuery(CriteriaQuery<E> criteria) {
+        return session().createQuery(criteria);
+    }
+
     public List<E> getList(Class<E> reflection) {
         return createQuery(reflection).getResultList();
+    }
+
+    public Query<E> createQuery(Class<E> reflection) {
+        return session().createQuery(String.format("from %s", reflection.getSimpleName()));
     }
 
     public E uniqueResult(CriteriaQuery<E> criteria) {
@@ -62,6 +64,18 @@ abstract public class AbstractRepository<E extends AbstractEntity> {
 
     public E uniqueResult(Class<E> reflection) {
         return createQuery(reflection).uniqueResult();
+    }
+
+    public List<E> getList(Class<E> reflection, Integer... ids) {
+        return getList(reflection, Arrays.asList(ids));
+    }
+
+    public List<E> getList(Class<E> reflection, List<Integer> ids) {
+        return getMultiAccessor(reflection).multiLoad(ids);
+    }
+
+    public MultiIdentifierLoadAccess getMultiAccessor(Class<E> reflection) {
+        return session().byMultipleIds(reflection);
     }
 
 }

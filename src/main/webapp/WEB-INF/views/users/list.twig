@@ -1,4 +1,5 @@
 {% extends '../layout/main.twig' %}
+{% import '../macro/pagination.twig' as pagi %}
 {% block title %}Users List{% endblock %}
 {% block content %}
     <div class="row">
@@ -6,6 +7,16 @@
             <div class="page-header">
                 <h1 id="tables">Users</h1>
             </div>
+
+            <div class="row mb-3">
+                <div class="col-lg-12">
+                    <div class="btn-group" role="group">
+                        <button onclick="location.href='/users/create'" type="button" class="btn btn-primary">Create</button>
+                        <button onclick="location.href='/users/roles'" type="button" class="btn btn-primary">Roles</button>
+                    </div>
+                </div>
+            </div>
+
             <div class="bs-component">
                 <table class="table table-hover">
                     <thead>
@@ -19,7 +30,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for user in users %}
+                    {% for user in pagination.result %}
                         {% set edit = '/users/edit/' ~ user.id %}
                         {% set disable = '/users/status/disable/' ~ user.id %}
                         {% set enable = '/users/status/enable/' ~ user.id %}
@@ -42,21 +53,35 @@
                             [{{ user.created }}]
                         </td>
                         <td class="text-lg-right">
-                            <button type="button" onclick="location.href='{{ edit }}'" type="button"
-                                    class="btn btn-sm btn-success">Edit</button>
-                            {% if user.enabled %}
-                                <button type="button" onclick="location.href='{{ disable }}'" type="button"
-                                        class="btn btn-sm btn-danger">Disable</button>
-                            {% else %}
-                                <button type="button" onclick="location.href='{{ enable }}'" type="button"
-                                        class="btn btn-sm btn-info">Enable</button>
-                            {% endif %}
+                            <div class="btn-group btn-group-sm" role="group">
+                                <button type="button" onclick="location.href='{{ edit }}'" type="button"
+                                        class="btn btn-sm btn-primary">Edit</button>
+                                <button type="button" class="btn btn-secondary" data-toggle="tooltip dropdown"
+                                        data-placement="bottom" title=""
+                                        data-original-title="{% if user.enabled %}Enabled{% esle %}Disabled{% endif %}">
+                                    Status
+                                </button>
+                                <div class="btn-group btn-group-sm" role="group">
+                                    <button id="userStatus{{ user.id }}" type="button"
+                                            class="btn btn-secondary dropdown-toggle"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                                    <div class="dropdown-menu" aria-labelledby="userStatus{{ user.id }}"
+                                         x-placement="bottom-start"
+                                         style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
+                                        <a class="dropdown-item" href="{{ enable }}">Enable</a>
+                                        <a class="dropdown-item" href="{{ disable }}">Disable</a>
+                                    </div>
+                                </div>
+                            </div>
                         </td>
                     </tr>
                     {% endfor %}
                     </tbody>
                 </table>
             </div>
+
+            {{ pagi.pagination(pagination.total, pagination.limit, pagination.current, '/users?page=') }}
+
         </div>
     </div>
 {% endblock %}

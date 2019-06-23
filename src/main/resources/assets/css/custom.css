@@ -299,3 +299,8 @@ a.btn {
 a.btn:hover {
     border-radius: .25rem;
 }
+
+img.brand-logo{
+    display: inline-block;
+    width: 30px;
+}

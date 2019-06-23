@@ -57,21 +57,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
         return resolver;
     }
 
-    @Bean
-    public MessageSource getMessageSource() {
-        ResourceBundleMessageSource source = new ResourceBundleMessageSource();
-
-        source.setBasename("messages");
-        source.setDefaultEncoding("UTF-8");
-
-        return source;
-    }
-
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("assets/**")
-                .addResourceLocations("classpath:/assets/")
-                .setCachePeriod(31556926);
+        registry.addResourceHandler("assets/**").addResourceLocations("classpath:/assets/").setCachePeriod(31556926);
     }
 
     @Override
@@ -83,5 +71,14 @@ public class WebMvcConfig implements WebMvcConfigurer {
         return validator;
     }
 
+    @Bean
+    public MessageSource getMessageSource() {
+        ResourceBundleMessageSource source = new ResourceBundleMessageSource();
+
+        source.setBasename("messages");
+        source.setDefaultEncoding("UTF-8");
+
+        return source;
+    }
 
 }

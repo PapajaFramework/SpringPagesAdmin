@@ -1,11 +1,13 @@
 {% extends '../layout/main.twig' %}
 {% block title %}Exception[{{ exceptionClass }}]{% endblock %}
 {% block content %}
-    <div class="card border-danger mb-3">
-        <div class="card-header"><h4 class="card-title mt-3">{{ exceptionClass }}</h4></div>
+    <div class="card bg-light mb-3">
+        <div class="card-header"><h5 class="card-title mt-3">{{ exceptionClass }}</h5></div>
         <div class="card-body">
-            <p class="card-text">{{ rootMassage }}</p>
-            <button type="button" class="btn btn-outline-danger" onclick="$('#stackTraceModal').modal();">Stack Trace</button>
+            {{ rootMassage }}
+        </div>
+        <div class="card-footer">
+            <button type="button" class="btn btn-danger" onclick="$('#stackTraceModal').modal();">Stack Trace</button>
         </div>
     </div>
     <div id="stackTraceModal" class="modal fade" tabindex='-1'>

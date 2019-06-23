@@ -12,6 +12,8 @@ public class UserDto {
 
     private String password;
 
+    private boolean enabled;
+
     private List<Integer> roles;
 
     public Integer getId() {
@@ -38,17 +40,25 @@ public class UserDto {
         this.password = password;
     }
 
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
     public List<Integer> getRoles() {
         return roles;
     }
 
     public void setRoles(List<Integer> roles) {
-        this.roles = roles.stream().filter(Objects::nonNull).collect(Collectors.toList());
+        this.roles = roles;
     }
 
     @Override
     public String toString() {
-        return String.format("UserDto{id = %s, username='%s', password='%s', roles=%s}",
-            id, username, password, roles);
+        return String.format("UserDto{id=%d, username='%s', password='%s', enabled=%s, roles=%s}",
+            id, username, password, enabled, roles);
     }
 }
