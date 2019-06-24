@@ -54,6 +54,14 @@ public class RoleEntity extends AbstractEntity {
         return privileges;
     }
 
+    public void setUsers(Collection<UserEntity> users) {
+        this.users = users;
+    }
+
+    public void setPrivileges(Collection<PrivilegeEntity> privileges) {
+        this.privileges = privileges;
+    }
+
     @Override
     public String toString() {
         return String.format("RoleEntity{id=%d, name='%s', privileges=%s}", id, name, privileges);
