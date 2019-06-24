@@ -10,13 +10,13 @@ import java.util.List;
 
 public class AuthUser implements UserDetails {
 
-    private UserEntity user;
+    private User user;
 
-    public AuthUser(UserEntity user) {
+    public AuthUser(User user) {
         this.user = user;
     }
 
-    public UserEntity getUser() {
+    public User getUser() {
         return user;
     }
 
@@ -60,7 +60,7 @@ public class AuthUser implements UserDetails {
         return String.format("AuthUser{user=%s}", user);
     }
 
-    private List<GrantedAuthority> getGrantedAuthorities(Collection<RoleEntity> roles) {
+    private List<GrantedAuthority> getGrantedAuthorities(Collection<Role> roles) {
         List<GrantedAuthority> authorities = new ArrayList<>();
 
         roles.forEach(role -> {

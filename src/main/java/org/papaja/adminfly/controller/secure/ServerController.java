@@ -1,5 +1,6 @@
 package org.papaja.adminfly.controller.secure;
 
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/server")
+@Secured("ROLE_ADMIN")
 public class ServerController {
 
     @RequestMapping("/status")
@@ -31,8 +33,8 @@ public class ServerController {
         model.addAttribute("java", System.getProperty("java.version"));
     }
 
-    @PreAuthorize("hasRole('SUPERUSER')")
     @RequestMapping("/gc")
+    @PreAuthorize("hasAuthority('SYSTEM')")
     public String gc() {
         Runtime.getRuntime().gc();
 

@@ -1,7 +1,7 @@
 package org.papaja.adminfly.repository.security;
 
 import org.hibernate.query.Query;
-import org.papaja.adminfly.entity.security.UserEntity;
+import org.papaja.adminfly.entity.security.User;
 import org.papaja.adminfly.repository.AbstractRepository;
 import org.springframework.stereotype.Repository;
 
@@ -11,12 +11,12 @@ import javax.persistence.criteria.Root;
 import java.util.List;
 
 @Repository
-public class UserRepository extends AbstractRepository<UserEntity> {
+public class UserRepository extends AbstractRepository<User> {
 
-    public UserEntity getUser(String name) {
-        CriteriaBuilder           builder = criteriaBuilder();
-        CriteriaQuery<UserEntity> query   = builder.createQuery(UserEntity.class);
-        Root<UserEntity>          root    = query.from(UserEntity.class);
+    public User getUser(String name) {
+        CriteriaBuilder     builder = criteriaBuilder();
+        CriteriaQuery<User> query   = builder.createQuery(User.class);
+        Root<User>          root    = query.from(User.class);
 
         query.select(root);
         query.where(builder.equal(root.get("username"), name));
@@ -24,16 +24,16 @@ public class UserRepository extends AbstractRepository<UserEntity> {
         return uniqueResult(query);
     }
 
-    public UserEntity getUser(Integer id) {
-        return session().get(UserEntity.class, id);
+    public User getUser(Integer id) {
+        return session().get(User.class, id);
     }
 
-    public List<UserEntity> getUsers() {
-        return getList(UserEntity.class);
+    public List<User> getUsers() {
+        return getList(User.class);
     }
 
-    public Query<UserEntity> getUsersQuery() {
-        return createQuery(UserEntity.class);
+    public Query<User> getUsersQuery() {
+        return createQuery(User.class);
     }
 
 }
