@@ -8,7 +8,7 @@
         <div class="row">
             <div class="col-lg-6">
                 <div class="card bg-light mb-3">
-                    <div class="card-header">Role Data</div>
+                    <div class="card-header">Information</div>
                     <div class="card-body">
                         <div class="form-group">
                             <label for="roleName">Name</label>
@@ -25,13 +25,13 @@
                     <div class="card-body">
                         <div class="form-group">
                             {% set counter = 0 %}
-                            {% for role in roles %}
+                            {% for privilege in privileges %}
                                 <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" name="roles[{{ counter }}]" value="{{ role.id }}"
-                                           class="custom-control-input" id="userRole{{ role.id }}"
-                                           {% if role.id in user.rolesIds %}checked{% endif %}>
+                                    <input type="checkbox" name="privileges[{{ counter }}]" value="{{ privilege.id }}"
+                                           class="custom-control-input" id="userPrivilege{{ privilege.id }}"
+                                           {% if privilege.id in user.rolesIds %}checked{% endif %}>
                                     <label class="custom-control-label"
-                                           for="userRole{{ role.id }}">{{ role.name }}</label>
+                                           for="userPrivilege{{ privilege.id }}">{{ privilege.name }}</label>
                                 </div>
                                 {% set counter = counter + 1 %}
                             {% endfor %}
