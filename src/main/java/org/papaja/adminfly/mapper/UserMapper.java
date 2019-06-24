@@ -1,7 +1,8 @@
-package org.papaja.adminfly.core.mapping;
+package org.papaja.adminfly.mapper;
 
+import org.papaja.adminfly.core.mapping.Mapper;
 import org.papaja.adminfly.dto.security.UserDto;
-import org.papaja.adminfly.entity.security.UserEntity;
+import org.papaja.adminfly.entity.security.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -10,13 +11,13 @@ import java.sql.Timestamp;
 import java.time.Instant;
 
 @Component
-public class UserMapper implements Mapper<UserDto, UserEntity> {
+public class UserMapper implements Mapper<UserDto, User> {
 
     @Autowired
     private PasswordEncoder encoder;
 
     @Override
-    public void map(UserDto source, UserEntity target) {
+    public void map(UserDto source, User target) {
         if (target.isNew()) {
             target.setCreated(Timestamp.from(Instant.now()));
         }
@@ -34,8 +35,8 @@ public class UserMapper implements Mapper<UserDto, UserEntity> {
     }
 
     @Override
-    public UserEntity get() {
-        return new UserEntity();
+    public User get() {
+        return new User();
     }
 
 }

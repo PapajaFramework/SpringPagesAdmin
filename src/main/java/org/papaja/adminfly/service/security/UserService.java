@@ -1,15 +1,13 @@
 package org.papaja.adminfly.service.security;
 
 import org.papaja.adminfly.core.hibernate.Pagination;
-import org.papaja.adminfly.core.mapping.UserMapper;
+import org.papaja.adminfly.entity.security.User;
+import org.papaja.adminfly.mapper.UserMapper;
 import org.papaja.adminfly.dto.security.UserDto;
-import org.papaja.adminfly.entity.security.UserEntity;
 import org.papaja.adminfly.repository.security.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 import static java.util.Objects.nonNull;
 
@@ -28,15 +26,15 @@ public class UserService {
     @Autowired
     private UserMapper mapper;
 
-    public UserEntity loadUserByUsername(String username) {
+    public User loadUserByUsername(String username) {
         return repository.getUser(username);
     }
 
-    public Pagination<UserEntity> getUsers(int offset) {
+    public Pagination<User> getUsers(int offset) {
         return Pagination.of(repository.getUsersQuery(), offset, MAX_RESULT_PER_PAGE);
     }
 
-    public void store(UserDto dto, UserEntity entity) {
+    public void store(UserDto dto, User entity) {
         mapper.map(dto, entity);
 
         if (entity.isOld()) {
@@ -46,17 +44,17 @@ public class UserService {
         store(entity);
     }
 
-    public void store(UserEntity user) {
+    public void store(User user) {
         repository.merge(user);
     }
 
-    public UserEntity getUser(Integer id) {
+    public User getUser(Integer id) {
         boolean isValid = (nonNull(id) && id > 0);
 
-        return isValid ? repository.getUser(id) : new UserEntity();
+        return isValid ? repository.getUser(id) : new User();
     }
 
-    public UserEntity getUser(Long id) {
+    public User getUser(Long id) {
         return getUser(id.intValue());
     }
 

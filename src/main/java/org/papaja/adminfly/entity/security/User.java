@@ -15,7 +15,7 @@ import static java.util.Objects.nonNull;
 @DynamicUpdate
 @Entity
 @Table(name = "security_users")
-public class UserEntity extends AbstractEntity {
+public class User extends AbstractEntity {
 
     @Column(name = "username")
     private String username;
@@ -35,21 +35,15 @@ public class UserEntity extends AbstractEntity {
     @Column(name = "updated")
     private Timestamp updated;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
     @JoinTable(
         name = "security_users_roles",
-        joinColumns = @JoinColumn(
-            name = "user_id",
-            referencedColumnName = "id"
-        ),
-        inverseJoinColumns = @JoinColumn(
-            name = "role_id",
-            referencedColumnName = "id"
-        )
+        joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
     )
-    private Collection<RoleEntity> roles;
+    private Collection<Role> roles;
 
-    public UserEntity() {
+    public User() {
         roles = new ArrayList<>();
     }
 
@@ -101,30 +95,30 @@ public class UserEntity extends AbstractEntity {
         this.updated = updated;
     }
 
-    public Collection<RoleEntity> getRoles() {
+    public Collection<Role> getRoles() {
         return roles;
     }
 
     public Collection<Integer> getRolesIds() {
-        return getRoles().stream().map(RoleEntity::getId).collect(Collectors.toList());
+        return getRoles().stream().map(Role::getId).collect(Collectors.toList());
     }
 
-    public void setRoles(Collection<RoleEntity> roles) {
+    public void setRoles(Collection<Role> roles) {
         this.roles = roles;
     }
 
-    public void addRole(RoleEntity role) {
+    public void addRole(Role role) {
         roles.add(role);
     }
 
     public void addRole(Integer id) {
         if (nonNull(id)) {
-            addRole(new RoleEntity(id));
+            addRole(new Role(id));
         }
     }
 
     @Override
     public String toString() {
-        return String.format("UserEntity{id=%d, username='%s', enabled='%s', roles=%s}", id, username, enabled, roles);
+        return String.format("User{id=%d, username='%s', enabled='%s', roles=%s}", id, username, enabled, roles);
     }
 }

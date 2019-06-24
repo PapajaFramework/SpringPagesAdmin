@@ -34,6 +34,18 @@ abstract public class AbstractRepository<E extends AbstractEntity> {
         session().merge(entity);
     }
 
+    public void remove(E entity) {
+        session().delete(entity);
+    }
+
+    public void remove(Class<E> reflection, Integer id) {
+        remove(get(reflection, id));
+    }
+
+    public E get(Class<E> reflection, Integer id) {
+        return session().get(reflection, id);
+    }
+
     public void refresh(E entity) {
         session().refresh(entity);
     }

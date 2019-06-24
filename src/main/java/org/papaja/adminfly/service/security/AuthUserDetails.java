@@ -1,7 +1,7 @@
 package org.papaja.adminfly.service.security;
 
 import org.papaja.adminfly.entity.security.AuthUser;
-import org.papaja.adminfly.entity.security.UserEntity;
+import org.papaja.adminfly.entity.security.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,7 +16,7 @@ public class AuthUserDetails implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserEntity user = service.loadUserByUsername(username);
+        User user = service.loadUserByUsername(username);
 
         if (user == null) {
             throw new UsernameNotFoundException(username);

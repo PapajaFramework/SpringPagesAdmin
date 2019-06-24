@@ -18,13 +18,16 @@
                         </thead>
                         <tbody>
                         {% for role in roles %}
-                            {% set edit = '/authority/edit/role/' ~ role.id %}
+                            {% set edit = '/authority/role/edit/' ~ role.id %}
+                            {% set remove = '/authority/role/remove/' ~ role.id %}
                             <tr>
                                 <td>{{ role.id }}</td>
                                 <td>{{ role.name }}</td>
                                 <td>
-                                    <button type="button" onclick="location.href='{{ edit }}'" type="button"
+                                    <button type="button" onclick="location.href='{{ edit }}'"
                                             class="btn btn-sm btn-primary">Edit</button>
+                                    <button type="button" onclick="confirm('Are you sure?') ? location.href='{{ remove }}' : false"
+                                            class="btn btn-sm btn-danger">Remove</button>
                                 </td>
                             </tr>
                         {% endfor %}
@@ -33,7 +36,7 @@
                 </div>
                 <div class="card-footer">
                     <form method="post" action="/authority/process/role" class="form-inline my-2 my-lg-0 float-right">
-                        <input class="form-control form-control-sm" type="text" name="name" placeholder="ROLE_NAME">
+                        <input class="form-control mr-sm-2 form-control-sm" type="text" name="name" placeholder="ROLE_NAME">
                         <button class="btn btn-secondary btn-sm my-2 my-sm-0" type="submit">Create</button>
                     </form>
                 </div>
@@ -52,6 +55,7 @@
                         </thead>
                         <tbody>
                         {% for privilege in privileges %}
+                            {% set remove = '/authority/privilege/remove/' ~ privilege.id %}
                             <tr>
                                 <td>{{ privilege.id }}</td>
                                 <td>
@@ -61,7 +65,9 @@
                                 </td>
                                 <td>
                                     <button type="button" onclick="document.forms['privilegeForm{{ privilege.id }}'].submit()"
-                                            class="btn btn-sm btn-warning">Update</button>
+                                            class="btn btn-sm btn-info">Update</button>
+                                    <button type="button" onclick="confirm('Are you sure?') ? location.href='{{ remove }}' : false"
+                                            class="btn btn-sm btn-danger">Remove</button>
                                 </td>
                             </tr>
                         {% endfor %}
