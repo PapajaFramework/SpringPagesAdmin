@@ -30,7 +30,10 @@ public class AuthorityController {
         return "authority/list";
     }
 
-    @RequestMapping(value = {"/process/privilege/{id:[0-9]+}", "/process/privilege"}, method = RequestMethod.POST)
+    @RequestMapping(
+            value = {"/process/privilege/{id:[0-9]+}", "/process/privilege"},
+            method = RequestMethod.POST
+    )
     public String privileges(
         @PathVariable(value = "id", required = false) Integer id,
         PrivilegeEntity entity,
@@ -45,7 +48,10 @@ public class AuthorityController {
         return "redirect:/authority";
     }
 
-    @RequestMapping(value = {"/process/role/{id:[0-9]+}", "/process/role"}, method = RequestMethod.POST)
+    @RequestMapping(
+            value = {"/process/role/{id:[0-9]+}", "/process/role"},
+            method = RequestMethod.POST
+    )
     public String roles(
         @PathVariable(value = "id", required = false) Integer id,
         RoleEntity entity,

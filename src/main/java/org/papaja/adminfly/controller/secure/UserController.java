@@ -55,8 +55,7 @@ public class UserController {
     @RequestMapping(value = "/{id:[0-9]+}", method = RequestMethod.POST)
     public String process(@PathVariable("id") Integer id, UserDto dto) {
         UserEntity entity = users.getUser(id);
-        System.out.println(entity);
-        System.out.println(id);
+
         users.store(dto, entity);
 
         return "redirect:/users";
