@@ -11,6 +11,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -39,8 +41,8 @@ public class AuthorityController {
     }
 
     @RequestMapping(
-        value = "/role/edit/{id:[0-9]+}",
-        method = RequestMethod.GET
+            value = "/role/edit/{id:[0-9]+}",
+            method = RequestMethod.GET
     )
     public ModelAndView edit(@PathVariable("id") Integer id) {
         ModelAndView model = new ModelAndView("authority/role/form");
@@ -52,12 +54,12 @@ public class AuthorityController {
     }
 
     @RequestMapping(
-        value = "/{entity:[a-z]+}/remove/{id:[0-9]+}",
-        method = RequestMethod.GET
+            value = "/{entity:[a-z]+}/remove/{id:[0-9]+}",
+            method = RequestMethod.GET
     )
     @PreAuthorize("hasAuthority('SECURITY')")
     public String remove(
-        @PathVariable("entity") String name, @PathVariable("id") Integer id, RedirectAttributes attributes
+            @PathVariable("entity") String name, @PathVariable("id") Integer id, RedirectAttributes attributes
     ) {
         switch (name) {
             case "role":
@@ -69,46 +71,48 @@ public class AuthorityController {
         }
 
         attributes.addFlashAttribute("message", String.format("Record '%s' with ID: %d was successfully removed",
-            name, id));
+                name, id));
 
         return "redirect:/authority";
     }
 
     @RequestMapping(
             value = {"/process/privilege/{id:[0-9]+}", "/process/privilege"},
-            method = RequestMethod.POST
-    )
-    @PreAuthorize("hasAuthority('SECURITY')")
+            method = RequestMethod.POST)
+    // @PreAuthorize("hasAuthority('SECURITY')")
     public String privileges(
-        @PathVariable(value = "id", required = false) Integer id,
-        Privilege entity,
-        RedirectAttributes attributes
+            @PathVariable(value = "id", required = false) Integer id,
+            @ModelAttribute("privilege") @Valid Privilege privilege,
+            BindingResult result,
+            RedirectAttributes attributes
     ) {
-        entity.setName(entity.getName().toUpperCase());
-        privileges.store(entity);
+        privilege.setName(privilege.getName().toUpperCase());
+        privileges.store(privilege);
 
-        attributes.addFlashAttribute("message", String.format("Privilege '%s' was successfully saved", entity.getName()));
+        System.out.println(result.hasErrors());
+        System.out.println(result.getAllErrors());
+
+        attributes.addFlashAttribute("message", String.format("Privilege '%s' was successfully saved", privilege.getName()));
 
         return "redirect:/authority";
     }
 
     @RequestMapping(
             value = {"/process/role/{id:[0-9]+}", "/process/role"},
-            method = RequestMethod.POST
-    )
-    @PreAuthorize("hasAuthority('SECURITY')")
+            method = RequestMethod.POST)
+    //@PreAuthorize("hasAuthority('SECURITY')")
     public String roles(
-        @PathVariable(value = "id", required = false) Integer id,
-        @Valid RoleDto dto,
-        RedirectAttributes attributes,
-        BindingResult result
+            @PathVariable(value = "id", required = false) Integer id,
+            @ModelAttribute @Validated Role dto,
+            RedirectAttributes attributes,
+            BindingResult result
     ) {
         Role role = roles.getRole(id);
 
         System.out.println(result.hasErrors());
         System.out.println(result.getAllErrors());
 
-        roles.store(dto, role);
+//        roles.store(dto, role);
         attributes.addFlashAttribute("message", String.format("Role '%s' was successfully saved", dto.getName()));
 
         return "redirect:/authority";

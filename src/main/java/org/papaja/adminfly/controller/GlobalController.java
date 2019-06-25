@@ -17,7 +17,8 @@ public class GlobalController {
 
     @ExceptionHandler({Exception.class})
     public String handleException(
-            Exception exception, HttpServletRequest request, HttpServletResponse response, Model model
+            Exception exception, Model model,
+            HttpServletRequest request, HttpServletResponse response
     ) {
         String template = "errors/exception";
 

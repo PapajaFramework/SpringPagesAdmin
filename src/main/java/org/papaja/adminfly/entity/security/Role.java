@@ -3,6 +3,7 @@ package org.papaja.adminfly.entity.security;
 import org.papaja.adminfly.entity.AbstractEntity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import java.util.Collection;
 import java.util.List;
@@ -13,28 +14,24 @@ import java.util.stream.Collectors;
 @Table(name = "security_roles")
 public class Role extends AbstractEntity {
 
-    @NotEmpty(message = "role.empty")
+    @NotBlank
     @Column(name = "name")
     private String name;
 
     @ManyToMany(cascade = {
         CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST
     })
-    @JoinTable(
-        name = "security_users_roles",
+    @JoinTable(name = "security_users_roles",
         joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"),
-        inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id")
-    )
+        inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
     private Collection<User> users;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = {
         CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST
     })
-    @JoinTable(
-        name = "security_roles_privileges",
+    @JoinTable(name = "security_roles_privileges",
         joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"),
-        inverseJoinColumns = @JoinColumn(name = "privilege_id", referencedColumnName = "id")
-    )
+        inverseJoinColumns = @JoinColumn(name = "privilege_id", referencedColumnName = "id"))
     private Collection<Privilege> privileges;
 
     public Role() {
