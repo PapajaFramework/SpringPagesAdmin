@@ -1,5 +1,6 @@
 package org.papaja.adminfly.config.spring;
 
+import org.hibernate.validator.HibernateValidator;
 import org.jtwig.environment.EnvironmentConfigurationBuilder;
 import org.jtwig.spring.JtwigView;
 import org.jtwig.spring.JtwigViewResolver;
@@ -12,11 +13,14 @@ import org.springframework.context.annotation.*;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 import org.springframework.web.accept.ContentNegotiationManager;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import javax.validation.Validation;
+import javax.validation.ValidatorFactory;
 import java.nio.charset.Charset;
 
 @SuppressWarnings({"unused"})
@@ -64,9 +68,12 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public Validator getValidator() {
-        LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
+//        MethodValidationPostProcessor;
+        ValidatorFactory          validatorFactory = Validation.buildDefaultValidatorFactory();
+        LocalValidatorFactoryBean validator        = new LocalValidatorFactoryBean();
 
         validator.setValidationMessageSource(getMessageSource());
+        validator.setProviderClass(HibernateValidator.class);
 
         return validator;
     }
