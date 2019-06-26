@@ -1,6 +1,6 @@
 package org.papaja.adminfly.controller.secure;
 
-import org.papaja.adminfly.dto.security.RoleDto;
+import org.papaja.adminfly.dto.security.PrivilegeDto;
 import org.papaja.adminfly.entity.security.Privilege;
 import org.papaja.adminfly.entity.security.Role;
 import org.papaja.adminfly.service.security.PrivilegeService;
@@ -11,12 +11,14 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 
 @Controller
 @RequestMapping("/authority")
@@ -31,8 +33,8 @@ public class AuthorityController {
 
     @RequestMapping(value = "/test", method = RequestMethod.GET)
     @ResponseBody
-    public String test(@RequestParam("id") @Valid Privilege privilege, BindingResult result) {
-        System.out.println(privilege);
+    public String test(@RequestParam("id") @Valid @Min(5) Integer id, Errors result) {
+        System.out.println(id);
 
         System.out.println(result.hasErrors());
         System.out.println(result.getAllErrors());
@@ -86,14 +88,11 @@ public class AuthorityController {
 
     @RequestMapping(value = {"/process/privilege/{id:[0-9]+}", "/process/privilege"},
             method = RequestMethod.POST)
-    public String privileges(
-            @ModelAttribute @Valid Privilege privilege,
-            final BindingResult result
-    ) {
-        privilege.setName(privilege.getName().toUpperCase());
-        privileges.store(privilege);
+    public String privileges(@Valid PrivilegeDto dto, final BindingResult result) {
+//        privilege.setName(privilege.getName().toUpperCase());
+//        privileges.store(privilege);
 
-//        System.out.println(id);
+        System.out.println(dto);
         System.out.println(result.hasErrors());
         System.out.println(result.getAllErrors());
 
@@ -102,8 +101,7 @@ public class AuthorityController {
         return "redirect:/authority";
     }
 
-    @RequestMapping(
-            value = {"/process/role/{id:[0-9]+}", "/process/role"},
+    @RequestMapping(value = {"/process/role/{id:[0-9]+}", "/process/role"},
             method = RequestMethod.POST)
     //@PreAuthorize("hasAuthority('SECURITY')")
     public String roles(
