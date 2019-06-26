@@ -4,6 +4,7 @@ import org.papaja.adminfly.entity.AbstractEntity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.Collection;
 
 @SuppressWarnings({"unused"})
@@ -12,6 +13,7 @@ import java.util.Collection;
 public class Privilege extends AbstractEntity {
 
     @NotBlank
+    @Size(min = 3, max = 64, message = "{name.invalid}")
     @Column(name = "name")
     private String name;
 

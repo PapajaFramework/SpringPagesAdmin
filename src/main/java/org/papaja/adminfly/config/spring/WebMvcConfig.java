@@ -66,29 +66,15 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addResourceHandler("assets/**").addResourceLocations("classpath:/assets/").setCachePeriod(31556926);
     }
 
+    @Bean
     @Override
     public Validator getValidator() {
-        return validator();
-    }
-
-    @Bean
-    public LocalValidatorFactoryBean validator() {
         LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
 
         validator.setValidationMessageSource(getMessageSource());
         validator.setProviderClass(HibernateValidator.class);
 
         return validator;
-    }
-
-    @Bean
-    MethodValidationPostProcessor methodValidationPostProcessor() {
-        ValidatorFactory              factory   = Validation.buildDefaultValidatorFactory();
-        MethodValidationPostProcessor processor = new MethodValidationPostProcessor();
-
-        processor.setValidator(validator());
-
-        return processor;
     }
 
     @Bean
