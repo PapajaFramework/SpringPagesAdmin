@@ -12,8 +12,8 @@ import java.util.Collection;
 @Table(name = "security_privileges")
 public class Privilege extends AbstractEntity {
 
-    @NotBlank
-    @Size(min = 3, max = 64, message = "{name.invalid}")
+    @NotBlank(message = "{validation.notBlank}")
+    @Size(min = 3, max = 64, message = "{validation.size}")
     @Column(name = "name")
     private String name;
 
