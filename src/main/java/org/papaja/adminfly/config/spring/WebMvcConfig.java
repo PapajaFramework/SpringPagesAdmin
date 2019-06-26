@@ -8,6 +8,8 @@ import org.jtwig.spring.asset.SpringAssetExtension;
 import org.jtwig.spring.asset.resolver.AssetResolver;
 import org.jtwig.spring.asset.resolver.BaseAssetResolver;
 import org.jtwig.web.servlet.JtwigRenderer;
+import org.papaja.adminfly.config.properties.LocaleProperties;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.ResourceBundleMessageSource;
@@ -15,13 +17,19 @@ import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 import org.springframework.web.accept.ContentNegotiationManager;
+import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.i18n.CookieLocaleResolver;
+import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import javax.validation.Validation;
 import javax.validation.ValidatorFactory;
 import java.nio.charset.Charset;
+import java.util.Locale;
 
 @SuppressWarnings({"unused"})
 @Configuration
@@ -33,8 +41,15 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     private static final Charset UTF8 = Charset.forName("UTF-8");
 
+    private LocaleProperties properties;
+
+    @Autowired
+    public WebMvcConfig(LocaleProperties properties) {
+        this.properties = properties;
+    }
+
     @Bean
-    public JtwigViewResolver resolver() {
+    public JtwigViewResolver viewResolver() {
         SpringAssetExtension            extension = new SpringAssetExtension();
         EnvironmentConfigurationBuilder builder   = EnvironmentConfigurationBuilder.configuration();
         JtwigViewResolver               resolver  = new JtwigViewResolver();
@@ -53,7 +68,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    public AssetResolver getAssetResolver() {
+    public AssetResolver assetResolver() {
         BaseAssetResolver resolver = new BaseAssetResolver();
 
         resolver.setPrefix("/assets");
@@ -77,14 +92,41 @@ public class WebMvcConfig implements WebMvcConfigurer {
         return validator;
     }
 
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(localeChangeInterceptor());
+    }
+
     @Bean
     public MessageSource getMessageSource() {
         ResourceBundleMessageSource source = new ResourceBundleMessageSource();
 
-        source.setBasename("messages");
+        source.addBasenames("locale/messages/messages", "locale/system/main");
+        source.setFallbackToSystemLocale(true);
         source.setDefaultEncoding("UTF-8");
 
         return source;
     }
+
+    @Bean
+    public LocaleResolver localeResolver() {
+        CookieLocaleResolver resolver = new CookieLocaleResolver();
+
+        resolver.setDefaultLocale(Locale.forLanguageTag(properties.getDefaultLocale().replace('_', '-')));
+        resolver.setCookieName(properties.getCookieName());
+
+        return resolver;
+    }
+
+    @Bean
+    public LocaleChangeInterceptor localeChangeInterceptor() {
+        LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
+
+        interceptor.setParamName(properties.getQueryParameterName());
+
+        return interceptor;
+
+    }
+
 
 }

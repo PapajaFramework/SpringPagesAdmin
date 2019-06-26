@@ -1,7 +1,7 @@
 {% extends '../../layout/main.twig' %}
 {% block title %}{% if empty(user.id) %}Create{% else %}Update {{ role.name }}{% endif %}{% endblock %}
 {% block content %}
-    <div class="page-header">
+    <div class="page-header mb-4">
         <h1 id="tables">{% if empty(role.id) %}Create{% else %}Update [{{ role.name }}]{% endif %}</h1>
     </div>
     <form method="post" action="/authority/process/role{% if not empty(role.id) %}/{{ role.id }}{% endif %}">

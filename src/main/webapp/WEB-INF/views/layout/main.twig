@@ -7,6 +7,7 @@
 <body>
 {% include 'partials/menu/' ~ default(menu, 'main') ~ '.twig' %}
 <div class="container">
+    {% include 'partials/flash/validation.twig' %}
     {% include 'partials/flash/success.twig' %}
     {% block content %}{% endblock %}
 </div>
