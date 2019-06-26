@@ -1,6 +1,7 @@
 package org.papaja.adminfly.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Positive;
 import java.util.Objects;
 
 @SuppressWarnings({"unused"})
@@ -8,6 +9,7 @@ import java.util.Objects;
 abstract public class AbstractEntity {
 
     @Id
+    @Positive
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     protected Integer id;

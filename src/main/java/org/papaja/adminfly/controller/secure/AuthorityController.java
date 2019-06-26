@@ -12,10 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -31,6 +28,17 @@ public class AuthorityController {
 
     @Autowired
     private RoleService roles;
+
+    @RequestMapping(value = "/test", method = RequestMethod.GET)
+    @ResponseBody
+    public String test(@RequestParam("id") @Valid Privilege privilege, BindingResult result) {
+        System.out.println(privilege);
+
+        System.out.println(result.hasErrors());
+        System.out.println(result.getAllErrors());
+
+        return getClass().getName();
+    }
 
     @RequestMapping(method = RequestMethod.GET)
     public String list(Model model) {
@@ -76,23 +84,20 @@ public class AuthorityController {
         return "redirect:/authority";
     }
 
-    @RequestMapping(
-            value = {"/process/privilege/{id:[0-9]+}", "/process/privilege"},
+    @RequestMapping(value = {"/process/privilege/{id:[0-9]+}", "/process/privilege"},
             method = RequestMethod.POST)
-    // @PreAuthorize("hasAuthority('SECURITY')")
     public String privileges(
-            @PathVariable(value = "id", required = false) Integer id,
-            @ModelAttribute("privilege") @Valid Privilege privilege,
-            BindingResult result,
-            RedirectAttributes attributes
+            @ModelAttribute @Valid Privilege privilege,
+            final BindingResult result
     ) {
         privilege.setName(privilege.getName().toUpperCase());
         privileges.store(privilege);
 
+//        System.out.println(id);
         System.out.println(result.hasErrors());
         System.out.println(result.getAllErrors());
 
-        attributes.addFlashAttribute("message", String.format("Privilege '%s' was successfully saved", privilege.getName()));
+//        attributes.addFlashAttribute("message", String.format("Privilege '%s' was successfully saved", privilege.getName()));
 
         return "redirect:/authority";
     }
