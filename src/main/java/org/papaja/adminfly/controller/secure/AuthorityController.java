@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
+import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -88,13 +89,21 @@ public class AuthorityController {
 
     @RequestMapping(value = {"/process/privilege/{id:[0-9]+}", "/process/privilege"},
             method = RequestMethod.POST)
-    public String privileges(@Valid PrivilegeDto dto, final BindingResult result) {
+    public String privileges(@Valid Privilege dto, final BindingResult result) {
 //        privilege.setName(privilege.getName().toUpperCase());
 //        privileges.store(privilege);
 
         System.out.println(dto);
         System.out.println(result.hasErrors());
         System.out.println(result.getAllErrors());
+
+        for (ObjectError error : result.getAllErrors()) {
+            System.out.println("++++++++++++");
+            System.out.println(error.getObjectName());
+            System.out.println(error.getDefaultMessage());
+            System.out.println(error.getCode());
+            System.out.println("-----------");
+        }
 
 //        attributes.addFlashAttribute("message", String.format("Privilege '%s' was successfully saved", privilege.getName()));
 
