@@ -34,7 +34,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     private static final Charset UTF8 = Charset.forName("UTF-8");
 
     @Bean
-    public JtwigViewResolver resolver(ContentNegotiationManager manager) {
+    public JtwigViewResolver resolver() {
         SpringAssetExtension            extension = new SpringAssetExtension();
         EnvironmentConfigurationBuilder builder   = EnvironmentConfigurationBuilder.configuration();
         JtwigViewResolver               resolver  = new JtwigViewResolver();
@@ -66,16 +66,30 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addResourceHandler("assets/**").addResourceLocations("classpath:/assets/").setCachePeriod(31556926);
     }
 
-    @Override
-    public Validator getValidator() {
-//        MethodValidationPostProcessor;
-        ValidatorFactory          validatorFactory = Validation.buildDefaultValidatorFactory();
-        LocalValidatorFactoryBean validator        = new LocalValidatorFactoryBean();
+//    @Bean
+//    @Override
+//    public LocalValidatorFactoryBean getValidator() {
+//        LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
+//
+//        validator.setValidationMessageSource(getMessageSource());
+//        validator.setProviderClass(HibernateValidator.class);
+//
+//        return validator;
+//    }
 
-        validator.setValidationMessageSource(getMessageSource());
-        validator.setProviderClass(HibernateValidator.class);
+    @Bean
+    public LocalValidatorFactoryBean validator(){
+        return new LocalValidatorFactoryBean();
+    }
 
-        return validator;
+    @Bean
+    MethodValidationPostProcessor methodValidationPostProcessor() {
+        ValidatorFactory              factory   = Validation.buildDefaultValidatorFactory();
+        MethodValidationPostProcessor processor = new MethodValidationPostProcessor();
+
+        processor.setValidator(validator());
+
+        return processor;
     }
 
     @Bean
