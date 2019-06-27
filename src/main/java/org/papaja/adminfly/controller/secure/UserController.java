@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Optional;
 
@@ -57,10 +58,12 @@ public class UserController {
 
     @RequestMapping(value = "/{id:[0-9]+}", method = RequestMethod.POST)
     @PreAuthorize("hasAuthority('SECURITY')")
-    public String process(@PathVariable("id") Integer id, UserDto dto) {
+    public String process(@PathVariable("id") Integer id, UserDto dto, RedirectAttributes attributes) {
         User entity = users.getUser(id);
 
         users.store(dto, entity);
+        attributes.addFlashAttribute("message",
+                String.format("User '%s' was successfully saved!", entity.getUsername()));
 
         return "redirect:/users";
     }

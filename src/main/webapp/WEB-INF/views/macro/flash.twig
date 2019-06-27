@@ -1,0 +1,27 @@
+{% macro message (text, header, color) %}
+    <div class="alert alert-dismissible alert-{{ color }}">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        {% if not empty(header) %}<h5 class="alert-heading">{{ header }}</h5>{% endif %}
+        <p class="mb-0">{{ text }}</p>
+    </div>
+{% endmacro %}
+{% macro error(text, header) %}
+    {% import _self as flash %}
+    {{ flash.message(text, header, 'danger') }}
+{% endmacro %}
+{% macro warning(text, header) %}
+    {% import _self as flash %}
+    {{ flash.message(text, header, 'warning') }}
+{% endmacro %}
+{% macro info(text, header) %}
+    {% import _self as flash %}
+    {{ flash.message(text, header, 'info') }}
+{% endmacro %}
+{% macro success(text, header) %}
+    {% import _self as flash %}
+    {{ flash.message(text, header, 'success') }}
+{% endmacro %}
+{% macro notice(text, header) %}
+    {% import _self as flash %}
+    {{ flash.message(text, header, 'light') }}
+{% endmacro %}

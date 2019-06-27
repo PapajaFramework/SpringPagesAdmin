@@ -1,0 +1,4 @@
+{% import '../../../macro/flash.twig' as flash %}
+{% if message is defined %}
+    {{ flash.notice(message, '') }}
+{% endif %}

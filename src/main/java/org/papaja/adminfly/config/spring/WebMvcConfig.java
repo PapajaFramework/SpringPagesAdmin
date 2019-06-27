@@ -2,21 +2,23 @@ package org.papaja.adminfly.config.spring;
 
 import org.hibernate.validator.HibernateValidator;
 import org.jtwig.environment.EnvironmentConfigurationBuilder;
+import org.jtwig.render.RenderExtension;
 import org.jtwig.spring.JtwigView;
 import org.jtwig.spring.JtwigViewResolver;
 import org.jtwig.spring.asset.SpringAssetExtension;
 import org.jtwig.spring.asset.resolver.AssetResolver;
 import org.jtwig.spring.asset.resolver.BaseAssetResolver;
+import org.jtwig.translate.spring.SpringTranslateExtension;
+import org.jtwig.translate.spring.SpringTranslateExtensionConfiguration;
 import org.jtwig.web.servlet.JtwigRenderer;
-import org.papaja.adminfly.config.properties.LocaleProperties;
+import org.papaja.adminfly.core.jtwig.extension.SpringFieldsExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.core.env.Environment;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
-import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
-import org.springframework.web.accept.ContentNegotiationManager;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -24,10 +26,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
-import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
-import javax.validation.Validation;
-import javax.validation.ValidatorFactory;
 import java.nio.charset.Charset;
 import java.util.Locale;
 
@@ -41,20 +40,26 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     private static final Charset UTF8 = Charset.forName("UTF-8");
 
-    private LocaleProperties properties;
+    private Environment      environment;
 
     @Autowired
-    public WebMvcConfig(LocaleProperties properties) {
-        this.properties = properties;
+    public WebMvcConfig(Environment environment) {
+        this.environment = environment;
     }
 
     @Bean
     public JtwigViewResolver viewResolver() {
-        SpringAssetExtension            extension = new SpringAssetExtension();
-        EnvironmentConfigurationBuilder builder   = EnvironmentConfigurationBuilder.configuration();
-        JtwigViewResolver               resolver  = new JtwigViewResolver();
+        EnvironmentConfigurationBuilder       builder   = EnvironmentConfigurationBuilder.configuration();
+        JtwigViewResolver                     resolver  = new JtwigViewResolver();
+        SpringTranslateExtensionConfiguration translate = SpringTranslateExtensionConfiguration
+                .builder(messageSource()).withLocaleResolver(localeResolver()).build();
 
-        builder.extensions().add(extension);
+        builder.extensions()
+                .add(new SpringAssetExtension())
+                .add(new SpringFieldsExtension())
+                .add(new RenderExtension())
+                .add(new SpringTranslateExtension(translate));
+
         builder.render().withOutputCharset(UTF8);
         builder.resources().withDefaultInputCharset(UTF8);
 
@@ -86,7 +91,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public Validator getValidator() {
         LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
 
-        validator.setValidationMessageSource(getMessageSource());
+        validator.setValidationMessageSource(messageSource());
         validator.setProviderClass(HibernateValidator.class);
 
         return validator;
@@ -98,7 +103,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    public MessageSource getMessageSource() {
+    public MessageSource messageSource() {
         ResourceBundleMessageSource source = new ResourceBundleMessageSource();
 
         source.addBasenames("locale/messages/messages", "locale/system/main");
@@ -112,8 +117,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public LocaleResolver localeResolver() {
         CookieLocaleResolver resolver = new CookieLocaleResolver();
 
-        resolver.setDefaultLocale(Locale.forLanguageTag(properties.getDefaultLocale().replace('_', '-')));
-        resolver.setCookieName(properties.getCookieName());
+        resolver.setDefaultLocale(Locale.forLanguageTag(environment.getProperty("app.locale.defaultLocale").replace('_', '-')));
+        resolver.setCookieName(environment.getProperty("app.locale.cookieName"));
 
         return resolver;
     }
@@ -122,7 +127,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public LocaleChangeInterceptor localeChangeInterceptor() {
         LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
 
-        interceptor.setParamName(properties.getQueryParameterName());
+        interceptor.setParamName(environment.getProperty("app.locale.queryParameterName"));
 
         return interceptor;
 
