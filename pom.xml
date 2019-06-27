@@ -120,7 +120,22 @@
         </dependency>
         <dependency>
             <groupId>org.jtwig</groupId>
+            <artifactId>jtwig-render-extension</artifactId>
+            <version>${jtwig.asset.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jtwig</groupId>
+            <artifactId>jtwig-spring-translate-extension</artifactId>
+            <version>${jtwig.asset.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jtwig</groupId>
             <artifactId>jtwig-spring-asset-extension</artifactId>
+            <version>${jtwig.asset.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jtwig</groupId>
+            <artifactId>jtwig-spring-csrf-extension</artifactId>
             <version>${jtwig.asset.version}</version>
         </dependency>
 
