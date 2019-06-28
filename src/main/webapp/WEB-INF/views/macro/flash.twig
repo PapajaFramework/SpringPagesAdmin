@@ -25,3 +25,6 @@
     {% import _self as flash %}
     {{ flash.message(text, header, 'light') }}
 {% endmacro %}
+{% macro undertext(text) %}
+    <div class="invalid-feedback">{{ text }}</div>
+{% endmacro %}
