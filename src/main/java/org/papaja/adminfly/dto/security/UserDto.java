@@ -1,5 +1,7 @@
 package org.papaja.adminfly.dto.security;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -8,6 +10,8 @@ public class UserDto {
 
     private Integer id;
 
+    @NotBlank
+    @Size(min = 3, max = 64)
     private String username;
 
     private String password;

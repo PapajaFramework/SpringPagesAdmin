@@ -9,11 +9,14 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
 import java.util.Optional;
 
 @SuppressWarnings("unused")
@@ -58,14 +61,24 @@ public class UserController {
 
     @RequestMapping(value = "/{id:[0-9]+}", method = RequestMethod.POST)
     @PreAuthorize("hasAuthority('SECURITY')")
-    public String process(@PathVariable("id") Integer id, UserDto dto, RedirectAttributes attributes) {
+    public ModelAndView process(
+        @PathVariable("id") Integer id, @Valid UserDto dto, BindingResult result, RedirectAttributes attributes
+    ) {
+        ModelAndView view = new ModelAndView("redirect:/users");
         User entity = users.getUser(id);
 
-        users.store(dto, entity);
-        attributes.addFlashAttribute("message",
+        if (!result.hasErrors()) {
+            users.store(dto, entity);
+            attributes.addFlashAttribute("message",
                 String.format("User '%s' was successfully saved!", entity.getUsername()));
+        } else {
+            view.addObject("result", result);
+            view.addObject("user", Optional.ofNullable(entity).orElseGet(User::new));
+            view.addObject("roles", roles.getRoles());
+            view.setViewName("users/form");
+        }
 
-        return "redirect:/users";
+        return view;
     }
 
 }

@@ -1,4 +1,5 @@
 {% extends '../layout/main.twig' %}
+{% import '../macro/fields.twig' as fields %}
 {% block title %}{% if empty(user.id) %}Create{% else %}Update {{ user.username }}{% endif %}{% endblock %}
 {% block content %}
     <div class="page-header mb-4">
@@ -13,9 +14,9 @@
                         {% if user.new %}
                             <div class="form-group">
                                 <label for="userName">Username</label>
-                                <input name="username" type="text" class="form-control" id="userName"
-                                       placeholder="username" readonly
-                                       onfocus="this.removeAttribute('readonly');">
+                                <input name="username" type="text" class="form-control {{ fields.ifError(result, 'username', 'is-invalid') }}" id="userName"
+                                       placeholder="username">
+                                {{ fields.error(result, 'username') }}
                             </div>
                         {% else %}
                             <div class="form-group">

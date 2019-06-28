@@ -78,8 +78,7 @@ public class AuthorityController {
         System.out.println(result.hasErrors());
         System.out.println(result.getAllErrors());
 
-        attributes.addFlashAttribute("errors", result);
-
+        attributes.addFlashAttribute("result", result);
 
         for (FieldError name : result.getFieldErrors("name")) {
             System.out.println("++++++++++++");
