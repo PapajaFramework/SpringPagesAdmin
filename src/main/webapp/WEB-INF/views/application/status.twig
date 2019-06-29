@@ -1,0 +1,64 @@
+{% extends '../layout/main.twig' %}
+{% block title %}{{ 'title.status' | translate }}{% endblock %}
+{% block content %}
+    <div class="page-header mb-4">
+        <h1 id="tables">{{ 'title.status' | translate }}</h1>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card border-light mb-3">
+                <div class="card-header">{{ 'label.platform' | translate }}</div>
+                <div class="card-body">
+                    <h4 class="card-title">{{ 'label.os' | translate }}</h4>
+                    <p class="card-text">
+                        <b>{{ info.os }}</b>
+                    </p>
+                    <h4 class="card-title">{{ 'label.javaVersion' | translate }}</h4>
+                    <p class="card-text">
+                        <b>{{ info.version }}</b>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card border-light mb-3">
+                <div class="card-header">{{ 'label.memory' | translate }}</div>
+                <div class="card-body">
+                    <h4 class="card-title">{{ 'label.total' | translate }}</h4>
+                    <p class="card-text">
+                        {{ info.total }} MiB
+                    </p>
+                    <h4 class="card-title">{{ 'label.free' | translate }}</h4>
+                    <p class="card-text">
+                        {{ info.free }} MiB
+                    </p>
+                    <h4 class="card-title">{{ 'label.used' | translate }}</h4>
+                    <p class="card-text">
+                        {{ info.used }} MiB
+                    </p>
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped bg-danger" role="progressbar"
+                             style="width: {{ info.usedPercent }}%" aria-valuenow="{{ info.usedPercent }}"
+                             aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <h4 class="card-title">{{ 'label.max' | translate }}</h4>
+                    <p class="card-text">{{ info.maximum }} MiB</p>
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped bg-info" role="progressbar"
+                             style="width: {{ info.maximumPercent }}%" aria-valuenow="{{ info.maximumPercent }}"
+                             aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button type="button" onclick="location.href='/server/gc'" type="button"
+                            class="btn btn-secondary">{{ 'text.runGc' | translate }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        setInterval(function () {
+            location.reload();
+        }, 1500);
+    </script>
+{% endblock %}

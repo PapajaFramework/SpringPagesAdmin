@@ -10,8 +10,7 @@ public class UserDto {
 
     private Integer id;
 
-    @NotBlank
-    @Size(min = 3, max = 64)
+    @Size(min = 3, max = 64, message = "{validation.size}")
     private String username;
 
     private String password;

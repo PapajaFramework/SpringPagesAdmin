@@ -2,18 +2,18 @@
 {% import '../macro/fields.twig' as fields %}
 {% block content %}
     <div class="page-header mb-4">
-        <h1 id="tables">Authority</h1>
+        <h1 id="tables">{{ 'title.authority' | translate }}</h1>
     </div>
     <div class="row">
         <div class="col-lg-6">
             <div class="card border-light mb-3">
-                <div class="card-header">Roles</div>
+                <div class="card-header">{{ 'label.roles' | translate }}</div>
                 <div class="card-body">
                     <table class="table table-hover">
                         <thead>
                         <tr>
                             <th scope="col" class="min-vh-100">ID</th>
-                            <th scope="col">Name</th>
+                            <th scope="col">{{ 'label.name' | translate }}</th>
                             <th scope="col"></th>
                         </tr>
                         </thead>
@@ -23,12 +23,12 @@
                             {% set remove = '/authority/role/remove/' ~ role.id %}
                             <tr>
                                 <td>{{ role.id }}</td>
-                                <td>{{ role.name }} {{ fields.text(result, 'name') }}</td>
+                                <td>{{ role.name }}</td>
                                 <td>
                                     <button type="button" onclick="location.href='{{ edit }}'"
-                                            class="btn btn-sm btn-primary">Edit</button>
+                                            class="btn btn-sm btn-primary">{{ 'label.edit' | translate }}</button>
                                     <button type="button" onclick="confirm('Are you sure?') ? location.href='{{ remove }}' : false"
-                                            class="btn btn-sm btn-danger">Remove</button>
+                                            class="btn btn-sm btn-danger">{{ 'label.remove' | translate }}</button>
                                 </td>
                             </tr>
                         {% endfor %}
@@ -38,20 +38,20 @@
                 <div class="card-footer">
                     <form method="post" action="/authority/process/role" class="form-inline my-2 my-lg-0 float-right">
                         <input class="form-control mr-sm-2 form-control-sm" type="text" name="name" placeholder="ROLE_NAME">
-                        <button class="btn btn-secondary btn-sm my-2 my-sm-0" type="submit">Create</button>
+                        <button class="btn btn-secondary btn-sm my-2 my-sm-0" type="submit">{{ 'label.create' | translate }}</button>
                     </form>
                 </div>
             </div>
         </div>
         <div class="col-lg-6">
             <div class="card border-light mb-3">
-                <div class="card-header">Privileges</div>
+                <div class="card-header">{{ 'label.privileges' | translate }}</div>
                 <div class="card-body">
                     <table class="table table-hover">
                         <thead>
                         <tr>
                             <th scope="col" class="min-vh-100">ID</th>
-                            <th scope="col">Name</th>
+                            <th scope="col">{{ 'label.name' | translate }}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -66,9 +66,9 @@
                                 </td>
                                 <td>
                                     <button type="button" onclick="document.forms['privilegeForm{{ privilege.id }}'].submit()"
-                                            class="btn btn-sm btn-info">Update</button>
+                                            class="btn btn-sm btn-info">{{ 'label.update' | translate }}</button>
                                     <button type="button" onclick="confirm('Are you sure?') ? location.href='{{ remove }}' : false"
-                                            class="btn btn-sm btn-danger">Remove</button>
+                                            class="btn btn-sm btn-danger">{{ 'label.remove' | translate }}</button>
                                 </td>
                             </tr>
                         {% endfor %}
@@ -78,7 +78,7 @@
                 <div class="card-footer">
                     <form method="post" action="/authority/process/privilege" class="form-inline my-2 my-lg-0 float-right">
                         <input class="form-control mr-sm-2 form-control-sm" type="text" name="name" placeholder="PRIVILEGE_NAME">
-                        <button class="btn btn-secondary btn-sm my-2 my-sm-0" type="submit">Create</button>
+                        <button class="btn btn-secondary btn-sm my-2 my-sm-0" type="submit">{{ 'label.create' | translate }}</button>
                     </form>
                 </div>
             </div>

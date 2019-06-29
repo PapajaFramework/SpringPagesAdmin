@@ -1,12 +1,12 @@
 {% extends '../layout/main.twig' %}
 {% set menu = 'index' %}
-{% block title %}Login Page{% endblock %}
+{% block title %}{{ 'label.authentication' | translate }}{% endblock %}
 {% block content %}
     <div class="row">
         <div class="col-lg-8 offset-lg-2">
             <div class="card border-primary mb-3">
                 <div class="card-header">
-                    <h4 class="text-center m-3">Authentication</h4>
+                    <h4 class="text-center m-3">{{ 'label.authentication' | translate }}</h4>
                 </div>
                 <div class="card-body">
                     <div class="row">
@@ -14,23 +14,23 @@
                             <form class="bs-component" method="post" action="/auth/login">
                                 <div class="form-group has-success">
                                     <label class="form-control-label" for="login">
-                                        Login
+                                        {{ 'label.login' | translate }}
                                     </label>
                                     <input name="username" type="text" placeholder="type login here" class="form-control" id="login">
                                 </div>
                                 <div class="form-group has-success">
                                     <label class="form-control-label" for="password">
-                                        Password
+                                        {{ 'label.password' | translate }}
                                     </label>
                                     <input name="password" type="password" placeholder="your secret password" class="form-control" id="password">
                                 </div>
                                 <div class="form-group has-success">
                                     <div class="custom-control custom-checkbox">
                                         <input type="checkbox" class="custom-control-input" name="remember-me" id="remember-me">
-                                        <label class="custom-control-label" for="remember-me">Remember me</label>
+                                        <label class="custom-control-label" for="remember-me">{{ 'label.rememberMe' | translate }}</label>
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-primary btn-block">Authenticate me!</button>
+                                <button type="submit" class="btn btn-primary btn-block">{{ 'label.enter' | translate }}</button>
                             </form>
                         </div>
                     </div>

@@ -38,12 +38,12 @@ abstract public class AbstractRepository<E extends AbstractEntity> {
         session().delete(entity);
     }
 
-    public void remove(Class<E> reflection, Integer id) {
-        remove(get(reflection, id));
+    public void remove(Integer id) {
+        remove(get(id));
     }
 
-    public E get(Class<E> reflection, Integer id) {
-        return session().get(reflection, id);
+    public E get(Integer id) {
+        return session().get(getReflection(), id);
     }
 
     public void refresh(E entity) {
@@ -62,32 +62,34 @@ abstract public class AbstractRepository<E extends AbstractEntity> {
         return session().createQuery(criteria);
     }
 
-    public List<E> getList(Class<E> reflection) {
-        return createQuery(reflection).getResultList();
+    public List<E> getList() {
+        return createQuery().getResultList();
     }
 
-    public Query<E> createQuery(Class<E> reflection) {
-        return session().createQuery(String.format("from %s", reflection.getSimpleName()));
+    public Query<E> createQuery() {
+        return session().createQuery(String.format("from %s", getReflection().getSimpleName()));
     }
 
     public E uniqueResult(CriteriaQuery<E> criteria) {
         return createQuery(criteria).uniqueResult();
     }
 
-    public E uniqueResult(Class<E> reflection) {
-        return createQuery(reflection).uniqueResult();
+    public E uniqueResult() {
+        return createQuery().uniqueResult();
     }
 
-    public List<E> getList(Class<E> reflection, Integer... ids) {
-        return getList(reflection, Arrays.asList(ids));
+    public List<E> getList(Integer... ids) {
+        return getList(Arrays.asList(ids));
     }
 
-    public List<E> getList(Class<E> reflection, List<Integer> ids) {
-        return getMultiAccessor(reflection).multiLoad(ids);
+    public List<E> getList(List<Integer> ids) {
+        return getMultiAccessor(getReflection()).multiLoad(ids);
     }
 
     public MultiIdentifierLoadAccess getMultiAccessor(Class<E> reflection) {
         return session().byMultipleIds(reflection);
     }
+
+    abstract public Class<E> getReflection();
 
 }

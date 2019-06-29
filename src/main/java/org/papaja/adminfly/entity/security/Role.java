@@ -5,6 +5,7 @@ import org.papaja.adminfly.entity.AbstractEntity;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,7 +15,7 @@ import java.util.stream.Collectors;
 @Table(name = "security_roles")
 public class Role extends AbstractEntity {
 
-    @NotBlank
+    @Size(min = 5, max = 16)
     @Column(name = "name")
     private String name;
 

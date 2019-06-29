@@ -1,16 +1,16 @@
 {% extends '../layout/main.twig' %}
 {% import '../macro/pagination.twig' as pagi %}
-{% block title %}Users List{% endblock %}
+{% block title %}{{ 'title.users' | translate }}{% endblock %}
 {% block content %}
     <div class="page-header mb-4">
-        <h1 id="tables">Users</h1>
+        <h1 id="tables">{{ 'title.users' | translate }}</h1>
     </div>
     <div class="row">
         <div class="col-lg-12">
             <div class="card border-light mb-3">
                 <div class="card-header">
                     <div class="btn-group btn-group-sm" role="group">
-                        <button onclick="location.href='/users/create'" type="button" class="btn btn-primary">Create</button>
+                        <button onclick="location.href='/users/create'" type="button" class="btn btn-primary">{{ 'label.create' | translate }}</button>
                     </div>
                 </div>
                 <div class="card-body">
@@ -18,10 +18,10 @@
                         <thead>
                         <tr>
                             <th scope="col" class="min-vh-100">ID</th>
-                            <th scope="col">Username</th>
-                            <th scope="col">Roles</th>
-                            <th scope="col" class="d-none d-md-table-cell">Status</th>
-                            <th scope="col" class="d-none d-lg-table-cell">Registered</th>
+                            <th scope="col">{{ 'label.name' | translate }}</th>
+                            <th scope="col">{{ 'label.roles' | translate }}</th>
+                            <th scope="col" class="d-none d-md-table-cell">{{ 'title.status' | translate }}</th>
+                            <th scope="col" class="d-none d-lg-table-cell">{{ 'label.registered' | translate }}</th>
                             <th scope="col" class="w-25"></th>
                         </tr>
                         </thead>
@@ -38,9 +38,9 @@
                                 </td>
                                 <td class="d-none d-md-table-cell">
                                     {% if user.enabled %}
-                                        <span class="badge badge-pill badge-success">Enabled</span>
+                                        <span class="badge badge-pill badge-success">{{ 'label.enabled' | translate }}</span>
                                     {% else %}
-                                        <span class="badge badge-pill badge-danger">Disabled</span>
+                                        <span class="badge badge-pill badge-danger">{{ 'label.disabled' | translate }}</span>
                                     {% endif %}
                                 </td>
                                 <td class="d-none d-lg-table-cell">
@@ -48,7 +48,7 @@
                                 </td>
                                 <td class="text-lg-right">
                                     <div class="btn-group btn-group-sm" role="group">
-                                        <button type="button" onclick="location.href='{{ edit }}'" class="btn btn-sm btn-primary">Edit</button>
+                                        <button type="button" onclick="location.href='{{ edit }}'" class="btn btn-sm btn-primary">{{ 'label.edit' | translate }}</button>
                                     </div>
                                 </td>
                             </tr>
