@@ -34,7 +34,7 @@ public class DomainService {
     }
 
     public void remove(Integer id) {
-        repository.remove(Domain.class, id);
+        repository.remove(id);
     }
 
     public void remove(Domain entity) {
@@ -44,7 +44,7 @@ public class DomainService {
     public Domain getDomain(Integer id) {
         boolean isValid = (nonNull(id) && id > 0);
 
-        return isValid ? repository.getDomain(id) : new Domain();
+        return isValid ? repository.get(id) : new Domain();
     }
 
 }

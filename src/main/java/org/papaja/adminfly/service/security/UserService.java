@@ -2,7 +2,7 @@ package org.papaja.adminfly.service.security;
 
 import org.papaja.adminfly.core.hibernate.Pagination;
 import org.papaja.adminfly.entity.security.User;
-import org.papaja.adminfly.mapper.UserMapper;
+import org.papaja.adminfly.mapper.security.UserMapper;
 import org.papaja.adminfly.dto.security.UserDto;
 import org.papaja.adminfly.repository.security.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

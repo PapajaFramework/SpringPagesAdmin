@@ -10,11 +10,15 @@ import java.util.List;
 public class PrivilegeRepository extends AbstractRepository<Privilege> {
 
     public List<Privilege> getPrivileges() {
-        return getList(Privilege.class);
+        return getList();
     }
 
     public List<Privilege> getPrivileges(List<Integer> ids) {
-        return getList(Privilege.class, ids);
+        return getList(ids);
     }
 
+    @Override
+    public Class<Privilege> getReflection() {
+        return Privilege.class;
+    }
 }

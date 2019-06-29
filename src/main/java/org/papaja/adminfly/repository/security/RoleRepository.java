@@ -10,15 +10,19 @@ import java.util.List;
 public class RoleRepository extends AbstractRepository<Role> {
 
     public List<Role> getRoles() {
-        return getList(Role.class);
+        return getList();
     }
 
     public List<Role> getRoles(List<Integer> ids) {
-        return getList(Role.class, ids);
+        return getList(ids);
     }
 
     public Role getRole(Integer id) {
-        return session().get(Role.class, id);
+        return get(id);
     }
 
+    @Override
+    public Class<Role> getReflection() {
+        return Role.class;
+    }
 }

@@ -106,7 +106,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public MessageSource messageSource() {
         ResourceBundleMessageSource source = new ResourceBundleMessageSource();
 
-        source.addBasenames("locale/messages/messages", "locale/system/main");
+        source.addBasenames(
+            "locale/messages/messages", "locale/system/title",
+            "locale/system/label", "locale/system/text"
+        );
         source.setFallbackToSystemLocale(true);
         source.setDefaultEncoding("UTF-8");
 

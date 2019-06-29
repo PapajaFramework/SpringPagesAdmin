@@ -7,11 +7,11 @@
     {% endif %}
     {{ result }}
 {% endmacro %}
-{% macro ifError(source, name, value) %}
-    {% if source.hasFieldErrors(name) %}{{ value }}{% endif %}
-{% endmacro %}
 {% macro error(source, name) %}
     {% import _self as fields %}
     {% set text = '<div class="invalid-feedback">' ~ fields.text(source, name) ~ '</div>' %}
     {{ fields.ifError(source, name, text) }}
+{% endmacro %}
+{% macro ifError(source, name, value) %}
+    {% if source.hasFieldErrors(name) %}{{ value }}{% endif %}
 {% endmacro %}

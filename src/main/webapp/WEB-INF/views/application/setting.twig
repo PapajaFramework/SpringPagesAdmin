@@ -1,0 +1,21 @@
+{% extends '../layout/main.twig' %}
+{% block title %}{{ 'title.setting' | translate }}{% endblock %}
+{% block content %}
+    <div class="page-header mb-4">
+        <h1 id="tables">{{ 'title.setting' | translate }}</h1>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card border-light mb-3">
+                <div class="card-header">{{ 'label.language' | translate }}</div>
+                <div class="card-body">
+                    <ul>
+                        <li><a href="{{ uri }}?_locale=ua">Українська</a></li>
+                        <li><a href="{{ uri }}?_locale=en">English</a></li>
+                        <li><a href="{{ uri }}?_locale=ru">Кацапська</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

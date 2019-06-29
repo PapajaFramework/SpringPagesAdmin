@@ -2,7 +2,7 @@ package org.papaja.adminfly.service.security;
 
 import org.papaja.adminfly.dto.security.RoleDto;
 import org.papaja.adminfly.entity.security.Role;
-import org.papaja.adminfly.mapper.RoleMapper;
+import org.papaja.adminfly.mapper.security.RoleMapper;
 import org.papaja.adminfly.repository.security.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -53,7 +53,7 @@ public class RoleService {
     }
 
     public void remove(Integer id) {
-        repository.remove(Role.class, id);
+        repository.remove(id);
     }
 
     public void remove(Role entity) {

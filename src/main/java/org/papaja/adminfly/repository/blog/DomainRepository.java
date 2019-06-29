@@ -10,15 +10,19 @@ import java.util.List;
 public class DomainRepository extends AbstractRepository<Domain> {
 
     public List<Domain> getDomains() {
-        return getList(Domain.class);
+        return getList();
     }
 
     public List<Domain> getDomains(List<Integer> ids) {
-        return getList(Domain.class, ids);
+        return getList(ids);
     }
 
     public Domain getDomain(Integer id) {
-        return session().get(Domain.class, id);
+        return get(id);
     }
 
+    @Override
+    public Class<Domain> getReflection() {
+        return Domain.class;
+    }
 }

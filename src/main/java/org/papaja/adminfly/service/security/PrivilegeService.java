@@ -31,7 +31,7 @@ public class PrivilegeService {
     }
 
     public void remove(Integer id) {
-        repository.remove(Privilege.class, id);
+        repository.remove(id);
     }
 
     public void remove(Privilege privilege) {

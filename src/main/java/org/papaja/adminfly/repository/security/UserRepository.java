@@ -15,8 +15,8 @@ public class UserRepository extends AbstractRepository<User> {
 
     public User getUser(String name) {
         CriteriaBuilder     builder = criteriaBuilder();
-        CriteriaQuery<User> query   = builder.createQuery(User.class);
-        Root<User>          root    = query.from(User.class);
+        CriteriaQuery<User> query   = builder.createQuery(getReflection());
+        Root<User>          root    = query.from(getReflection());
 
         query.select(root);
         query.where(builder.equal(root.get("username"), name));
@@ -25,15 +25,19 @@ public class UserRepository extends AbstractRepository<User> {
     }
 
     public User getUser(Integer id) {
-        return session().get(User.class, id);
+        return get(id);
     }
 
     public List<User> getUsers() {
-        return getList(User.class);
+        return getList();
     }
 
     public Query<User> getUsersQuery() {
-        return createQuery(User.class);
+        return createQuery();
     }
 
+    @Override
+    public Class<User> getReflection() {
+        return User.class;
+    }
 }

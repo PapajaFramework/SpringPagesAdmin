@@ -1,11 +1,15 @@
 package org.papaja.adminfly.dto.security;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 public class RoleDto {
 
     private Integer id;
 
+    @NotBlank(message = "{validation.notBlank}")
+    @Size(min = 4, max = 16, message = "{validation.size}")
     private String name;
 
     private List<Integer> privileges;

@@ -11,17 +11,18 @@ import java.util.List;
 
 @Repository
 @Transactional
-public class PostRepository extends AbstractRepository {
-
-    @Autowired
-    private SessionFactory factory;
+public class PostRepository extends AbstractRepository<Post> {
 
     public List<Post> getPosts() {
-        return session().createQuery("from Post").getResultList();
+        return getList();
     }
 
     public Post getPost(Integer id) {
-        return session().get(Post.class, id);
+        return get(id);
     }
 
+    @Override
+    public Class<Post> getReflection() {
+        return Post.class;
+    }
 }

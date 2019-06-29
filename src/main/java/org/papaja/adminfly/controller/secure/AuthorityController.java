@@ -1,5 +1,6 @@
 package org.papaja.adminfly.controller.secure;
 
+import org.papaja.adminfly.dto.security.RoleDto;
 import org.papaja.adminfly.entity.security.Privilege;
 import org.papaja.adminfly.entity.security.Role;
 import org.papaja.adminfly.service.security.PrivilegeService;
@@ -10,9 +11,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -74,45 +72,31 @@ public class AuthorityController {
         //        privilege.setName(privilege.getName().toUpperCase());
         //        privileges.store(privilege);
 
-        System.out.println(dto);
-        System.out.println(result.hasErrors());
-        System.out.println(result.getAllErrors());
-
         attributes.addFlashAttribute("result", result);
-
-        for (FieldError name : result.getFieldErrors("name")) {
-            System.out.println("++++++++++++");
-            System.out.println(name.getField());
-            System.out.println(name.getDefaultMessage());
-            System.out.println("-----------");
-        }
-        //
-        //        for (FieldError fieldError : result.getFieldErrors()) {
-        //            System.out.println("++++++++++++");
-        //            System.out.println(fieldError.getField());
-        //            System.out.println(fieldError.getDefaultMessage());
-        //            System.out.println("-----------");
-        //        }
-
-        //        attributes.addFlashAttribute("message", String.format("Privilege '%s' was successfully saved", privilege.getName()));
 
         return "redirect:/authority";
     }
 
     @RequestMapping(value = {"/process/role/{id:[0-9]+}", "/process/role"}, method = RequestMethod.POST)
-    //@PreAuthorize("hasAuthority('SECURITY')")
-    public String roles(
-        @PathVariable(value = "id", required = false) Integer id, @ModelAttribute @Validated Role dto, RedirectAttributes attributes, BindingResult result
+    @PreAuthorize("hasAuthority('SECURITY')")
+    public ModelAndView roles(
+        @PathVariable(value = "id") Integer id, @Valid RoleDto dto, BindingResult result, RedirectAttributes attributes
     ) {
-        Role role = roles.getRole(id);
+        ModelAndView view = new ModelAndView("redirect:/authority");
 
-        System.out.println(result.hasErrors());
-        System.out.println(result.getAllErrors());
+        if (!result.hasErrors()) {
+            Role role = roles.getRole(id);
+            roles.store(dto, role);
+            attributes.addFlashAttribute("message", String.format("Role '%s' was successfully saved", dto.getName()));
+        } else {
+            view.setViewName("authority/role/form");
+            view.addObject("role", roles.getRole(id));
+            view.addObject("privileges", privileges.getPrivileges());
+            view.addObject("result", result);
+        }
 
-        //        roles.store(dto, role);
-        attributes.addFlashAttribute("message", String.format("Role '%s' was successfully saved", dto.getName()));
 
-        return "redirect:/authority";
+        return view;
     }
 
 }
