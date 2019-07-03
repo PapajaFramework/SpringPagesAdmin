@@ -1,9 +1,23 @@
-(function(){
+(function () {
 
     $('.navbar-nav .nav-link').each(function () {
-        if (this.getAttribute('href').split('/')[1] == location.pathname.split('/')[1]) {
-            $(this).addClass('active');
+        let link = $(this);
+        let href = link.attr('href');
+        let current = location.pathname;
+
+        if (href !== undefined) {
+            if (href.split('/')[1] === current.split('/')[1]) {
+                link.addClass('active');
+            }
         }
+    });
+
+    ClassicEditor.create(document.querySelector('.editor'), {
+        language: window.localeName
+    }).then(editor => {
+        window.editor = editor;
+    }).catch(error => {
+        console.error(error.stack);
     });
 
 })();

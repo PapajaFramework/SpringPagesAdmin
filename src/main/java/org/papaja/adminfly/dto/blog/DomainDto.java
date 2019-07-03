@@ -21,6 +21,14 @@ public class DomainDto {
         return domain;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDomain(String domain) {
+        this.domain = domain;
+    }
+
     @Override
     public String toString() {
         return String.format("DomainDto{name='%s', domain='%s'}", name, domain);

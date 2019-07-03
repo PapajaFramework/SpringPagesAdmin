@@ -35,7 +35,7 @@
                     </table>
                 </div>
                 <div class="card-footer">
-                    <form method="post" action="/domains/process" class="form-inline my-2 my-lg-0 float-right">
+                    <form method="post" action="/domains" class="form-inline my-2 my-lg-0 float-right">
                         <input class="form-control mr-sm-2 form-control-sm" type="text" name="name"
                                placeholder="name">
                         <input class="form-control mr-sm-2 form-control-sm" type="text" name="domain"
@@ -46,9 +46,9 @@
             </div>
         </div>
         <div class="col-lg-6">
-            <form action="/domains/{{ entity.id }}" method="post">
+            <form action="/domains{% if not empty(entity.id) %}/{{ entity.id }}{% endif %}" method="post">
                 <div class="card border-light mb-3">
-                    <div class="card-header">{{ 'label.domain' | translate }}</div>
+                    <div class="card-header">{{ 'label.editing' | translate }}</div>
                     <div class="card-body">
                         <div class="form-group">
                             <label for="domainName">{{ 'label.name' | translate }}</label>
