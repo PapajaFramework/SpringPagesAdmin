@@ -19,6 +19,7 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -134,6 +135,15 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
         return interceptor;
 
+    }
+
+    @Bean(name = "multipartResolver")
+    public CommonsMultipartResolver multipartResolver() {
+        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+
+        multipartResolver.setMaxUploadSize(Integer.valueOf(environment.getProperty("app.file.upload.maxSize")));
+
+        return multipartResolver;
     }
 
 

@@ -38,19 +38,23 @@ public class DomainController {
         return "domains/list";
     }
 
-    @RequestMapping(value = {"/{id:[0-9]+}"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/{id:[0-9]+}", ""}, method = RequestMethod.POST)
     public ModelAndView process(
-        @PathVariable(value = "id") Integer id, @Valid DomainDto dto, BindingResult result,
-        RedirectAttributes attributes
+        @PathVariable(value = "id", required = false) Integer id,
+        @Valid DomainDto dto, BindingResult result, RedirectAttributes attributes
     ) {
-        ModelAndView view = new ModelAndView("redirect:/domains/all");
+        ModelAndView view   = new ModelAndView("redirect:/domains/all");
+        Domain       domain = domains.getDomain(id);
 
-        System.out.println(dto);
+        mapper.map(dto, domain);
 
         if (!result.hasErrors()) {
+            domains.merge(domain);
             attributes.addFlashAttribute("message",
-                String.format("Domain '%s' was successfully saved", dto.getDomain()));
+                String.format("Domain '%s' with name '%s' was successfully saved", domain.getDomain(), domain.getName()));
         } else {
+            view.addObject("entity", domain);
+            view.addObject("domains", domains.getDomains());
             view.addObject("result", result);
             view.setViewName("domains/list");
         }

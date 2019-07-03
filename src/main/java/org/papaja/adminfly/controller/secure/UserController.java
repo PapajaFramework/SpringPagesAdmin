@@ -10,7 +10,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -59,19 +58,20 @@ public class UserController {
         return model;
     }
 
-    @RequestMapping(value = "/{id:[0-9]+}", method = RequestMethod.POST)
+    @RequestMapping(value = {"/process/{id:[0-9]+}", "/process"}, method = RequestMethod.POST)
     @PreAuthorize("hasAuthority('SECURITY')")
     public ModelAndView process(
-        @PathVariable("id") Integer id, @Valid UserDto dto, BindingResult result, RedirectAttributes attributes
+        @PathVariable(value = "id", required = false) Integer id,
+        @Valid UserDto dto, BindingResult result, RedirectAttributes attributes
     ) {
-        ModelAndView view = new ModelAndView("redirect:/users");
-        User entity = users.getUser(id);
+        ModelAndView view   = new ModelAndView("redirect:/users");
+        User         entity = users.getUser(id);
 
         if (!result.hasErrors()) {
-            users.store(dto, entity);
-            attributes.addFlashAttribute("message",
-                String.format("User '%s' was successfully saved!", entity.getUsername()));
+            users.merge(dto, entity);
+            attributes.addFlashAttribute("message", String.format("User '%s' was successfully saved!", entity.getUsername()));
         } else {
+            System.out.println(result);
             view.addObject("result", result);
             view.addObject("user", Optional.ofNullable(entity).orElseGet(User::new));
             view.addObject("roles", roles.getRoles());

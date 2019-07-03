@@ -1,0 +1,58 @@
+{% extends '../layout/main.twig' %}
+{% import '../macro/fields.twig' as fields %}
+{% block title %}{{ 'label.categories' | translate }}{% endblock %}
+{% block content %}
+    <div class="page-header mb-4">
+        <h1 id="tables">{{ 'label.categories' | translate }}: <b>{{ domain.name }}</b></h1>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card border-light mb-3">
+                {% include 'partials/posts-header-buttons.twig' %}
+                <div class="card-body">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th scope="col" class="min-vh-100">ID</th>
+                            <th scope="col">{{ 'label.name' | translate }}</th>
+                            <th scope="col"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            {% for category in categories %}
+                                <tr>
+                                    {% set edit = '/posts/categories/edit/' ~ category.id %}
+                                    <td>{{ category.id }}</td>
+                                    <td>{{ category.name }}</td>
+                                    <td class="text-right">
+                                        <button type="button" onclick="location.href='{{ edit }}'"
+                                                class="btn btn-sm btn-primary">{{ 'label.edit' | translate }}</button>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            {% set category = null %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <form action="/posts/categories/process{% if not empty(entity.id) %}/{{ entity.id }}{% endif %}" method="post">
+                <div class="card border-light mb-3">
+                    <div class="card-header">{{ 'label.editing' | translate }}</div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="categoryCategory">{{ 'label.category' | translate }}</label>
+                            <input type="text" class="form-control {{ fields.ifError(result, 'name', 'is-invalid') }}"
+                                   id="categoryCategory" name="name" value="{{ entity.name }}">
+                            {{ fields.error(result, 'name') }}
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-secondary btn-sm my-2 my-sm-0" type="submit">{{ 'label.save' | translate }}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

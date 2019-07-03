@@ -1,5 +1,5 @@
 {% import '../../../macro/flash.twig' as flash %}
 {% import '../../../macro/fields.twig' as fields %}
 {% if message is defined %}
-    {{ flash.info(message, 'Information!') }}
+    {{ flash.info(message, 'label.flash.info' | translate) }}
 {% endif %}

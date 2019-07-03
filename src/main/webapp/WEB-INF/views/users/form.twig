@@ -5,7 +5,7 @@
     <div class="page-header mb-4">
         <h1 id="tables">{% if empty(user.id) %}{{ 'label.creation' | translate }}{% else %}{{ 'label.updating' | translate }} [{{ user.username }}]{% endif %}</h1>
     </div>
-    <form method="post" action="/users/{% if empty(user.id) %}0{% else %}{{ user.id }}{% endif %}">
+    <form method="post" action="/users/process{% if not empty(user.id) %}/{{ user.id }}{% endif %}">
         <div class="row">
             <div class="col-lg-6">
                 <div class="card bg-light mb-3">
@@ -23,14 +23,14 @@
                                 <label for="userName">{{ 'label.name' | translate }}</label>
                                 <input name="username" type="text" class="form-control" readonly id="userName"
                                        value="{{ user.username }}">
+                                {{ fields.error(result, 'username') }}
                             </div>
                             <input type="hidden" name="id" value="{{ user.id }}">
                         {% endif %}
                         <div class="form-group">
                             <label for="userName">{{ 'label.password' | translate }}</label>
                             <input name="password" type="password" class="form-control" id="userPassword"
-                                   placeholder="password" readonly
-                                   onfocus="this.removeAttribute('readonly');">
+                                   placeholder="password">
                         </div>
                         <div class="form-group">
                             <div class="custom-control custom-switch">

@@ -300,7 +300,13 @@ a.btn:hover {
     border-radius: .25rem;
 }
 
+.navbar-brand {
+    font-family: Comfortaa, monospace;
+}
+
 img.brand-logo{
     display: inline-block;
     width: 30px;
 }
+
+*[bootstrap="wysiwyg"] {overflow:scroll; max-height:300px}

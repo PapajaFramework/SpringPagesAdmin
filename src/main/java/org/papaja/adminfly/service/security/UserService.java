@@ -34,17 +34,17 @@ public class UserService {
         return Pagination.of(repository.getUsersQuery(), offset, MAX_RESULT_PER_PAGE);
     }
 
-    public void store(UserDto dto, User entity) {
+    public void merge(UserDto dto, User entity) {
         mapper.map(dto, entity);
 
         if (entity.isOld()) {
             entity.setRoles(roles.getRoles(dto.getRoles()));
         }
 
-        store(entity);
+        merge(entity);
     }
 
-    public void store(User user) {
+    public void merge(User user) {
         repository.merge(user);
     }
 

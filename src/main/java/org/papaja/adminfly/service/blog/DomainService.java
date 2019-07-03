@@ -1,11 +1,13 @@
 package org.papaja.adminfly.service.blog;
 
+import org.papaja.adminfly.config.properties.BlogProperties;
 import org.papaja.adminfly.entity.blog.Domain;
 import org.papaja.adminfly.repository.blog.DomainRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpSession;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -18,6 +20,12 @@ public class DomainService {
 
     @Autowired
     private DomainRepository repository;
+
+    @Autowired
+    private BlogProperties properties;
+
+    @Autowired
+    private HttpSession session;
 
     public List<Domain> getDomains() {
         return repository.getDomains();
@@ -41,10 +49,30 @@ public class DomainService {
         repository.remove(entity);
     }
 
+    public void merge(Domain domain) {
+        repository.merge(domain);
+    }
+
     public Domain getDomain(Integer id) {
         boolean isValid = (nonNull(id) && id > 0);
 
         return isValid ? repository.get(id) : new Domain();
+    }
+
+    public void setActiveDomain(Integer id) {
+        setActiveDomain(getDomain(id));
+    }
+
+    public void setActiveDomain(Domain domain) {
+        session.setAttribute(properties.getSessionName(), domain.getId());
+    }
+
+    public boolean hasActiveDomain() {
+        return getActiveDomain().isOld();
+    }
+
+    public Domain getActiveDomain() {
+        return getDomain((Integer) session.getAttribute(properties.getSessionName()));
     }
 
 }

@@ -70,7 +70,7 @@ public class AuthorityController {
     @RequestMapping(value = {"/process/privilege/{id:[0-9]+}", "/process/privilege"}, method = RequestMethod.POST)
     public String privileges(@Valid Privilege dto, final BindingResult result, RedirectAttributes attributes) {
         //        privilege.setName(privilege.getName().toUpperCase());
-        //        privileges.store(privilege);
+        //        privileges.merge(privilege);
 
         attributes.addFlashAttribute("result", result);
 
@@ -80,7 +80,8 @@ public class AuthorityController {
     @RequestMapping(value = {"/process/role/{id:[0-9]+}", "/process/role"}, method = RequestMethod.POST)
     @PreAuthorize("hasAuthority('SECURITY')")
     public ModelAndView roles(
-        @PathVariable(value = "id") Integer id, @Valid RoleDto dto, BindingResult result, RedirectAttributes attributes
+        @PathVariable(value = "id", required = false) Integer id,
+        @Valid RoleDto dto, BindingResult result, RedirectAttributes attributes
     ) {
         ModelAndView view = new ModelAndView("redirect:/authority");
 
@@ -94,7 +95,6 @@ public class AuthorityController {
             view.addObject("privileges", privileges.getPrivileges());
             view.addObject("result", result);
         }
-
 
         return view;
     }

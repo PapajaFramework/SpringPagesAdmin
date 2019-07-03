@@ -3,6 +3,7 @@ package org.papaja.adminfly.entity.blog;
 import org.papaja.adminfly.entity.AbstractEntity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "blog_categories")
@@ -12,6 +13,7 @@ public class Category extends AbstractEntity {
     @JoinColumn(name="domain_id")
     private Domain domain;
 
+    @NotBlank(message = "{validation.notBlank}")
     @Column(name = "name")
     private String name;
 

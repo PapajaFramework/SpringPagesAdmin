@@ -20,7 +20,7 @@ public class Post extends AbstractEntity {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "body", columnDefinition = "TEXT")
+    @Column(name = "body", columnDefinition = "MEDIUMTEXT")
     private String body;
 
     @Column(name = "views")
