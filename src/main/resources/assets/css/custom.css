@@ -309,4 +309,8 @@ img.brand-logo{
     width: 30px;
 }
 
+a.dropdown-item img {
+    width: 38px;
+}
+
 *[bootstrap="wysiwyg"] {overflow:scroll; max-height:300px}

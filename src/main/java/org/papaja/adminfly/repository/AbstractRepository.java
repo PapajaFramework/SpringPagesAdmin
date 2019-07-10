@@ -34,6 +34,10 @@ abstract public class AbstractRepository<E extends AbstractEntity> {
         session().merge(entity);
     }
 
+    public void flush() {
+        session().flush();
+    }
+
     public void remove(E entity) {
         session().delete(entity);
     }

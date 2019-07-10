@@ -7,7 +7,9 @@ import org.hibernate.query.Query;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings({"unused"})
+import static java.util.Objects.nonNull;
+
+@SuppressWarnings({"unused", "unchecked"})
 public class Pagination<E> {
 
     private int     current;
@@ -31,18 +33,26 @@ public class Pagination<E> {
 
     private void processQuery(Query<E> query) {
         int               limit  = getLimit();
+        int               total  = 0;
         ScrollableResults scroll = query.scroll(ScrollMode.SCROLL_INSENSITIVE);
 
-        scroll.first();
-        scroll.scroll(this.offset);
+        if (scroll.first()) {
+            scroll.scroll(this.offset);
 
-        do {
-            this.result.add((E) scroll.get(0));
-        } while (--limit > 0 && scroll.next());
+            do {
+                E item = (E) scroll.get(0);
 
-        scroll.last();
+                if (nonNull(item)) {
+                    this.result.add(item);
+                }
+            } while (--limit > 0 && scroll.next());
 
-        this.total = scroll.getRowNumber() + 1;
+            scroll.last();
+
+            total = scroll.getRowNumber() + 1;
+        }
+
+        this.total = total;
     }
 
     public int getCurrent() {
@@ -65,4 +75,9 @@ public class Pagination<E> {
         return result;
     }
 
+    @Override
+    public String toString() {
+        return String.format("Pagination{current=%d, limit=%d, offset=%d, total=%d, result=%s}",
+            current, limit, offset, total, result);
+    }
 }

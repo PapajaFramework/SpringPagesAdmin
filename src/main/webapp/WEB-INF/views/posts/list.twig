@@ -1,5 +1,5 @@
 {% extends '../layout/main.twig' %}
-{#{% import '../macro/pagination.twig' as pagination %}#}
+{% import '../macro/pagination.twig' as pagination %}
 {% block title %}{{ 'title.posts' | translate }}{% endblock %}
 {% block content %}
     <div class="page-header mb-4">
@@ -15,18 +15,36 @@
                         <tr>
                             <th scope="col" class="min-vh-100">ID</th>
                             <th scope="col">{{ 'label.name' | translate }}</th>
-                            <th scope="col">{{ 'label.roles' | translate }}</th>
+                            <th scope="col">{{ 'label.category' | translate }}</th>
                             <th scope="col" class="d-none d-md-table-cell">{{ 'title.status' | translate }}</th>
-                            <th scope="col" class="d-none d-lg-table-cell">{{ 'label.registered' | translate }}</th>
                             <th scope="col" class="w-25"></th>
                         </tr>
                         </thead>
                         <tbody>
+                        {% for post in result.result %}
+                            {% set edit = '/posts/edit/' ~ post.id %}
+                            <tr>
+                                <td>{{ post.id }}</td>
+                                <td>{{ post.title }}</td>
+                                <td>{{ post.category.name }}</td>
+                                <td>
+                                    {% if post.enabled %}
+                                        <span class="badge badge-pill badge-success">{{ 'label.enabled' | translate }}</span>
+                                    {% else %}
+                                        <span class="badge badge-pill badge-danger">{{ 'label.disabled' | translate }}</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <button type="button" onclick="location.href='{{ edit }}'"
+                                            class="btn btn-sm btn-primary">{{ 'label.edit' | translate }}</button>
+                                </td>
+                            </tr>
+                        {% endfor %}
                         </tbody>
                     </table>
                 </div>
                 <div class="card-footer">
-                    {#{{ pagination.pagination(pagination.total, pagination.limit, pagination.current, '/users?page=') }}#}
+                    {{ pagination.pagination(result.total, result.limit, result.current, '/posts/all?page=') }}
                 </div>
             </div>
 

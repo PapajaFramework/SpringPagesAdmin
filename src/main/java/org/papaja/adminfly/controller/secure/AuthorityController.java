@@ -1,12 +1,14 @@
 package org.papaja.adminfly.controller.secure;
 
+import org.papaja.adminfly.controller.AbstractController;
 import org.papaja.adminfly.dto.security.RoleDto;
 import org.papaja.adminfly.entity.security.Privilege;
 import org.papaja.adminfly.entity.security.Role;
 import org.papaja.adminfly.service.security.PrivilegeService;
 import org.papaja.adminfly.service.security.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,8 +23,7 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/authority")
-@Secured("ROLE_ADMIN")
-public class AuthorityController {
+public class AuthorityController extends AbstractController {
 
     @Autowired
     private PrivilegeService privileges;
@@ -30,6 +31,10 @@ public class AuthorityController {
     @Autowired
     private RoleService roles;
 
+    @Autowired
+    private MessageSource ms;
+
+    @PreAuthorize("hasAuthority('READ')")
     @RequestMapping(method = RequestMethod.GET)
     public String list(Model model) {
         model.addAttribute("roles", roles.getRoles());
@@ -39,6 +44,7 @@ public class AuthorityController {
     }
 
     @RequestMapping(value = "/role/edit/{id:[0-9]+}", method = RequestMethod.GET)
+    @PreAuthorize("hasAnyAuthority('SECURITY')")
     public ModelAndView edit(@PathVariable("id") Integer id) {
         ModelAndView model = new ModelAndView("authority/role/form");
 
@@ -48,8 +54,8 @@ public class AuthorityController {
         return model;
     }
 
-    @RequestMapping(value = "/{entity:[a-z]+}/remove/{id:[0-9]+}", method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('SECURITY')")
+    @RequestMapping(value = "/{entity:[a-z]+}/remove/{id:[0-9]+}", method = RequestMethod.GET)
     public String remove(
         @PathVariable("entity") String name, @PathVariable("id") Integer id, RedirectAttributes attributes
     ) {
@@ -62,33 +68,38 @@ public class AuthorityController {
                 break;
         }
 
-        attributes.addFlashAttribute("message", String.format("Record '%s' with ID: %d was successfully removed", name, id));
+        attributes.addFlashAttribute("message", getMessage("authority.removed", name, id));
 
         return "redirect:/authority";
     }
 
-    @RequestMapping(value = {"/process/privilege/{id:[0-9]+}", "/process/privilege"}, method = RequestMethod.POST)
-    public String privileges(@Valid Privilege dto, final BindingResult result, RedirectAttributes attributes) {
-        //        privilege.setName(privilege.getName().toUpperCase());
-        //        privileges.merge(privilege);
-
-        attributes.addFlashAttribute("result", result);
-
-        return "redirect:/authority";
-    }
-
-    @RequestMapping(value = {"/process/role/{id:[0-9]+}", "/process/role"}, method = RequestMethod.POST)
     @PreAuthorize("hasAuthority('SECURITY')")
+    @RequestMapping(value = {"/process/privilege/{id:[0-9]+}", "/process/privilege"}, method = RequestMethod.POST)
+    public String privileges(
+        @PathVariable(value = "id", required = false) Integer id, @Valid Privilege privilege, final BindingResult result, RedirectAttributes attributes
+    ) {
+        if (result.hasErrors()) {
+            attributes.addFlashAttribute("id", id);
+            attributes.addFlashAttribute("result", result);
+        } else {
+            privilege.setName(privilege.getName().toUpperCase());
+            privileges.merge(privilege);
+        }
+
+        return "redirect:/authority";
+    }
+
+    @PreAuthorize("hasAuthority('SECURITY')")
+    @RequestMapping(value = {"/process/role/{id:[0-9]+}", "/process/role"}, method = RequestMethod.POST)
     public ModelAndView roles(
-        @PathVariable(value = "id", required = false) Integer id,
-        @Valid RoleDto dto, BindingResult result, RedirectAttributes attributes
+        @PathVariable(value = "id", required = false) Integer id, @Valid RoleDto dto, BindingResult result, RedirectAttributes attributes
     ) {
         ModelAndView view = new ModelAndView("redirect:/authority");
 
         if (!result.hasErrors()) {
             Role role = roles.getRole(id);
             roles.store(dto, role);
-            attributes.addFlashAttribute("message", String.format("Role '%s' was successfully saved", dto.getName()));
+            attributes.addFlashAttribute("message", getMessage("authority.role.saved", dto.getName()));
         } else {
             view.setViewName("authority/role/form");
             view.addObject("role", roles.getRole(id));

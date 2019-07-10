@@ -1,7 +1,6 @@
 package org.papaja.adminfly.controller.secure;
 
 import org.papaja.adminfly.data.SystemInformation;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,8 +10,12 @@ import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/application")
-@Secured("ROLE_ADMIN")
 public class ApplicationController {
+
+    @RequestMapping
+    public String redirect() {
+        return "redirect:/application/status";
+    }
 
     @RequestMapping("/status")
     public void status(Model model) {
@@ -27,8 +30,8 @@ public class ApplicationController {
         return "redirect:/application/status";
     }
 
+    @PreAuthorize("hasAuthority('READ')")
     @RequestMapping("/setting")
-    @PreAuthorize("hasAuthority('SYSTEM')")
     public void setting(HttpServletRequest request, Model model) {
         model.addAttribute("uri", request.getRequestURI());
     }

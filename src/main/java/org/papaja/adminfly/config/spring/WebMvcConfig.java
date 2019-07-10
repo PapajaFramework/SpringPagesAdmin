@@ -13,7 +13,6 @@ import org.jtwig.translate.spring.SpringTranslateExtensionConfiguration;
 import org.jtwig.web.servlet.JtwigRenderer;
 import org.papaja.adminfly.core.jtwig.extension.SpringFieldsExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
@@ -41,7 +40,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     private static final Charset UTF8 = Charset.forName("UTF-8");
 
-    private Environment      environment;
+    private Environment environment;
 
     @Autowired
     public WebMvcConfig(Environment environment) {
@@ -50,16 +49,15 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Bean
     public JtwigViewResolver viewResolver() {
-        EnvironmentConfigurationBuilder       builder   = EnvironmentConfigurationBuilder.configuration();
-        JtwigViewResolver                     resolver  = new JtwigViewResolver();
-        SpringTranslateExtensionConfiguration translate = SpringTranslateExtensionConfiguration
-                .builder(messageSource()).withLocaleResolver(localeResolver()).build();
+        EnvironmentConfigurationBuilder builder  = EnvironmentConfigurationBuilder.configuration();
+        JtwigViewResolver               resolver = new JtwigViewResolver();
+        SpringTranslateExtensionConfiguration translate = SpringTranslateExtensionConfiguration.builder(messageSource()).withLocaleResolver(localeResolver()).build();
 
         builder.extensions()
-                .add(new SpringAssetExtension())
-                .add(new SpringFieldsExtension())
-                .add(new RenderExtension())
-                .add(new SpringTranslateExtension(translate));
+            .add(new SpringAssetExtension())
+            .add(new SpringFieldsExtension())
+            .add(new RenderExtension())
+            .add(new SpringTranslateExtension(translate));
 
         builder.render().withOutputCharset(UTF8);
         builder.resources().withDefaultInputCharset(UTF8);
@@ -74,12 +72,39 @@ public class WebMvcConfig implements WebMvcConfigurer {
     }
 
     @Bean
+    public ResourceBundleMessageSource messageSource() {
+        ResourceBundleMessageSource source = new ResourceBundleMessageSource();
+
+        source.addBasenames("locale/messages/messages", "locale/system/title",
+            "locale/system/label", "locale/system/text", "locale/system/flash");
+        source.setFallbackToSystemLocale(true);
+        source.setDefaultEncoding("UTF-8");
+
+        return source;
+    }
+
+    @Bean
+    public LocaleResolver localeResolver() {
+        CookieLocaleResolver resolver = new CookieLocaleResolver();
+
+        resolver.setDefaultLocale(Locale.forLanguageTag(environment.getProperty("app.locale.defaultLocale").replace('_', '-')));
+        resolver.setCookieName(environment.getProperty("app.locale.cookieName"));
+
+        return resolver;
+    }
+
+    @Bean
     public AssetResolver assetResolver() {
         BaseAssetResolver resolver = new BaseAssetResolver();
 
         resolver.setPrefix("/assets");
 
         return resolver;
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(localeChangeInterceptor());
     }
 
     @Override
@@ -96,35 +121,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
         validator.setProviderClass(HibernateValidator.class);
 
         return validator;
-    }
-
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(localeChangeInterceptor());
-    }
-
-    @Bean
-    public MessageSource messageSource() {
-        ResourceBundleMessageSource source = new ResourceBundleMessageSource();
-
-        source.addBasenames(
-            "locale/messages/messages", "locale/system/title",
-            "locale/system/label", "locale/system/text"
-        );
-        source.setFallbackToSystemLocale(true);
-        source.setDefaultEncoding("UTF-8");
-
-        return source;
-    }
-
-    @Bean
-    public LocaleResolver localeResolver() {
-        CookieLocaleResolver resolver = new CookieLocaleResolver();
-
-        resolver.setDefaultLocale(Locale.forLanguageTag(environment.getProperty("app.locale.defaultLocale").replace('_', '-')));
-        resolver.setCookieName(environment.getProperty("app.locale.cookieName"));
-
-        return resolver;
     }
 
     @Bean

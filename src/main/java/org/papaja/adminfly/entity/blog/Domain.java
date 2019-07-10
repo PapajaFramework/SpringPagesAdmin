@@ -12,13 +12,9 @@ import javax.validation.constraints.Size;
 @Table(name = "blog_domains")
 public class Domain extends AbstractEntity {
 
-    @NotBlank(message = "{validation.notBlank}")
-    @Size(min = 5, max = 16, message = "{validation.size}")
     @Column(name = "name")
     private String name;
 
-    @NotBlank(message = "{validation.notBlank}")
-    @Size(min = 5, max = 16, message = "{validation.size}")
     @Column(name = "domain")
     private String domain;
 

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <title>Adminfly — {% block title %}Home{% endblock %}</title>
-    {% include 'partials/meta.twig' with { theme: 'minty' } %}
+    {% include 'partials/meta.twig' %}
 </head>
 <body>
 {% include 'partials/menu/' ~ default(menu, 'main') ~ '.twig' %}

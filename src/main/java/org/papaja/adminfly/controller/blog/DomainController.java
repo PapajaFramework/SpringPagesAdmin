@@ -6,6 +6,7 @@ import org.papaja.adminfly.mapper.blog.DomainMapper;
 import org.papaja.adminfly.service.blog.DomainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,7 +20,6 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/domains")
-@Secured("ROLE_ADMIN")
 public class DomainController {
 
     @Autowired
@@ -28,6 +28,7 @@ public class DomainController {
     @Autowired
     private DomainMapper mapper;
 
+    @PreAuthorize("hasAuthority('READ')")
     @RequestMapping(value = {"/{id:[0-9]+}", "/all"}, method = RequestMethod.GET)
     public String domains(
         @PathVariable(value = "id", required = false) Integer id, Model model
@@ -38,6 +39,7 @@ public class DomainController {
         return "domains/list";
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'SUPERADMIN')")
     @RequestMapping(value = {"/{id:[0-9]+}", ""}, method = RequestMethod.POST)
     public ModelAndView process(
         @PathVariable(value = "id", required = false) Integer id,

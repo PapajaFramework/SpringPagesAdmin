@@ -10,11 +10,41 @@
                 <div class="card-header">{{ 'label.language' | translate }}</div>
                 <div class="card-body">
                     <ul>
+                        <li><a href="{{ uri }}?_locale=en">English ({{ 'label.default' | translate }})</a></li>
                         <li><a href="{{ uri }}?_locale=ua">Українська</a></li>
-                        <li><a href="{{ uri }}?_locale=en">English</a></li>
-                        <li><a href="{{ uri }}?_locale=ru">Кацапська</a></li>
+                        <li><a href="{{ uri }}?_locale=ru">Русский</a></li>
+                        <li><a href="{{ uri }}?_locale=pt">Portuguese</a></li>
+                        <li><a href="{{ uri }}?_locale=es">Spanish</a></li>
+                        <li><a href="{{ uri }}?_locale=de">German</a></li>
+                        <li><a href="{{ uri }}?_locale=fr">French</a></li>
+                        <li><a href="{{ uri }}?_locale=pl">Polish</a></li>
+                        <li><a href="{{ uri }}?_locale=no">Norwegian</a></li>
+                        <li><a href="{{ uri }}?_locale=in">Indonesian</a></li>
+                        <li><a href="{{ uri }}?_locale=bn">বাংলা (Bengali)</a></li>
+                        <li><a href="{{ uri }}?_locale=hi">हिंदी (Hindi)</a></li>
+                        <li><a href="{{ uri }}?_locale=cn">中文 (Chinese)</a></li>
+                        <li><a href="{{ uri }}?_locale=jp">日本人 (Japanese)</a></li>
                     </ul>
                 </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <h5>{{ 'label.theme' | translate }}</h5>
+            <div class="list-group">
+                <a class="list-group-item list-group-item-action {% if _theme == 'minty' %}active{% endif %}"
+                   href="{{ uri }}?_theme=minty">Minty ({{ 'label.default' | translate }})</a>
+                <a class="list-group-item list-group-item-action {% if _theme == 'pulse' %}active{% endif %}"
+                   href="{{ uri }}?_theme=pulse">Pulse</a>
+                <a class="list-group-item list-group-item-action {% if _theme == 'flatly' %}active{% endif %}"
+                   href="{{ uri }}?_theme=flatly">Flatly</a>
+                <a class="list-group-item list-group-item-action {% if _theme == 'journal' %}active{% endif %}"
+                   href="{{ uri }}?_theme=journal">Journal</a>
+                <a class="list-group-item list-group-item-action {% if _theme == 'lumen' %}active{% endif %}"
+                   href="{{ uri }}?_theme=lumen">Lumen</a>
+                <a class="list-group-item list-group-item-action {% if _theme == 'sandstone' %}active{% endif %}"
+                   href="{{ uri }}?_theme=sandstone">Sandstone</a>
+                <a class="list-group-item list-group-item-action {% if _theme == 'simplex' %}active{% endif %}"
+                   href="{{ uri }}?_theme=simplex">Simplex</a>
             </div>
         </div>
     </div>

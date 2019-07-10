@@ -26,7 +26,7 @@ public class PrivilegeService {
         return repository.getPrivileges(ids);
     }
 
-    public void store(Privilege entity) {
+    public void merge(Privilege entity) {
         repository.merge(entity);
     }
 
