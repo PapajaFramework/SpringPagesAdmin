@@ -1,9 +1,9 @@
 {% extends '../layout/main.twig' %}
 {% import '../macro/fields.twig' as fields %}
-{% block title %}{% if empty(post.id) %}{{ 'label.creation' | translate }}{% else %}{{ 'label.updating' | translate }} {{ post.title }}{% endif %}{% endblock %}
+{% block title %}{% if empty(entity.title) %}{{ 'label.creation' | translate }}{% else %}{{ 'label.updating' | translate }} {{ entity.title }}{% endif %}{% endblock %}
 {% block content %}
     <div class="page-header mb-4">
-        <h1 id="tables">{% if empty(post.id) %}{{ 'label.creation' | translate }}{% else %}{{ 'label.updating' | translate }} [{{ post.title }}]{% endif %}</h1>
+        <h1 id="tables">{% if empty(entity.title) %}{{ 'label.creation' | translate }}{% else %}{{ entity.title }}{% endif %}</h1>
     </div>
     <form method="post" action="/posts/process" enctype="multipart/form-data">
         <div class="row">
@@ -18,32 +18,28 @@
                         <div class="form-group">
                             <label for="postName">{{ 'label.title' | translate }}</label>
                             <input name="title" type="text" class="form-control {{ fields.ifError(result, 'title', 'is-invalid') }}" id="postName"
-                                   placeholder="title">
+                                   placeholder="{{ 'label.title' | translate | lower }}..." value="{{ entity.title }}">
                             {{ fields.error(result, 'title') }}
                         </div>
                         <div class="form-group">
                             <label for="postCategories">{{ 'label.category' | translate }}</label>
-                            <select class="form-control" id="postCategories">
+                            <select class="form-control" id="postCategories" name="categoryId">
                                 {% for category in categories %}
-                                    <option value="{{ category.id }}">{{ category.name }}</option>
+                                    <option {% if category.id == entity.category.id %}selected{% endif %} value="{{ category.id }}">{{ category.name }}</option>
                                 {% endfor %}
                             </select>
+                            {{ fields.error(result, 'category') }}
+                            <input type="hidden" name="id" value="{{ entity.id }}">
                         </div>
                         <div class="form-group">
                             <label for="postBody">{{ 'label.body' | translate }}</label>
-                            <div class="form-group">
-                                <div class="custom-control custom-switch">
-                                    <input type="checkbox" class="custom-control-input" name="enabled" id="postAutoSave" />
-                                    <label class="custom-control-label" for="postAutoSave">{{ 'label.autoSave' | translate }}</label>
-                                </div>
-                            </div>
-                            <textarea class="editor" name="body" id="postBody"></textarea>
+                            <textarea class="editor" name="body" id="postBody">{{ entity.body }}</textarea>
                             {{ fields.error(result, 'body') }}
                         </div>
                         <div class="form-group">
                             <div class="custom-control custom-switch">
                                 <input type="checkbox" class="custom-control-input" name="enabled" id="postEnable"
-                                       {% if post.enabled %}checked{% endif %}>
+                                       {% if entity.enabled %}checked{% endif %}>
                                 <label class="custom-control-label" for="postEnable">{{ 'label.enabled' | translate }}</label>
                             </div>
                         </div>

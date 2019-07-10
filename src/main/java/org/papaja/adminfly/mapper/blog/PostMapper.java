@@ -13,9 +13,17 @@ public class PostMapper implements Mapper<PostDto, Post> {
 
     @Override
     public void map(PostDto source, Post target) {
-        target.setUpdated(Timestamp.from(Instant.now()));
+        Timestamp timestamp = Timestamp.from(Instant.now());
+
+        if (target.isNew()) {
+            target.setCreated(timestamp);
+            target.setViews(0);
+        }
+
+        target.setUpdated(timestamp);
         target.setBody(source.getBody());
         target.setTitle(source.getTitle());
+        target.setEnabled(source.isEnabled());
     }
 
     @Override

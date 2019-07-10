@@ -4,16 +4,18 @@ import org.papaja.adminfly.entity.AbstractEntity;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
 
 @Entity
 @Table(name = "blog_posts")
 public class Post extends AbstractEntity {
 
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToOne
     @JoinColumn(name="domain_id")
     private Domain domain;
 
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToOne
     @JoinColumn(name="category_id")
     private Category category;
 
@@ -25,6 +27,9 @@ public class Post extends AbstractEntity {
 
     @Column(name = "views")
     private Integer views;
+
+    @Column(name = "enabled")
+    private boolean enabled;
 
     @Column(name = "created")
     private Timestamp created;
@@ -70,6 +75,14 @@ public class Post extends AbstractEntity {
 
     public void setViews(Integer views) {
         this.views = views;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     public Timestamp getCreated() {

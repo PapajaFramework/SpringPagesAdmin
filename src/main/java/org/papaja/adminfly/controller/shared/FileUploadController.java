@@ -14,7 +14,6 @@ public class FileUploadController {
 
     @RequestMapping(value = "/process", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public FileDto upload(@ModelAttribute UploadFile file) {
-        System.out.println(file);
         return new FileDto(file);
     }
 

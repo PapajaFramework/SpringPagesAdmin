@@ -1,0 +1,14 @@
+{% extends '../layout/main.twig' %}
+{% set menu = 'index' %}
+{% block title %}{{ 'text.accessDenied' | translate }}{% endblock %}
+{% block content %}
+    <div class="page-header mb-4">
+        <h1 id="tables">{{ 'text.accessDenied' | translate }}</h1>
+    </div>
+    <div class="card bg-light mb-3">
+        <div class="card-header"><h5 class="card-title mt-3">{{ 'text.accessDenied' | translate }}</h5></div>
+        <div class="card-body">
+            {{ 'text.accessDenied' | translate }} <b>{{ uri }}</b>
+        </div>
+    </div>
+{% endblock %}

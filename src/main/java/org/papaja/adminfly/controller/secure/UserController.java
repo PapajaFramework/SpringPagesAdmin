@@ -30,12 +30,8 @@ public class UserController {
     @Autowired
     private RoleService roles;
 
-    @InitBinder
-    private void initialize(WebDataBinder binder) {
-        //        binder.addValidators();
-    }
-
     @RequestMapping
+    @PreAuthorize("hasAuthority('READ')")
     public String list(
         @RequestParam(value = "page", defaultValue = "1") int page, Model model
     ) {
@@ -44,6 +40,7 @@ public class UserController {
         return "users/list";
     }
 
+    @PreAuthorize("hasAuthority('READ')")
     @RequestMapping({"/edit/{id:[0-9]+}", "/create"})
     public ModelAndView form(
         @PathVariable(value = "id", required = false) Integer id, ModelAndView model
@@ -58,8 +55,8 @@ public class UserController {
         return model;
     }
 
-    @RequestMapping(value = {"/process/{id:[0-9]+}", "/process"}, method = RequestMethod.POST)
     @PreAuthorize("hasAuthority('SECURITY')")
+    @RequestMapping(value = {"/process/{id:[0-9]+}", "/process"}, method = RequestMethod.POST)
     public ModelAndView process(
         @PathVariable(value = "id", required = false) Integer id,
         @Valid UserDto dto, BindingResult result, RedirectAttributes attributes
