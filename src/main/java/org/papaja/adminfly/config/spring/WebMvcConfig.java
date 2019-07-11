@@ -14,7 +14,7 @@ import org.jtwig.web.servlet.JtwigRenderer;
 import org.papaja.adminfly.core.jtwig.extension.SpringFieldsExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
-import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
@@ -72,11 +72,17 @@ public class WebMvcConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    public ResourceBundleMessageSource messageSource() {
-        ResourceBundleMessageSource source = new ResourceBundleMessageSource();
 
-        source.addBasenames("locale/messages/messages", "locale/system/title",
-            "locale/system/label", "locale/system/text", "locale/system/flash");
+    public ReloadableResourceBundleMessageSource messageSource() {
+        ReloadableResourceBundleMessageSource  source = new ReloadableResourceBundleMessageSource();
+
+        source.addBasenames(
+                "classpath:locale/messages/messages",
+                "classpath:locale/system/text",
+                "classpath:locale/system/title",
+                "classpath:locale/system/label",
+                "classpath:locale/system/flash"
+        );
         source.setFallbackToSystemLocale(true);
         source.setDefaultEncoding("UTF-8");
 

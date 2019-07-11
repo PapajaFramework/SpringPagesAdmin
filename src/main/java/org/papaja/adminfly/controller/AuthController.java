@@ -22,8 +22,7 @@ public class AuthController {
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping("/logout")
-    public void logout() {
 
-    }
+    public void logout() { }
 
 }
