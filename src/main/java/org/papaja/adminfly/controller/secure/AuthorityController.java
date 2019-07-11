@@ -68,7 +68,8 @@ public class AuthorityController extends AbstractController {
                 break;
         }
 
-        attributes.addFlashAttribute("message", getMessage("authority.removed", name, id));
+        attributes.addFlashAttribute("message",
+                getMessage("authority.record.removed", getMessage(String.format("label.%s", name)), id));
 
         return "redirect:/authority";
     }
