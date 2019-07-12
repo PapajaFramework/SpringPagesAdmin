@@ -26,6 +26,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
+import org.springframework.web.servlet.resource.*;
 
 import java.nio.charset.Charset;
 import java.util.Locale;
@@ -114,7 +115,19 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("assets/**").addResourceLocations("classpath:/assets/").setCachePeriod(31556926);
+        registry
+                .addResourceHandler("assets/**")
+                .addResourceLocations("classpath:/assets/")
+                .setCachePeriod(2629743)
+                .resourceChain(true)
+                .addResolver(new EncodedResourceResolver())
+                .addResolver(new VersionResourceResolver().addContentVersionStrategy("/**"))
+                .addTransformer(new AppCacheManifestTransformer());
+    }
+
+    @Bean
+    public ResourceUrlEncodingFilter resourceUrlEncodingFilter() {
+        return new ResourceUrlEncodingFilter();
     }
 
     @Bean
