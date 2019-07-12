@@ -1,5 +1,6 @@
 package org.papaja.adminfly.controller.blog;
 
+import org.papaja.adminfly.controller.AbstractController;
 import org.papaja.adminfly.dto.blog.CategoryDto;
 import org.papaja.adminfly.dto.blog.PostDto;
 import org.papaja.adminfly.entity.blog.Category;
@@ -25,7 +26,7 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/posts")
-public class PostController {
+public class PostController extends AbstractController {
 
     @Autowired
     private PostService posts;
@@ -169,8 +170,7 @@ public class PostController {
             if (result.hasErrors()) {
                 attributes.addFlashAttribute("result", result);
             } else {
-                attributes.addFlashAttribute("message", String.format("Category '%s' was successfully saved",
-                    category.getName()));
+                attributes.addFlashAttribute("message", getMessage("blog.category.saved", category.getName()));
                 categories.merge(category);
             }
 

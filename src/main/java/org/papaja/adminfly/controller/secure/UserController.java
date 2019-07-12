@@ -1,5 +1,6 @@
 package org.papaja.adminfly.controller.secure;
 
+import org.papaja.adminfly.controller.AbstractController;
 import org.papaja.adminfly.dto.security.UserDto;
 import org.papaja.adminfly.entity.security.User;
 import org.papaja.adminfly.service.security.RoleService;
@@ -10,7 +11,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -22,7 +22,7 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/users")
 @Secured("ROLE_ADMIN")
-public class UserController {
+public class UserController extends AbstractController {
 
     @Autowired
     private UserService users;
@@ -66,7 +66,7 @@ public class UserController {
 
         if (!result.hasErrors()) {
             users.merge(dto, entity);
-            attributes.addFlashAttribute("message", String.format("User '%s' was successfully saved!", entity.getUsername()));
+            attributes.addFlashAttribute("message", getMessage("user.saved", entity.getUsername()));
         } else {
             System.out.println(result);
             view.addObject("result", result);

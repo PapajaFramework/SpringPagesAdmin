@@ -1,11 +1,11 @@
 package org.papaja.adminfly.controller.blog;
 
+import org.papaja.adminfly.controller.AbstractController;
 import org.papaja.adminfly.dto.blog.DomainDto;
 import org.papaja.adminfly.entity.blog.Domain;
 import org.papaja.adminfly.mapper.blog.DomainMapper;
 import org.papaja.adminfly.service.blog.DomainService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,7 +20,7 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/domains")
-public class DomainController {
+public class DomainController extends AbstractController {
 
     @Autowired
     private DomainService domains;
@@ -52,8 +52,7 @@ public class DomainController {
 
         if (!result.hasErrors()) {
             domains.merge(domain);
-            attributes.addFlashAttribute("message",
-                String.format("Domain '%s' with name '%s' was successfully saved", domain.getDomain(), domain.getName()));
+            attributes.addFlashAttribute("message", getMessage("blog.domain.saved", domain.getDomain(), domain.getName()));
         } else {
             view.addObject("entity", domain);
             view.addObject("domains", domains.getDomains());
