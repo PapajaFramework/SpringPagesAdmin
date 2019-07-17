@@ -25,6 +25,7 @@
 
 * Spring Framework (v5)
 * Hibernate
+* Hikari Connection Pool
 * Commons Apache.org
 * FasterXml.com
 * jTwig
