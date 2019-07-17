@@ -7,11 +7,10 @@ import org.jtwig.spring.JtwigView;
 import org.jtwig.spring.JtwigViewResolver;
 import org.jtwig.spring.asset.SpringAssetExtension;
 import org.jtwig.spring.asset.resolver.AssetResolver;
-import org.jtwig.spring.asset.resolver.BaseAssetResolver;
 import org.jtwig.translate.spring.SpringTranslateExtension;
 import org.jtwig.translate.spring.SpringTranslateExtensionConfiguration;
 import org.jtwig.web.servlet.JtwigRenderer;
-import org.papaja.adminfly.core.jtwig.extension.SpringFieldsExtension;
+import org.papaja.adminfly.core.jtwig.extension.asset.resolver.ResourceUrlBasedAssetResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
@@ -26,6 +25,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
+import org.springframework.web.servlet.resource.*;
 
 import java.nio.charset.Charset;
 import java.util.Locale;
@@ -55,7 +55,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
         builder.extensions()
             .add(new SpringAssetExtension())
-            .add(new SpringFieldsExtension())
             .add(new RenderExtension())
             .add(new SpringTranslateExtension(translate));
 
@@ -101,9 +100,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Bean
     public AssetResolver assetResolver() {
-        BaseAssetResolver resolver = new BaseAssetResolver();
+        ResourceUrlBasedAssetResolver resolver = new ResourceUrlBasedAssetResolver();
 
-        resolver.setPrefix("/assets");
+        resolver.setPrefix("/static");
 
         return resolver;
     }
@@ -115,7 +114,18 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("assets/**").addResourceLocations("classpath:/assets/").setCachePeriod(31556926);
+        registry
+                .addResourceHandler("static/**")
+                .addResourceLocations("classpath:/assets/")
+                .setCachePeriod(2629743)
+                .resourceChain(true)
+                .addResolver(new EncodedResourceResolver())
+                .addResolver(new VersionResourceResolver().addContentVersionStrategy("/**"));
+    }
+
+    @Bean
+    public ResourceUrlEncodingFilter resourceUrlEncodingFilter() {
+        return new ResourceUrlEncodingFilter();
     }
 
     @Bean
