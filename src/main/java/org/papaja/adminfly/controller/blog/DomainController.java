@@ -39,7 +39,7 @@ public class DomainController extends AbstractController {
         return "domains/list";
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'SUPERADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SUPERUSER')")
     @RequestMapping(value = {"/{id:[0-9]+}", ""}, method = RequestMethod.POST)
     public ModelAndView process(
         @PathVariable(value = "id", required = false) Integer id,
