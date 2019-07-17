@@ -11,6 +11,7 @@ import org.jtwig.translate.spring.SpringTranslateExtension;
 import org.jtwig.translate.spring.SpringTranslateExtensionConfiguration;
 import org.jtwig.web.servlet.JtwigRenderer;
 import org.papaja.adminfly.core.jtwig.extension.asset.resolver.ResourceUrlBasedAssetResolver;
+import org.papaja.adminfly.core.spring.web.servlet.resource.ContentHashVersionStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
@@ -120,7 +121,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .setCachePeriod(2629743)
                 .resourceChain(true)
                 .addResolver(new EncodedResourceResolver())
-                .addResolver(new VersionResourceResolver().addContentVersionStrategy("/**"));
+                .addResolver(new VersionResourceResolver()
+                        .addVersionStrategy(new ContentHashVersionStrategy(), "/**/*.css", "/**/*.js"));
     }
 
     @Bean
