@@ -7,6 +7,7 @@
     - English (by default)
     - Українська
     - Русский
+    - Беларуская мова
     - Portuguese
     - Spanish
     - German
@@ -18,6 +19,11 @@
     - हिंदी (Hindi)
     - 中文 (Chinese)
     - 日本人 (Japanese)
+    - አማርኛ (Amharic)
+    - ລາວ (Lao)
+    - ភាសាខ្មែរ (Khmer)
+    - မြန်မာဘာသာ (Burmese)
+    - ภาษาไทย (Thai)
 * User Role Separated
 * Multi Domains
 
