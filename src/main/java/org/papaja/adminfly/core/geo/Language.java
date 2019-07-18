@@ -7,7 +7,7 @@ public enum Language {
     AF("Afrikaans", "AF"),
     AK("Akan", "AK"),
     SQ("Albanian", "SQ"),
-    AM("Amharic", "AM"),
+    AM("Amharic", "አማርኛ", "AM"),
     AR("Arabic", "AR"),
     AN("Aragonese", "AN"),
     HY("Armenian", "HY"),
@@ -19,19 +19,19 @@ public enum Language {
     BM("Bambara", "BM"),
     BA("Bashkir", "BA"),
     EU("Basque", "EU"),
-    BE("Belarusian", "BE"),
-    BN("Bengali (Bangla)", "BN"),
+    BE("Belarusian", "Беларуская", "BE"),
+    BN("Bengali (Bangla)", "বাঙালি", "BN"),
     BH("Bihari", "BH"),
     BI("Bislama", "BI"),
     BS("Bosnian", "BS"),
     BR("Breton", "BR"),
     BG("Bulgarian", "BG"),
-    MY("Burmese", "MY"),
+    MY("Burmese", "မြန်မာ", "MY"),
     CA("Catalan", "CA"),
     CH("Chamorro", "CH"),
     CE("Chechen", "CE"),
     NY("Chichewa, Chewa, Nyanja", "NY"),
-    ZH("Chinese", "ZH"),
+    ZH("Chinese", "中文", "ZH"),
     ZH_HANS("Chinese (Simplified)", "ZH_HANS"),
     ZH_HANT("Chinese (Traditional)", "ZH_HANT"),
     CV("Chuvash", "CV"),
@@ -44,21 +44,21 @@ public enum Language {
     DV("Divehi, Dhivehi, Maldivian", "DV"),
     NL("Dutch", "NL"),
     DZ("Dzongkha", "DZ"),
-    EN("English", "EN"),
+    EN("English", "English", "EN"),
     EO("Esperanto", "EO"),
     ET("Estonian", "ET"),
     EE("Ewe", "EE"),
     FO("Faroese", "FO"),
     FJ("Fijian", "FJ"),
     FI("Finnish", "FI"),
-    FR("French", "FR"),
+    FR("French", "Française", "FR"),
     FF("Fula, Fulah, Pulaar, Pular", "FF"),
     GL("Galician", "GL"),
     GD("Gaelic (Scottish)", "GD"),
     GV("Gaelic (Manx)", "GV"),
-    KA("Georgian", "KA"),
-    DE("German", "DE"),
-    EL("Greek", "EL"),
+    KA("Georgian", "ქართული", "KA"),
+    DE("German", "Deutsche", "DE"),
+    EL("Greek", "Ελληνικά", "EL"),
     KL("Greenlandic", "KL"),
     GN("Guarani", "GN"),
     GU("Gujarati", "GU"),
@@ -66,26 +66,26 @@ public enum Language {
     HA("Hausa", "HA"),
     HE("Hebrew", "HE"),
     HZ("Herero", "HZ"),
-    HI("Hindi", "HI"),
+    HI("Hindi", "हिंदी", "HI"),
     HO("Hiri Motu", "HO"),
     HU("Hungarian", "HU"),
     IS("Icelandic", "IS"),
     IO("Ido", "IO"),
     IG("Igbo", "IG"),
-    IN("Indonesian", "IN"),
+    IN("Indonesian", "Bahasa Indonesia", "IN"),
     IA("Interlingua", "IA"),
     IE("Interlingue", "IE"),
     IU("Inuktitut", "IU"),
     IK("Inupiak", "IK"),
     GA("Irish", "GA"),
     IT("Italian", "IT"),
-    JA("Japanese", "JA"),
+    JA("Japanese", "日本人", "JA"),
     JV("Javanese", "JV"),
     KN("Kannada", "KN"),
     KR("Kanuri", "KR"),
     KS("Kashmiri", "KS"),
     KK("Kazakh", "KK"),
-    KM("Khmer", "KM"),
+    KM("Khmer", "ភាសាខ្មែរ", "KM"),
     KI("Kikuyu", "KI"),
     RW("Kinyarwanda (Rwanda)", "RW"),
     RN("Kirundi", "RN"),
@@ -95,7 +95,7 @@ public enum Language {
     KO("Korean", "KO"),
     KU("Kurdish", "KU"),
     KJ("Kwanyama", "KJ"),
-    LO("Lao", "LO"),
+    LO("Lao", "ລາວ", "LO"),
     LA("Latin", "LA"),
     LV("Latvian (Lettish)", "LV"),
     LI("Limburgish ( Limburger)", "LI"),
@@ -119,7 +119,7 @@ public enum Language {
     NG("Ndonga", "NG"),
     ND("Northern Ndebele", "ND"),
     NE("Nepali", "NE"),
-    NO("Norwegian", "NO"),
+    NO("Norwegian", "Norsk", "NO"),
     NB("Norwegian bokmål", "NB"),
     NN("Norwegian nynorsk", "NN"),
     II("Nuosu", "II"),
@@ -132,13 +132,13 @@ public enum Language {
     PI("Pāli", "PI"),
     PS("Pashto, Pushto", "PS"),
     FA("Persian (Farsi)", "FA"),
-    PL("Polish", "PL"),
-    PT("Portuguese", "PT"),
+    PL("Polish", "Polskie", "PL"),
+    PT("Portuguese", "Português", "PT"),
     PA("Punjabi (Eastern)", "PA"),
     QU("Quechua", "QU"),
     RM("Romansh", "RM"),
     RO("Romanian", "RO"),
-    RU("Russian", "RU"),
+    RU("Russian", "Русский", "RU"),
     SE("Sami", "SE"),
     SM("Samoan", "SM"),
     SG("Sango", "SG"),
@@ -155,7 +155,7 @@ public enum Language {
     SL("Slovenian", "SL"),
     SO("Somali", "SO"),
     NR("Southern Ndebele", "NR"),
-    ES("Spanish", "ES"),
+    ES("Spanish", "Española", "ES"),
     SU("Sundanese", "SU"),
     SW("Swahili (Kiswahili)", "SW"),
     SV("Swedish", "SV"),
@@ -165,7 +165,7 @@ public enum Language {
     TA("Tamil", "TA"),
     TT("Tatar", "TT"),
     TE("Telugu", "TE"),
-    TH("Thai", "TH"),
+    TH("Thai", "ไทย", "TH"),
     BO("Tibetan", "BO"),
     TI("Tigrinya", "TI"),
     TO("Tonga", "TO"),
@@ -174,7 +174,7 @@ public enum Language {
     TK("Turkmen", "TK"),
     TW("Twi", "TW"),
     UG("Uyghur", "UG"),
-    UK("Ukrainian", "UK"),
+    UK("Ukrainian", "Українська", "UK"),
     UR("Urdu", "UR"),
     UZ("Uzbek", "UZ"),
     VE("Venda", "VE"),
@@ -191,10 +191,16 @@ public enum Language {
     ZU("Zulu", "ZU");
 
     private String name;
+    private String local;
     private String code;
 
     Language(String name, String code) {
+        this(name, null, code);
+    }
+
+    Language(String name, String local, String code) {
         this.name = name;
+        this.local = local;
         this.code = code;
     }
 
@@ -202,8 +208,16 @@ public enum Language {
         return name;
     }
 
+    public String getLocal() {
+        return local;
+    }
+
     public String getCode() {
         return code;
     }
 
+    @Override
+    public String toString() {
+        return String.format("Language{name='%s', code='%s'}", name, code);
+    }
 }

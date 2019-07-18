@@ -2,7 +2,6 @@ package org.papaja.adminfly.controller;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.ui.Model;
@@ -33,23 +32,6 @@ public class GlobalController {
         return "errors/accessDenied";
     }
 
-    @ExceptionHandler({Exception.class})
-    public String handleException(
-            Exception exception, Model model,
-            HttpServletRequest request, HttpServletResponse response,
-            Principal principal
-    ) {
-        String template = "errors/exception";
-
-        model.addAttribute("stack", ExceptionUtils.getStackTrace(exception));
-        model.addAttribute("exceptionClass", exception.getClass().getName());
-        model.addAttribute("rootMassage", exception.getMessage());
-
-        handleRequest(request, model, principal);
-
-        return template;
-    }
-
     @ModelAttribute
     public void handleRequest(HttpServletRequest request, Model model, Principal principal) {
         if (Objects.nonNull(principal)) {
@@ -65,6 +47,21 @@ public class GlobalController {
         }
 
         model.addAttribute("_theme", session.getAttribute("_theme"));
+    }
+
+    @ExceptionHandler({Exception.class})
+    public String handleException(
+        Exception exception, Model model, HttpServletRequest request, HttpServletResponse response, Principal principal
+    ) {
+        String template = "errors/exception";
+
+        model.addAttribute("stack", ExceptionUtils.getStackTrace(exception));
+        model.addAttribute("exceptionClass", exception.getClass().getName());
+        model.addAttribute("rootMassage", exception.getMessage());
+
+        handleRequest(request, model, principal);
+
+        return template;
     }
 
 }

@@ -10,20 +10,9 @@
                 <div class="card-header">{{ 'label.language' | translate }}</div>
                 <div class="card-body">
                     <ul>
-                        <li><a href="{{ uri }}?_locale=en">English ({{ 'label.default' | translate }})</a></li>
-                        <li><a href="{{ uri }}?_locale=ua">Українська</a></li>
-                        <li><a href="{{ uri }}?_locale=ru">Русский</a></li>
-                        <li><a href="{{ uri }}?_locale=pt">Portuguese</a></li>
-                        <li><a href="{{ uri }}?_locale=es">Spanish</a></li>
-                        <li><a href="{{ uri }}?_locale=de">German</a></li>
-                        <li><a href="{{ uri }}?_locale=fr">French</a></li>
-                        <li><a href="{{ uri }}?_locale=pl">Polish</a></li>
-                        <li><a href="{{ uri }}?_locale=no">Norwegian</a></li>
-                        <li><a href="{{ uri }}?_locale=in">Indonesian</a></li>
-                        <li><a href="{{ uri }}?_locale=bn">বাংলা (Bengali)</a></li>
-                        <li><a href="{{ uri }}?_locale=hi">हिंदी (Hindi)</a></li>
-                        <li><a href="{{ uri }}?_locale=cn">中文 (Chinese)</a></li>
-                        <li><a href="{{ uri }}?_locale=jp">日本人 (Japanese)</a></li>
+                        {% for locale in locales %}
+                        <li><a href="{{ uri }}?_locale={{ locale.language.getCode() }}">{{ locale.language.getName() }} ({{ locale.language.getLocal() }})</a></li>
+                        {% endfor %}
                     </ul>
                 </div>
             </div>
