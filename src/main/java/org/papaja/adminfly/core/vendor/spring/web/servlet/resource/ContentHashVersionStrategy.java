@@ -1,4 +1,4 @@
-package org.papaja.adminfly.core.spring.web.servlet.resource;
+package org.papaja.adminfly.core.vendor.spring.web.servlet.resource;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.core.io.Resource;

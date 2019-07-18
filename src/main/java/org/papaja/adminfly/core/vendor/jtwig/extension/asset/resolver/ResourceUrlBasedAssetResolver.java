@@ -1,4 +1,4 @@
-package org.papaja.adminfly.core.jtwig.extension.asset.resolver;
+package org.papaja.adminfly.core.vendor.jtwig.extension.asset.resolver;
 
 import org.jtwig.spring.asset.resolver.AssetResolver;
 import org.springframework.beans.factory.annotation.Autowired;

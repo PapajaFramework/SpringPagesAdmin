@@ -1,4 +1,4 @@
-package org.papaja.adminfly.core.hibernate;
+package org.papaja.adminfly.core.vendor.hibernate;
 
 import org.hibernate.ScrollMode;
 import org.hibernate.ScrollableResults;

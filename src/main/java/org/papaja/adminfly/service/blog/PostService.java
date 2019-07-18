@@ -1,6 +1,6 @@
 package org.papaja.adminfly.service.blog;
 
-import org.papaja.adminfly.core.hibernate.Pagination;
+import org.papaja.adminfly.core.vendor.hibernate.Pagination;
 import org.papaja.adminfly.entity.blog.Post;
 import org.papaja.adminfly.repository.blog.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;

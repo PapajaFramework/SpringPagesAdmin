@@ -10,8 +10,8 @@ import org.jtwig.spring.asset.resolver.AssetResolver;
 import org.jtwig.translate.spring.SpringTranslateExtension;
 import org.jtwig.translate.spring.SpringTranslateExtensionConfiguration;
 import org.jtwig.web.servlet.JtwigRenderer;
-import org.papaja.adminfly.core.jtwig.extension.asset.resolver.ResourceUrlBasedAssetResolver;
-import org.papaja.adminfly.core.spring.web.servlet.resource.ContentHashVersionStrategy;
+import org.papaja.adminfly.core.vendor.jtwig.extension.asset.resolver.ResourceUrlBasedAssetResolver;
+import org.papaja.adminfly.core.vendor.spring.web.servlet.resource.ContentHashVersionStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
@@ -78,10 +78,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
         source.addBasenames(
                 "classpath:locale/messages/messages",
-                "classpath:locale/system/text",
-                "classpath:locale/system/title",
-                "classpath:locale/system/label",
-                "classpath:locale/system/flash"
+                "classpath:locale/system/text/text",
+                "classpath:locale/system/title/title",
+                "classpath:locale/system/label/label",
+                "classpath:locale/system/flash/flash"
         );
         source.setFallbackToSystemLocale(true);
         source.setDefaultEncoding("UTF-8");
