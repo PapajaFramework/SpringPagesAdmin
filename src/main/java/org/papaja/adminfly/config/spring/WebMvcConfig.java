@@ -11,7 +11,6 @@ import org.jtwig.translate.spring.SpringTranslateExtension;
 import org.jtwig.translate.spring.SpringTranslateExtensionConfiguration;
 import org.jtwig.web.servlet.JtwigRenderer;
 import org.papaja.adminfly.core.vendor.jtwig.extension.asset.resolver.ResourceUrlBasedAssetResolver;
-import org.papaja.adminfly.core.vendor.spring.web.servlet.handler.ControllerPostHandlerInterceptor;
 import org.papaja.adminfly.core.vendor.spring.web.servlet.resource.ContentHashVersionStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
@@ -27,7 +26,9 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
-import org.springframework.web.servlet.resource.*;
+import org.springframework.web.servlet.resource.EncodedResourceResolver;
+import org.springframework.web.servlet.resource.ResourceUrlEncodingFilter;
+import org.springframework.web.servlet.resource.VersionResourceResolver;
 
 import java.nio.charset.Charset;
 import java.util.Locale;
@@ -56,9 +57,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
         SpringTranslateExtensionConfiguration translate = SpringTranslateExtensionConfiguration.builder(messageSource()).withLocaleResolver(localeResolver()).build();
 
         builder.extensions()
-            .add(new SpringAssetExtension())
-            .add(new RenderExtension())
-            .add(new SpringTranslateExtension(translate));
+                .add(new SpringAssetExtension())
+                .add(new RenderExtension())
+                .add(new SpringTranslateExtension(translate));
 
         builder.render().withOutputCharset(UTF8);
         builder.resources().withDefaultInputCharset(UTF8);
@@ -75,7 +76,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Bean
 
     public ReloadableResourceBundleMessageSource messageSource() {
-        ReloadableResourceBundleMessageSource  source = new ReloadableResourceBundleMessageSource();
+        ReloadableResourceBundleMessageSource source = new ReloadableResourceBundleMessageSource();
 
         source.addBasenames(
                 "classpath:locale/messages/messages",
@@ -112,7 +113,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(localeChangeInterceptor());
-        registry.addInterceptor(controllerPostHandlerInterceptor());
     }
 
     @Override
@@ -151,15 +151,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
         return interceptor;
 
-    }
-
-    @Bean
-    public ControllerPostHandlerInterceptor controllerPostHandlerInterceptor() {
-        ControllerPostHandlerInterceptor interceptor = new ControllerPostHandlerInterceptor();
-
-        interceptor.setProperties(environment);
-
-        return interceptor;
     }
 
     @Bean(name = "multipartResolver")
