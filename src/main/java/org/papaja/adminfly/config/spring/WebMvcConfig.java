@@ -11,7 +11,7 @@ import org.jtwig.translate.spring.SpringTranslateExtension;
 import org.jtwig.translate.spring.SpringTranslateExtensionConfiguration;
 import org.jtwig.web.servlet.JtwigRenderer;
 import org.papaja.adminfly.core.vendor.jtwig.extension.asset.resolver.ResourceUrlBasedAssetResolver;
-import org.papaja.adminfly.core.vendor.spring.web.servlet.handler.ModelPostHandlerInterceptor;
+import org.papaja.adminfly.core.vendor.spring.web.servlet.handler.ControllerPostHandlerInterceptor;
 import org.papaja.adminfly.core.vendor.spring.web.servlet.resource.ContentHashVersionStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
@@ -51,8 +51,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Bean
     public JtwigViewResolver viewResolver() {
-        EnvironmentConfigurationBuilder builder  = EnvironmentConfigurationBuilder.configuration();
-        JtwigViewResolver               resolver = new JtwigViewResolver();
+        EnvironmentConfigurationBuilder       builder   = EnvironmentConfigurationBuilder.configuration();
+        JtwigViewResolver                     resolver  = new JtwigViewResolver();
         SpringTranslateExtensionConfiguration translate = SpringTranslateExtensionConfiguration.builder(messageSource()).withLocaleResolver(localeResolver()).build();
 
         builder.extensions()
@@ -94,7 +94,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public LocaleResolver localeResolver() {
         CookieLocaleResolver resolver = new CookieLocaleResolver();
 
-        resolver.setDefaultLocale(Locale.forLanguageTag(environment.getProperty("app.locale.defaultLocale").replace('_', '-')));
+        resolver.setDefaultLocale(Locale.forLanguageTag(environment.getProperty("app.locale.default").replace('_', '-')));
         resolver.setCookieName(environment.getProperty("app.locale.cookieName"));
 
         return resolver;
@@ -112,7 +112,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(localeChangeInterceptor());
-        registry.addInterceptor(new ModelPostHandlerInterceptor());
+        registry.addInterceptor(controllerPostHandlerInterceptor());
     }
 
     @Override
@@ -151,6 +151,15 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
         return interceptor;
 
+    }
+
+    @Bean
+    public ControllerPostHandlerInterceptor controllerPostHandlerInterceptor() {
+        ControllerPostHandlerInterceptor interceptor = new ControllerPostHandlerInterceptor();
+
+        interceptor.setProperties(environment);
+
+        return interceptor;
     }
 
     @Bean(name = "multipartResolver")

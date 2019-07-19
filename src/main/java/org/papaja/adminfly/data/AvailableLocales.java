@@ -7,7 +7,7 @@ import java.util.List;
 
 public class AvailableLocales {
 
-    public static final List<Country> LOCALES;
+    private static final List<Country> LOCALES;
 
     static {
         LOCALES = Arrays.asList(
@@ -20,4 +20,7 @@ public class AvailableLocales {
         );
     }
 
+    public List<Country> getLocales() {
+        return LOCALES;
+    }
 }

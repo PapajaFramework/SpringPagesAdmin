@@ -10,8 +10,8 @@
                 <div class="card-header">{{ 'label.language' | translate }}</div>
                 <div class="card-body">
                     <ul>
-                        {% for locale in locales %}
-                        <li><a href="{{ uri }}?_locale={{ locale.language.getCode() }}">{{ locale.language.getName() }} ({{ locale.language.getLocal() }})</a></li>
+                        {% for locale in languages.locales %}
+                        <li><a href="{{ uri }}?locale={{ locale.language.getCode() }}">{{ locale.language.getName() }} ({{ locale.language.getLocal() }})</a></li>
                         {% endfor %}
                     </ul>
                 </div>
@@ -20,20 +20,20 @@
         <div class="col-lg-6">
             <h5>{{ 'label.theme' | translate }}</h5>
             <div class="list-group">
-                <a class="list-group-item list-group-item-action {% if _theme == 'minty' %}active{% endif %}"
-                   href="{{ uri }}?_theme=minty">Minty ({{ 'label.default' | translate }})</a>
-                <a class="list-group-item list-group-item-action {% if _theme == 'pulse' %}active{% endif %}"
-                   href="{{ uri }}?_theme=pulse">Pulse</a>
-                <a class="list-group-item list-group-item-action {% if _theme == 'flatly' %}active{% endif %}"
-                   href="{{ uri }}?_theme=flatly">Flatly</a>
-                <a class="list-group-item list-group-item-action {% if _theme == 'journal' %}active{% endif %}"
-                   href="{{ uri }}?_theme=journal">Journal</a>
-                <a class="list-group-item list-group-item-action {% if _theme == 'lumen' %}active{% endif %}"
-                   href="{{ uri }}?_theme=lumen">Lumen</a>
-                <a class="list-group-item list-group-item-action {% if _theme == 'sandstone' %}active{% endif %}"
-                   href="{{ uri }}?_theme=sandstone">Sandstone</a>
-                <a class="list-group-item list-group-item-action {% if _theme == 'simplex' %}active{% endif %}"
-                   href="{{ uri }}?_theme=simplex">Simplex</a>
+                <a class="list-group-item list-group-item-action {% if theme == 'minty' %}active{% endif %}"
+                   href="{{ uri }}?theme=minty">Minty ({{ 'label.default' | translate }})</a>
+                <a class="list-group-item list-group-item-action {% if theme == 'pulse' %}active{% endif %}"
+                   href="{{ uri }}?theme=pulse">Pulse</a>
+                <a class="list-group-item list-group-item-action {% if theme == 'flatly' %}active{% endif %}"
+                   href="{{ uri }}?theme=flatly">Flatly</a>
+                <a class="list-group-item list-group-item-action {% if theme == 'journal' %}active{% endif %}"
+                   href="{{ uri }}?theme=journal">Journal</a>
+                <a class="list-group-item list-group-item-action {% if theme == 'lumen' %}active{% endif %}"
+                   href="{{ uri }}?theme=lumen">Lumen</a>
+                <a class="list-group-item list-group-item-action {% if theme == 'sandstone' %}active{% endif %}"
+                   href="{{ uri }}?theme=sandstone">Sandstone</a>
+                <a class="list-group-item list-group-item-action {% if theme == 'simplex' %}active{% endif %}"
+                   href="{{ uri }}?theme=simplex">Simplex</a>
             </div>
         </div>
     </div>
