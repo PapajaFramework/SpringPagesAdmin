@@ -243,7 +243,6 @@ public enum Country {
 
     private String name;
     private String code;
-
     private Language language;
 
     Country(String name, String code) {

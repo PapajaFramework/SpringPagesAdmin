@@ -4,26 +4,28 @@
 ### Short Description
 
 * Support multilanguage
-    - English (by default)
-    - Українська
-    - Русский
-    - Беларуская мова
-    - Portuguese
-    - Spanish
-    - German
-    - French
-    - Polish
-    - Norwegian
-    - Indonesian
-    - বাংলা (Bengali)
-    - हिंदी (Hindi)
-    - 中文 (Chinese)
-    - 日本人 (Japanese)
-    - አማርኛ (Amharic)
-    - ລາວ (Lao)
-    - ភាសាខ្មែរ (Khmer)
-    - မြန်မာဘာသာ (Burmese)
-    - ภาษาไทย (Thai)
+    - Ukrainian (Українська)
+    - Belarusian (Беларуская)
+    - Russian (Русский)
+    - English (English)
+    - Georgian (ქართული)
+    - Portuguese (Português)
+    - Spanish (Española)
+    - German (Deutsche)
+    - French (Française)
+    - Polish (Polskie)
+    - Norwegian (Norsk)
+    - Indonesian (Bahasa Indonesia)
+    - Greek (Ελληνικά)
+    - Burmese (မြန်မာ)
+    - Hindi (हिंदी)
+    - Chinese (中文)
+    - Japanese (日本人)
+    - Amharic (አማርኛ)
+    - Lao (ລາວ)
+    - Khmer (ភាសាខ្មែរ)
+    - Thai (ไทย)
+    - Bengali (বাঙালি)
 * User Role Separated
 * Multi Domains
 
