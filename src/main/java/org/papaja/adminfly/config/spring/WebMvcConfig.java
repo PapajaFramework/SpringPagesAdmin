@@ -11,15 +11,19 @@ import org.jtwig.translate.spring.SpringTranslateExtension;
 import org.jtwig.translate.spring.SpringTranslateExtensionConfiguration;
 import org.jtwig.web.servlet.JtwigRenderer;
 import org.papaja.adminfly.core.vendor.jtwig.extension.asset.resolver.ResourceUrlBasedAssetResolver;
+import org.papaja.adminfly.core.vendor.jtwig.function.theme.ThemeResolverExtension;
 import org.papaja.adminfly.core.vendor.spring.web.servlet.resource.ContentHashVersionStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
+import org.springframework.ui.context.ThemeSource;
+import org.springframework.ui.context.support.ResourceBundleThemeSource;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.ThemeResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -29,6 +33,8 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.resource.EncodedResourceResolver;
 import org.springframework.web.servlet.resource.ResourceUrlEncodingFilter;
 import org.springframework.web.servlet.resource.VersionResourceResolver;
+import org.springframework.web.servlet.theme.CookieThemeResolver;
+import org.springframework.web.servlet.theme.ThemeChangeInterceptor;
 
 import java.nio.charset.Charset;
 import java.util.Locale;
@@ -58,6 +64,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
         builder.extensions()
                 .add(new SpringAssetExtension())
+                .add(new ThemeResolverExtension())
                 .add(new RenderExtension())
                 .add(new SpringTranslateExtension(translate));
 
@@ -74,7 +81,28 @@ public class WebMvcConfig implements WebMvcConfigurer {
     }
 
     @Bean
+    public ThemeSource themeSource() {
+        ResourceBundleThemeSource source = new ResourceBundleThemeSource();
 
+        source.setBasenamePrefix("theme/");
+        source.setFallbackToSystemLocale(true);
+        source.setDefaultEncoding("UTF-8");
+
+        return source;
+    }
+
+    @Bean
+    public ThemeResolver themeResolver(){
+        CookieThemeResolver resolver = new CookieThemeResolver();
+
+        resolver.setCookieMaxAge(2400);
+        resolver.setCookieName(environment.getProperty("app.view.theme.cookieName"));
+        resolver.setDefaultThemeName(environment.getProperty("app.view.theme.default"));
+
+        return resolver;
+    }
+
+    @Bean
     public ReloadableResourceBundleMessageSource messageSource() {
         ReloadableResourceBundleMessageSource source = new ReloadableResourceBundleMessageSource();
 
@@ -113,6 +141,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(localeChangeInterceptor());
+        registry.addInterceptor(themeChangeInterceptor());
     }
 
     @Override
@@ -150,7 +179,15 @@ public class WebMvcConfig implements WebMvcConfigurer {
         interceptor.setParamName(environment.getProperty("app.locale.queryParameterName"));
 
         return interceptor;
+    }
 
+    @Bean
+    public ThemeChangeInterceptor themeChangeInterceptor() {
+        ThemeChangeInterceptor interceptor = new ThemeChangeInterceptor();
+
+        interceptor.setParamName("theme");
+
+        return interceptor;
     }
 
     @Bean(name = "multipartResolver")

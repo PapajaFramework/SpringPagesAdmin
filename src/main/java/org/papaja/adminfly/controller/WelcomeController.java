@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
 @SuppressWarnings({"unused"})
 public class WelcomeController {
@@ -15,7 +17,7 @@ public class WelcomeController {
     private PostRepository repository;
 
     @RequestMapping("/")
-    public String home() {
+    public String home(HttpServletRequest request) {
         return "redirect:/home";
     }
 

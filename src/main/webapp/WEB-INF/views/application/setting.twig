@@ -19,6 +19,7 @@
         </div>
         <div class="col-lg-6">
             <h5>{{ 'label.theme' | translate }}</h5>
+            {% set theme = themeName() %}
             <div class="list-group">
                 <a class="list-group-item list-group-item-action {% if theme == 'minty' %}active{% endif %}"
                    href="{{ uri }}?theme=minty">Minty ({{ 'label.default' | translate }})</a>
@@ -35,6 +36,7 @@
                 <a class="list-group-item list-group-item-action {% if theme == 'simplex' %}active{% endif %}"
                    href="{{ uri }}?theme=simplex">Simplex</a>
             </div>
+            <p class="text-muted">{{ 'text.bootswatchThanks' | translate }}</p>
         </div>
     </div>
 {% endblock %}
