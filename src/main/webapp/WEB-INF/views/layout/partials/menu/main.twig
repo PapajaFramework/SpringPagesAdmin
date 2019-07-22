@@ -19,6 +19,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/domains/all">{{ 'title.domains' | translate }}</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/application">{{ 'title.application' | translate }}</a>
+                </li>
             </ul>
 
             <ul class="nav navbar-nav ml-auto">
@@ -29,19 +32,12 @@
                         {% include 'languages/links.twig' %}
                     </div>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/application">{{ 'title.application' | translate }}</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="https://github.com/PapajaOrg/Adminfly" target="_blank">GitHub</a>
-                </li>
-                <li class="nav-item">
-                    <span class="nav-link active">[{{ principal.name }}]</span>
-                </li>
-                <li class="nav-item">
-                    <a class="btn btn-primary my-2 my-sm-0" href="/auth/logout">{{ 'title.logout' | translate }}</a>
-                </li>
             </ul>
+            <div class="form-inline my-2 my-lg-0">
+                <button onclick="window.location='/auth/logout'" class="btn btn-secondary my-2 my-sm-0" type="submit">
+                    [{{ principal.name }}] {{ 'title.logout' | translate }}
+                </button>
+            </div>
 
         </div>
     </div>

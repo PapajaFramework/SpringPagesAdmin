@@ -12,7 +12,9 @@
                 <div class="card-body">
                     <ul>
                         {% for locale in languages.locales %}
-                        <li><a href="{{ uri }}?locale={{ locale.language.getCode() }}">{{ locale.language.getName() }} ({{ locale.language.getLocal() }})</a></li>
+                        <li>
+                            <a href="{{ uri }}?locale={{ locale.language.getCode() }}">{{ locale.language.getName() }} ({{ locale.language.getLocal() }})</a>
+                        </li>
                         {% endfor %}
                     </ul>
                 </div>
@@ -22,32 +24,12 @@
             <div class="card bg-light mb-3">
                 <div class="card-header">{{ 'label.theme' | translate }} <b>({{ theme('name') }})</b></div>
                 <div class="card-body">
-                    {% set theme = themeName() %}
+                    {% set currentTheme = themeName() %}
                     <div class="list-group">
-                        <a class="list-group-item list-group-item-action {% if theme == 'minty' %}active{% endif %}"
-                           href="{{ uri }}?theme=minty">Minty ({{ 'label.default' | translate }})</a>
-                        <a class="list-group-item list-group-item-action {% if theme == 'pulse' %}active{% endif %}"
-                           href="{{ uri }}?theme=pulse">Pulse</a>
-                        <a class="list-group-item list-group-item-action {% if theme == 'flatly' %}active{% endif %}"
-                           href="{{ uri }}?theme=flatly">Flatly</a>
-                        <a class="list-group-item list-group-item-action {% if theme == 'journal' %}active{% endif %}"
-                           href="{{ uri }}?theme=journal">Journal</a>
-                        <a class="list-group-item list-group-item-action {% if theme == 'lumen' %}active{% endif %}"
-                           href="{{ uri }}?theme=lumen">Lumen</a>
-                        <a class="list-group-item list-group-item-action {% if theme == 'sandstone' %}active{% endif %}"
-                           href="{{ uri }}?theme=sandstone">Sandstone</a>
-                        <a class="list-group-item list-group-item-action {% if theme == 'simplex' %}active{% endif %}"
-                           href="{{ uri }}?theme=simplex">Simplex</a>
-                        <a class="list-group-item list-group-item-action {% if theme == 'materia' %}active{% endif %}"
-                           href="{{ uri }}?theme=materia">Materia</a>
-                        <a class="list-group-item list-group-item-action {% if theme == 'slate' %}active{% endif %}"
-                           href="{{ uri }}?theme=slate">Slate</a>
-                        <a class="list-group-item list-group-item-action {% if theme == 'cosmo' %}active{% endif %}"
-                           href="{{ uri }}?theme=cosmo">Cosmo</a>
-                        <a class="list-group-item list-group-item-action {% if theme == 'united' %}active{% endif %}"
-                           href="{{ uri }}?theme=united">United (Ubuntu)</a>
-                        <a class="list-group-item list-group-item-action {% if theme == 'yeti' %}active{% endif %}"
-                           href="{{ uri }}?theme=yeti">Yeti</a>
+                        {% for theme in themes.getThemes() %}
+                            <a class="list-group-item list-group-item-action {% if currentTheme == theme.name %}active{% endif %}"
+                               href="{{ uri }}?theme={{ theme.name }}">{{ theme.label }}</a>
+                        {% endfor %}
                     </div>
                     <p class="text-muted">{{ 'text.bootswatchThanks' | translate }}</p>
                 </div>
