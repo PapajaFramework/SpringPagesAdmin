@@ -185,7 +185,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public ThemeChangeInterceptor themeChangeInterceptor() {
         ThemeChangeInterceptor interceptor = new ThemeChangeInterceptor();
 
-        interceptor.setParamName("theme");
+        interceptor.setParamName(environment.getProperty("app.view.theme.queryParameterName"));
 
         return interceptor;
     }

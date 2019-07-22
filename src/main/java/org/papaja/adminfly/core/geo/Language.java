@@ -20,7 +20,7 @@ public enum Language {
     BA("Bashkir", "BA"),
     EU("Basque", "EU"),
     BE("Belarusian", "Беларуская", "BE"),
-    BN("Bengali (Bangla)", "বাঙালি", "BN"),
+    BN("Bengali", "বাঙালি", "BN"),
     BH("Bihari", "BH"),
     BI("Bislama", "BI"),
     BS("Bosnian", "BS"),

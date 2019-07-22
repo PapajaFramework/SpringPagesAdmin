@@ -4,6 +4,7 @@
     <div class="page-header mb-4">
         <h1 id="tables">{{ 'title.setting' | translate }}</h1>
     </div>
+    {% include 'partials/buttons.twig' %}
     <div class="row">
         <div class="col-lg-6">
             <div class="card bg-light mb-3">
@@ -18,25 +19,39 @@
             </div>
         </div>
         <div class="col-lg-6">
-            <h5>{{ 'label.theme' | translate }}</h5>
-            {% set theme = themeName() %}
-            <div class="list-group">
-                <a class="list-group-item list-group-item-action {% if theme == 'minty' %}active{% endif %}"
-                   href="{{ uri }}?theme=minty">Minty ({{ 'label.default' | translate }})</a>
-                <a class="list-group-item list-group-item-action {% if theme == 'pulse' %}active{% endif %}"
-                   href="{{ uri }}?theme=pulse">Pulse</a>
-                <a class="list-group-item list-group-item-action {% if theme == 'flatly' %}active{% endif %}"
-                   href="{{ uri }}?theme=flatly">Flatly</a>
-                <a class="list-group-item list-group-item-action {% if theme == 'journal' %}active{% endif %}"
-                   href="{{ uri }}?theme=journal">Journal</a>
-                <a class="list-group-item list-group-item-action {% if theme == 'lumen' %}active{% endif %}"
-                   href="{{ uri }}?theme=lumen">Lumen</a>
-                <a class="list-group-item list-group-item-action {% if theme == 'sandstone' %}active{% endif %}"
-                   href="{{ uri }}?theme=sandstone">Sandstone</a>
-                <a class="list-group-item list-group-item-action {% if theme == 'simplex' %}active{% endif %}"
-                   href="{{ uri }}?theme=simplex">Simplex</a>
+            <div class="card bg-light mb-3">
+                <div class="card-header">{{ 'label.theme' | translate }} <b>({{ theme('name') }})</b></div>
+                <div class="card-body">
+                    {% set theme = themeName() %}
+                    <div class="list-group">
+                        <a class="list-group-item list-group-item-action {% if theme == 'minty' %}active{% endif %}"
+                           href="{{ uri }}?theme=minty">Minty ({{ 'label.default' | translate }})</a>
+                        <a class="list-group-item list-group-item-action {% if theme == 'pulse' %}active{% endif %}"
+                           href="{{ uri }}?theme=pulse">Pulse</a>
+                        <a class="list-group-item list-group-item-action {% if theme == 'flatly' %}active{% endif %}"
+                           href="{{ uri }}?theme=flatly">Flatly</a>
+                        <a class="list-group-item list-group-item-action {% if theme == 'journal' %}active{% endif %}"
+                           href="{{ uri }}?theme=journal">Journal</a>
+                        <a class="list-group-item list-group-item-action {% if theme == 'lumen' %}active{% endif %}"
+                           href="{{ uri }}?theme=lumen">Lumen</a>
+                        <a class="list-group-item list-group-item-action {% if theme == 'sandstone' %}active{% endif %}"
+                           href="{{ uri }}?theme=sandstone">Sandstone</a>
+                        <a class="list-group-item list-group-item-action {% if theme == 'simplex' %}active{% endif %}"
+                           href="{{ uri }}?theme=simplex">Simplex</a>
+                        <a class="list-group-item list-group-item-action {% if theme == 'materia' %}active{% endif %}"
+                           href="{{ uri }}?theme=materia">Materia</a>
+                        <a class="list-group-item list-group-item-action {% if theme == 'slate' %}active{% endif %}"
+                           href="{{ uri }}?theme=slate">Slate</a>
+                        <a class="list-group-item list-group-item-action {% if theme == 'cosmo' %}active{% endif %}"
+                           href="{{ uri }}?theme=cosmo">Cosmo</a>
+                        <a class="list-group-item list-group-item-action {% if theme == 'united' %}active{% endif %}"
+                           href="{{ uri }}?theme=united">United (Ubuntu)</a>
+                        <a class="list-group-item list-group-item-action {% if theme == 'yeti' %}active{% endif %}"
+                           href="{{ uri }}?theme=yeti">Yeti</a>
+                    </div>
+                    <p class="text-muted">{{ 'text.bootswatchThanks' | translate }}</p>
+                </div>
             </div>
-            <p class="text-muted">{{ 'text.bootswatchThanks' | translate }}</p>
         </div>
     </div>
 {% endblock %}

@@ -2,13 +2,9 @@
 {% block title %}{{ 'title.status' | translate }}{% endblock %}
 {% block content %}
     <div class="page-header mb-4">
-        <h1 id="tables">{{ 'title.status' | translate }}</h1>
+        <h1 id="tables">{{ 'title.application' | translate }}</h1>
     </div>
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-            <a href="/application/setting">{{ 'title.setting' | translate }}</a>
-        </li>
-    </ol>
+    {% include 'partials/buttons.twig' %}
     <div class="row">
         <div class="col-lg-6">
             <div class="card border-light mb-3">
