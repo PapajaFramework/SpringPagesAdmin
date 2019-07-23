@@ -17,7 +17,7 @@ public class AvailableThemes {
         PULSE("pulse", "Pulse"),
         SANDSTONE("sandstone", "SandStone"),
         SIMPLEX("simplex", "Simplex"),
-        SLATE("spate", "Slate"),
+        SLATE("slate", "Slate"),
         UNITED("united", "United (Ubuntu)"),
         YETI("yeti", "Yeti");
 

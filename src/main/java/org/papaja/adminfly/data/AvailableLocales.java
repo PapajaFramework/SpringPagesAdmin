@@ -16,7 +16,7 @@ public class AvailableLocales {
             Country.FR, Country.PL, Country.NO, Country.ID,
             Country.GR, Country.MM, Country.IN, Country.CN,
             Country.JP, Country.ET, Country.LA, Country.KH,
-            Country.TH, Country.BD
+            Country.TH, Country.BD, Country.KR
         );
     }
 

@@ -92,7 +92,7 @@ public enum Language {
     KY("Kyrgyz", "KY"),
     KV("Komi", "KV"),
     KG("Kongo", "KG"),
-    KO("Korean", "KO"),
+    KO("Korean", "한국어", "KO"),
     KU("Kurdish", "KU"),
     KJ("Kwanyama", "KJ"),
     LO("Lao", "ລາວ", "LO"),
