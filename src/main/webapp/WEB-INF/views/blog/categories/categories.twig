@@ -1,5 +1,5 @@
-{% extends '../layout/main.twig' %}
-{% import '../macro/fields.twig' as fields %}
+{% extends '../../layout/main.twig' %}
+{% import '../../macro/fields.twig' as fields %}
 {% block title %}{{ 'label.categories' | translate }}{% endblock %}
 {% block content %}
     <div class="page-header mb-4">
@@ -8,7 +8,7 @@
     <div class="row">
         <div class="col-lg-6">
             <div class="card border-light mb-3">
-                {% include 'partials/posts-header-buttons.twig' %}
+                {% include '../partials/posts-header-buttons.twig' %}
                 <div class="card-body">
                     <table class="table table-hover">
                         <thead>
@@ -21,7 +21,7 @@
                         <tbody>
                             {% for category in categories %}
                                 <tr>
-                                    {% set edit = '/posts/categories/edit/' ~ category.id %}
+                                    {% set edit = '/blog/categories/edit/' ~ category.id %}
                                     <td>{{ category.id }}</td>
                                     <td>{{ category.name }}</td>
                                     <td class="text-right">
@@ -37,7 +37,7 @@
             </div>
         </div>
         <div class="col-lg-6">
-            <form action="/posts/categories/process{% if not empty(entity.id) %}/{{ entity.id }}{% endif %}" method="post">
+            <form action="/blog/categories/process{% if not empty(entity.id) %}/{{ entity.id }}{% endif %}" method="post">
                 <div class="card border-light mb-3">
                     <div class="card-header">{{ 'label.editing' | translate }}</div>
                     <div class="card-body">

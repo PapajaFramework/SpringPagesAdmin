@@ -68,7 +68,6 @@ public class UserController extends AbstractController {
             users.merge(dto, entity);
             attributes.addFlashAttribute("message", getMessage("user.saved", entity.getUsername()));
         } else {
-            System.out.println(result);
             view.addObject("result", result);
             view.addObject("user", Optional.ofNullable(entity).orElseGet(User::new));
             view.addObject("roles", roles.getRoles());

@@ -1,5 +1,5 @@
-{% extends '../layout/main.twig' %}
-{% import '../macro/pagination.twig' as pagination %}
+{% extends '../../layout/main.twig' %}
+{% import '../../macro/pagination.twig' as pagination %}
 {% block title %}{{ 'title.posts' | translate }}{% endblock %}
 {% block content %}
     <div class="page-header mb-4">
@@ -8,7 +8,7 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="card border-light mb-3">
-                {% include 'partials/posts-header-buttons.twig' %}
+                {% include '../partials/posts-header-buttons.twig' %}
                 <div class="card-body">
                     <table class="table table-hover">
                         <thead>
@@ -22,7 +22,7 @@
                         </thead>
                         <tbody>
                         {% for post in result.result %}
-                            {% set edit = '/posts/edit/' ~ post.id %}
+                            {% set edit = '/blog/posts/edit/' ~ post.id %}
                             <tr>
                                 <td>{{ post.id }}</td>
                                 <td>{{ post.title }}</td>
