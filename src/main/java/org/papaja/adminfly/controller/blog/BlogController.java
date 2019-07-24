@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.validation.Valid;
 
@@ -32,22 +33,23 @@ import javax.validation.Valid;
 @RequestMapping("/blog")
 public class BlogController extends AbstractController {
 
+    private static final String TO_SELECT_DOMAIN          = "/blog/posts/selectDomain";
+    private static final String REDIRECT_TO_SELECT_DOMAIN = "redirect:" + TO_SELECT_DOMAIN;
+
     @Autowired
-    private PostService posts;
+    private PostService     posts;
 
     @Autowired
     private CategoryService categories;
 
     @Autowired
-    private DomainService domains;
+    private DomainService   domains;
 
     @Autowired
-    private CategoryMapper categoryMapper;
+    private CategoryMapper  categoryMapper;
 
     @Autowired
-    private DomainMapper domainMapper;
-
-    private static final String REDIRECT_TO_SELECT_DOMAIN = "redirect:/blog/posts/selectDomain";
+    private DomainMapper    domainMapper;
 
     @RequestMapping
     public String redirect() {
@@ -116,7 +118,7 @@ public class BlogController extends AbstractController {
     @PreAuthorize("hasAnyAuthority('CREATE', 'UPDATE')")
     @RequestMapping(value = {"/posts/process"})
     public ModelAndView process(PostMapper mapper, @Valid PostDto dto, BindingResult result) {
-        ModelAndView view = new ModelAndView("posts/form");
+        ModelAndView view   = newView("posts/form");
         Domain       domain = domains.getActiveDomain();
 
         if (domains.hasActiveDomain()) {
@@ -149,7 +151,7 @@ public class BlogController extends AbstractController {
     @PreAuthorize("hasAnyAuthority('CREATE', 'UPDATE')")
     @RequestMapping(value = {"/categories", "/categories/edit/{id:[0-9]+}"})
     public ModelAndView categories(@PathVariable(value = "id", required = false) Integer id) {
-        ModelAndView view   = new ModelAndView("blog/categories");
+        ModelAndView view   = newView("categories/categories");
         Domain       domain = domains.getActiveDomain();
 
         if (domains.hasActiveDomain()) {
@@ -165,10 +167,11 @@ public class BlogController extends AbstractController {
 
     @PreAuthorize("hasAnyAuthority('CREATE', 'UPDATE')")
     @RequestMapping(value = {"/categories/process/{id:[0-9]+}", "/categories/process"}, method = RequestMethod.POST)
-    public ModelAndView process(
-        @PathVariable(value = "id", required = false) Integer id, @Valid CategoryDto dto, BindingResult result, RedirectAttributes attributes
+    public RedirectView process(
+        @PathVariable(value = "id", required = false) Integer id, @Valid CategoryDto dto,
+        BindingResult result, RedirectAttributes attributes
     ) {
-        ModelAndView view     = new ModelAndView("redirect:/posts/categories");
+        RedirectView view     = newRedirect("categories");
         Category     category = categories.getCategory(id);
 
         if (domains.hasActiveDomain()) {
@@ -183,7 +186,7 @@ public class BlogController extends AbstractController {
             }
 
         } else {
-            view.setViewName(REDIRECT_TO_SELECT_DOMAIN);
+            view.setUrl(TO_SELECT_DOMAIN);
         }
 
         return view;
@@ -191,35 +194,33 @@ public class BlogController extends AbstractController {
 
     @PreAuthorize("hasAuthority('READ')")
     @RequestMapping(value = {"/domains/{id:[0-9]+}", "/domains"}, method = RequestMethod.GET)
-    public String domains(
-            @PathVariable(value = "id", required = false) Integer id, Model model
+    public ModelAndView domains(
+        @PathVariable(value = "id", required = false) Integer id, Model model
     ) {
         model.addAttribute("domains", domains.getDomains());
         model.addAttribute("entity", domains.getDomain(id));
 
-        return "domains/list";
+        return newView("domains/domains");
     }
 
     @PreAuthorize("hasAnyRole('ADMIN', 'SUPERUSER')")
-    @RequestMapping(value = {"/domains/{id:[0-9]+}"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/domains/{id:[0-9]+}", "/domains"}, method = RequestMethod.POST)
     public ModelAndView process(
-            @PathVariable(value = "id", required = false) Integer id,
-            @Valid DomainDto dto, BindingResult result, RedirectAttributes attributes
+        @PathVariable(value = "id", required = false) Integer id, @Valid DomainDto dto, BindingResult result, RedirectAttributes attributes
     ) {
-        ModelAndView view   = new ModelAndView("redirect:/blog/domains");
+        ModelAndView view   = newView("domains/domains");
         Domain       domain = domains.getDomain(id);
 
         domainMapper.map(dto, domain);
 
         if (!result.hasErrors()) {
             domains.merge(domain);
-            attributes.addFlashAttribute("message",
-                    getMessage("blog.domain.saved", domain.getDomain(), domain.getName()));
+            attributes.addFlashAttribute("message", getMessage("blog.domain.saved", domain.getDomain(), domain.getName()));
+            view.setViewName("redirect:/blog/domains");
         } else {
             view.addObject("entity", domain);
             view.addObject("domains", domains.getDomains());
             view.addObject("result", result);
-            view.setViewName("/blog/domains/list");
         }
 
         return view;

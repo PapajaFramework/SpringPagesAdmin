@@ -97,6 +97,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
         resolver.setCookieMaxAge(2400);
         resolver.setCookieName(environment.getProperty("app.view.theme.cookieName"));
+        resolver.setCookieMaxAge(Integer.valueOf(environment.getProperty("app.view.theme.cookieMaxAge")));
         resolver.setDefaultThemeName(environment.getProperty("app.view.theme.default"));
 
         return resolver;
@@ -125,6 +126,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
         resolver.setDefaultLocale(Locale.forLanguageTag(environment.getProperty("app.locale.default").replace('_', '-')));
         resolver.setCookieName(environment.getProperty("app.locale.cookieName"));
+        resolver.setCookieMaxAge(Integer.valueOf(environment.getProperty("app.locale.cookieMaxAge")));
 
         return resolver;
     }

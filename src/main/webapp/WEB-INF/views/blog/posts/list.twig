@@ -13,9 +13,8 @@
                     <table class="table table-hover">
                         <thead>
                         <tr>
-                            <th scope="col" class="min-vh-100">ID</th>
                             <th scope="col">{{ 'label.name' | translate }}</th>
-                            <th scope="col">{{ 'label.category' | translate }}</th>
+                            <th scope="col" class="d-none d-md-table-cell">{{ 'label.category' | translate }}</th>
                             <th scope="col" class="d-none d-md-table-cell">{{ 'title.status' | translate }}</th>
                             <th scope="col" class="w-25"></th>
                         </tr>
@@ -24,10 +23,9 @@
                         {% for post in result.result %}
                             {% set edit = '/blog/posts/edit/' ~ post.id %}
                             <tr>
-                                <td>{{ post.id }}</td>
                                 <td>{{ post.title }}</td>
-                                <td>{{ post.category.name }}</td>
-                                <td>
+                                <td class="d-none d-md-table-cell">{{ post.category.name }}</td>
+                                <td class="d-none d-md-table-cell">
                                     {% if post.enabled %}
                                         <span class="badge badge-pill badge-success">{{ 'label.enabled' | translate }}</span>
                                     {% else %}
@@ -44,7 +42,7 @@
                     </table>
                 </div>
                 <div class="card-footer">
-                    {{ pagination.pagination(result.total, result.limit, result.current, '/posts/all?page=') }}
+                    {{ pagination.pagination(result.total, result.limit, result.current, '/blog/posts?page=') }}
                 </div>
             </div>
 
