@@ -1,6 +1,6 @@
 package org.papaja.adminfly.core.security.rsa;
 
-import org.papaja.adminfly.core.security.Base64;
+import org.papaja.adminfly.core.security.Base64Codec;
 import org.papaja.adminfly.core.security.Decoder;
 
 import java.nio.charset.StandardCharsets;
@@ -14,10 +14,10 @@ import java.security.spec.X509EncodedKeySpec;
 @SuppressWarnings({"unused"})
 public class RSAKeyFactory {
 
-    private static final Base64 BASE_64;
+    private static final Base64Codec BASE_64;
 
     static {
-        BASE_64 = new Base64();
+        BASE_64 = new Base64Codec();
     }
 
     public PrivateKey getPrivateKey(String key) {
