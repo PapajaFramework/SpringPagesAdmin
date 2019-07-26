@@ -3,7 +3,6 @@ package org.papaja.adminfly.core.security.rsa;
 import org.papaja.adminfly.core.security.Base64Codec;
 import org.papaja.adminfly.core.security.Decoder;
 
-import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.security.KeyFactory;
 import java.security.PrivateKey;
@@ -21,11 +20,11 @@ public class RSAKeyFactory {
     }
 
     public PrivateKey getPrivateKey(String key) {
-        return getPrivateKey(BASE_64.decode(key).getBytes(StandardCharsets.UTF_8));
+        return getPrivateKey(BASE_64.decode(key));
     }
 
     public PublicKey getPublicKey(String key) {
-        return getPublicKey(BASE_64.decode(key).getBytes(StandardCharsets.UTF_8));
+        return getPublicKey(BASE_64.decode(key));
     }
 
     public PrivateKey getPrivateKey(byte[] bytes) {
