@@ -19,7 +19,7 @@ public class RSAKeyGenerator {
         try {
             generator = KeyPairGenerator.getInstance(ALGORITHM);
             generator.initialize(keySize);
-        } catch (NoSuchAlgorithmException exception) { }
+        } catch (NoSuchAlgorithmException ignored) { }
 
         generate();
     }
