@@ -1,12 +1,12 @@
 package org.papaja.adminfly.entity.blog;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.papaja.adminfly.entity.AbstractEntity;
+import org.papaja.adminfly.entity.security.User;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 @Table(name = "blog_domains")
@@ -17,6 +17,13 @@ public class Domain extends AbstractEntity {
 
     @Column(name = "domain")
     private String domain;
+
+    @ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SELECT)
+    @JoinTable(name = "blog_users_domains",
+        joinColumns = { @JoinColumn(name = "domain_id", referencedColumnName = "id") },
+        inverseJoinColumns = { @JoinColumn(name = "user_id", referencedColumnName = "id") })
+    private Collection<User> users;
 
     public String getName() {
         return name;
@@ -32,6 +39,10 @@ public class Domain extends AbstractEntity {
 
     public void setDomain(String domain) {
         this.domain = domain;
+    }
+
+    public Collection<User> getUsers() {
+        return users;
     }
 
     @Override

@@ -1,6 +1,6 @@
 package org.papaja.adminfly.mapper.security;
 
-import org.papaja.adminfly.core.mapping.Mapper;
+import org.papaja.adminfly.commons.mapping.Mapper;
 import org.papaja.adminfly.dto.security.UserDto;
 import org.papaja.adminfly.entity.security.User;
 import org.springframework.beans.factory.annotation.Autowired;

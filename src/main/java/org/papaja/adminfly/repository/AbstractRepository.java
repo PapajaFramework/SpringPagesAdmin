@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.Arrays;
 import java.util.List;
 
@@ -92,6 +93,25 @@ abstract public class AbstractRepository<E extends AbstractEntity> {
 
     public MultiIdentifierLoadAccess getMultiAccessor(Class<E> reflection) {
         return session().byMultipleIds(reflection);
+    }
+
+    public CriteriaQuery<E> criteriaQueryFor(String column, String value) {
+        CriteriaBuilder  builder = criteriaBuilder();
+        CriteriaQuery<E> query   = builder.createQuery(getReflection());
+        Root<E>          root    = query.from(getReflection());
+
+        query.select(root);
+        query.where(builder.equal(root.get(column), value));
+
+        return query;
+    }
+
+    public E getOneFor(String column, String value) {
+        return uniqueResult(criteriaQueryFor(column, value));
+    }
+
+    public List<E> getListFor(String column, String value) {
+        return getList(criteriaQueryFor(column, value));
     }
 
     abstract public Class<E> getReflection();

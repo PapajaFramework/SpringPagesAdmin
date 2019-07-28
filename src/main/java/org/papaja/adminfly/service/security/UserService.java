@@ -1,6 +1,6 @@
 package org.papaja.adminfly.service.security;
 
-import org.papaja.adminfly.core.vendor.hibernate.Pagination;
+import org.papaja.adminfly.commons.vendor.hibernate.Pagination;
 import org.papaja.adminfly.entity.security.User;
 import org.papaja.adminfly.mapper.security.UserMapper;
 import org.papaja.adminfly.dto.security.UserDto;

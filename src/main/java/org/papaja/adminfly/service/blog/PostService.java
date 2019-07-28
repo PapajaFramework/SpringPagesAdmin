@@ -1,6 +1,7 @@
 package org.papaja.adminfly.service.blog;
 
-import org.papaja.adminfly.core.vendor.hibernate.Pagination;
+import org.papaja.adminfly.commons.vendor.hibernate.Pagination;
+import org.papaja.adminfly.entity.blog.Domain;
 import org.papaja.adminfly.entity.blog.Post;
 import org.papaja.adminfly.repository.blog.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,9 @@ public class PostService {
     }
 
     public Pagination<Post> getPosts(int offset) {
-        return Pagination.of(repository.getPostsQuery(domains.getActiveDomain()), offset, MAX_RESULT_PER_PAGE);
+        String domain = domains.getActiveDomain().getDomain();
+
+        return Pagination.of(repository.getPostsQuery(domain), offset, MAX_RESULT_PER_PAGE);
     }
 
     public void merge(Post post) {
