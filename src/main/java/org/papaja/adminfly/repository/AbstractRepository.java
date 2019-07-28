@@ -95,7 +95,7 @@ abstract public class AbstractRepository<E extends AbstractEntity> {
         return session().byMultipleIds(reflection);
     }
 
-    public CriteriaQuery<E> criteriaQueryFor(String column, String value) {
+    public CriteriaQuery<E> criteriaQueryFor(String column, Object value) {
         CriteriaBuilder  builder = criteriaBuilder();
         CriteriaQuery<E> query   = builder.createQuery(getReflection());
         Root<E>          root    = query.from(getReflection());

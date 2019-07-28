@@ -13,8 +13,8 @@ import java.util.List;
 @Transactional
 public class PostRepository extends AbstractRepository<Post> {
 
-    public Query<Post> getPostsQuery(String domain) {
-        return createQuery(criteriaQueryFor("domain", domain));
+    public Query<Post> getPostsQuery(Integer domain) {
+        return createQuery(criteriaQueryFor("domain_id", domain));
     }
 
     public List<Post> getPosts() {
