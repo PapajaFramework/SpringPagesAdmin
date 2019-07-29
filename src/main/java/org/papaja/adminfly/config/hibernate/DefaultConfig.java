@@ -53,6 +53,7 @@ public class DefaultConfig {
         properties.put("hibernate.dialect", environment.getProperty("hibernate.dialect"));
         properties.put("hibernate.hbm2ddl.auto", environment.getProperty("hibernate.hbm2ddl.auto"));
         properties.put("hibernate.show_sql", environment.getProperty("hibernate.showSql"));
+        properties.put("hibernate.format_sql", environment.getProperty("hibernate.formatSql"));
         properties.put("hibernate.connection.provider_class", environment.getProperty("hibernate.connection.provider"));
         properties.put("hibernate.connection.autocommit", environment.getProperty("hibernate.connection.autocommit"));
 

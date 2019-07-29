@@ -25,7 +25,8 @@ public class Role extends AbstractEntity {
     })
     @JoinTable(name = "security_users_roles",
         joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"),
-        inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
+        inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id")
+    )
     private Collection<User> users;
 
     @ManyToMany(cascade = {
@@ -34,7 +35,8 @@ public class Role extends AbstractEntity {
     })
     @JoinTable(name = "security_roles_privileges",
         joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"),
-        inverseJoinColumns = @JoinColumn(name = "privilege_id", referencedColumnName = "id"))
+        inverseJoinColumns = @JoinColumn(name = "privilege_id", referencedColumnName = "id")
+    )
     private Collection<Privilege> privileges;
 
     public Role() {
