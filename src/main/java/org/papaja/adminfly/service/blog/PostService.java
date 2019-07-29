@@ -35,9 +35,7 @@ public class PostService {
     }
 
     public Pagination<Post> getPosts(int offset) {
-        Integer domain = domains.getActiveDomain().getId();
-
-        return Pagination.of(repository.getPostsQuery(domain), offset, MAX_RESULT_PER_PAGE);
+        return Pagination.of(repository.getPostsQuery(domains.getActiveDomain()), offset, MAX_RESULT_PER_PAGE);
     }
 
     public void merge(Post post) {

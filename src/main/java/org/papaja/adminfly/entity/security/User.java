@@ -35,7 +35,10 @@ public class User extends AbstractEntity {
     @Column(name = "updated")
     private Timestamp updated;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
+    @ManyToMany(cascade = {
+            CascadeType.DETACH, CascadeType.MERGE,
+            CascadeType.REFRESH, CascadeType.PERSIST
+    })
     @JoinTable(
         name = "security_users_roles",
         joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),

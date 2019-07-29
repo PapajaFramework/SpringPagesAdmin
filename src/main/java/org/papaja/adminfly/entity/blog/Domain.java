@@ -16,7 +16,7 @@ public class Domain extends AbstractEntity {
     @Column(name = "domain")
     private String domain;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {
+    @ManyToMany(cascade = {
         CascadeType.PERSIST, CascadeType.MERGE
     })
     @JoinTable(name = "blog_users_domains",

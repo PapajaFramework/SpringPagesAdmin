@@ -49,6 +49,7 @@ public class DefaultConfig {
         Properties properties = new Properties();
 
         // Hibernate Settings
+        properties.put("hibernate.enable_lazy_load_no_trans", environment.getProperty("hibernate.enableLazyLoadNoTransaction"));
         properties.put("hibernate.dialect", environment.getProperty("hibernate.dialect"));
         properties.put("hibernate.hbm2ddl.auto", environment.getProperty("hibernate.hbm2ddl.auto"));
         properties.put("hibernate.show_sql", environment.getProperty("hibernate.showSql"));

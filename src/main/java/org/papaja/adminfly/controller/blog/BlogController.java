@@ -77,6 +77,10 @@ public class BlogController extends AbstractController {
     public String select(@PathVariable(value = "id", required = false) Integer id) {
         domains.setActiveDomain(id);
 
+        System.out.println("------");
+        System.out.println(domains.getActiveDomain().getUsers());
+        System.out.println("------");
+
         // todo: need to block by domain
 
         return "redirect:/blog/posts";

@@ -20,15 +20,17 @@ public class Role extends AbstractEntity {
     private String name;
 
     @ManyToMany(cascade = {
-        CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST
+            CascadeType.DETACH, CascadeType.MERGE,
+            CascadeType.REFRESH, CascadeType.PERSIST
     })
     @JoinTable(name = "security_users_roles",
         joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"),
         inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
     private Collection<User> users;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {
-        CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST
+    @ManyToMany(cascade = {
+            CascadeType.DETACH, CascadeType.MERGE,
+            CascadeType.REFRESH, CascadeType.PERSIST
     })
     @JoinTable(name = "security_roles_privileges",
         joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"),
