@@ -97,11 +97,6 @@ abstract public class AbstractRepository<E extends AbstractEntity> {
     }
 
     public CriteriaQuery<E> criteriaQuery(String column, Object value) {
-        QueryConsumer<E> consumer = (b, q, r) -> {System.out.println(">> accept");};
-
-        consumer.after((b, q, r) -> {System.out.println(">>>>>> after");}).accept(null, null, null);
-        consumer.before((b, q, r) -> {System.out.println(">>>>>> after");}).accept(null, null, null);
-
         return criteriaQuery((builder, query, root) -> query.where(builder.equal(root.get(column), value)));
     }
 
