@@ -9,7 +9,9 @@ import javax.validation.constraints.NotBlank;
 @Table(name = "blog_categories")
 public class Category extends AbstractEntity {
 
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToOne(cascade = {
+            CascadeType.PERSIST, CascadeType.MERGE
+    }, optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name="domain_id")
     private Domain domain;
 

@@ -106,6 +106,7 @@ abstract public class AbstractRepository<E extends AbstractEntity> {
         Root<E>          root    = query.from(getReflection());
 
         query.select(root);
+
         consumer.accept(builder, query, root);
 
         return query;
