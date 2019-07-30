@@ -4,6 +4,7 @@ import org.hibernate.MultiIdentifierLoadAccess;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
+import org.papaja.adminfly.commons.util.function.TriConsumer;
 import org.papaja.adminfly.entity.AbstractEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -95,25 +96,41 @@ abstract public class AbstractRepository<E extends AbstractEntity> {
         return session().byMultipleIds(reflection);
     }
 
-    public CriteriaQuery<E> criteriaQueryFor(String column, Object value) {
+    public CriteriaQuery<E> criteriaQuery(String column, Object value) {
+        return criteriaQuery((builder, query, root) -> query.where(builder.equal(root.get(column), value)));
+    }
+
+    public CriteriaQuery<E> criteriaQuery(QueryConsumer<E> consumer) {
         CriteriaBuilder  builder = criteriaBuilder();
         CriteriaQuery<E> query   = builder.createQuery(getReflection());
         Root<E>          root    = query.from(getReflection());
 
         query.select(root);
-        query.where(builder.equal(root.get(column), value));
+        consumer.accept(builder, query, root);
 
         return query;
     }
 
-    public E getOneFor(String column, String value) {
-        return uniqueResult(criteriaQueryFor(column, value));
+    public E getOne(String column, String value) {
+        return uniqueResult(criteriaQuery(column, value));
     }
 
-    public List<E> getListFor(String column, String value) {
-        return getList(criteriaQueryFor(column, value));
+    public List<E> getList(String column, String value) {
+        return getList(criteriaQuery(column, value));
+    }
+
+    public E getOne(QueryConsumer<E> consumer) {
+        return uniqueResult(criteriaQuery(consumer));
+    }
+
+    public List<E> getList(QueryConsumer<E> consumer) {
+        return getList(criteriaQuery(consumer));
     }
 
     abstract public Class<E> getReflection();
+
+    @FunctionalInterface
+    public interface QueryConsumer<E> extends TriConsumer<CriteriaBuilder, CriteriaQuery<E>, Root<E>> {
+    }
 
 }

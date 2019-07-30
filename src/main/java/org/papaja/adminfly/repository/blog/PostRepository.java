@@ -14,7 +14,7 @@ import java.util.List;
 public class PostRepository extends AbstractRepository<Post> {
 
     public Query<Post> getPostsQuery(Domain domain) {
-        return createQuery(criteriaQueryFor("domain", domain));
+        return createQuery(criteriaQuery("domain", domain));
     }
 
     public List<Post> getPosts() {

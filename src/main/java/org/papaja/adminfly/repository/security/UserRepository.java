@@ -11,7 +11,7 @@ import java.util.List;
 public class UserRepository extends AbstractRepository<User> {
 
     public User getUser(String name) {
-        return getOneFor("username", name);
+        return getOne("username", name);
     }
 
     public User getUser(Integer id) {
