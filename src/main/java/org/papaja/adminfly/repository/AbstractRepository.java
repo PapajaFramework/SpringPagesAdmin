@@ -97,7 +97,9 @@ abstract public class AbstractRepository<E extends AbstractEntity> {
     }
 
     public CriteriaQuery<E> criteriaQuery(String column, Object value) {
-        return criteriaQuery((builder, query, root) -> query.where(builder.equal(root.get(column), value)));
+        return criteriaQuery((builder, query, root) -> {
+            query.where(builder.equal(root.get(column), value));
+        });
     }
 
     public CriteriaQuery<E> criteriaQuery(QueryConsumer<E> consumer) {
