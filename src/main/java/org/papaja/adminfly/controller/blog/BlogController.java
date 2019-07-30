@@ -33,8 +33,8 @@ import javax.validation.Valid;
 @RequestMapping("/blog")
 public class BlogController extends AbstractController {
 
-    private static final String TO_SELECT_DOMAIN          = "/blog/posts/selectDomain";
-    private static final String REDIRECT_TO_SELECT_DOMAIN = "redirect:" + TO_SELECT_DOMAIN;
+    private static final String TO_SELECT_DOMAIN          = "/posts/selectDomain";
+    private static final String REDIRECT_TO_SELECT_DOMAIN = "redirect:/blog" + TO_SELECT_DOMAIN;
 
     @Autowired
     private PostService     posts;
