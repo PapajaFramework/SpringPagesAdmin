@@ -14,6 +14,7 @@ import org.papaja.adminfly.commons.vendor.jtwig.extension.asset.resolver.Resourc
 import org.papaja.adminfly.commons.vendor.jtwig.function.theme.ThemeResolverExtension;
 import org.papaja.adminfly.commons.vendor.spring.web.servlet.resource.ContentHashVersionStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
@@ -104,7 +105,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    public ReloadableResourceBundleMessageSource messageSource() {
+    public MessageSource messageSource() {
         ReloadableResourceBundleMessageSource source = new ReloadableResourceBundleMessageSource();
 
         source.addBasenames(

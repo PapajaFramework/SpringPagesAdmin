@@ -1,5 +1,7 @@
 package org.papaja.adminfly.commons.util.function;
 
+import java.util.Objects;
+
 @FunctionalInterface
 public interface Predicate<A> {
 
@@ -15,6 +17,14 @@ public interface Predicate<A> {
 
     default Predicate<A> xor(Predicate<? super A> other) {
         return (a) -> test(a) ^ other.test(a);
+    }
+
+    default Predicate<A> isNull() {
+        return Objects::isNull;
+    }
+
+    default Predicate<A> nonNull() {
+        return Objects::nonNull;
     }
 
     default Predicate<A> negate() {

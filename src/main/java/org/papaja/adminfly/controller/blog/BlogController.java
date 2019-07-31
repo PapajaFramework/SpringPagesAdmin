@@ -63,30 +63,6 @@ public class BlogController extends AbstractController {
     }
 
     @PreAuthorize("hasAuthority('READ')")
-    @RequestMapping("/posts/selectDomain")
-    public ModelAndView domains() {
-        ModelAndView view = newView("posts/selectDomain");
-
-        view.addObject("domains", domains.getDomains());
-
-        return view;
-    }
-
-    @PreAuthorize("hasAuthority('READ')")
-    @RequestMapping("/posts/selectDomain/{id:[0-9]+}")
-    public String select(@PathVariable(value = "id", required = false) Integer id) {
-        domains.setActiveDomain(id);
-
-        System.out.println("------");
-        System.out.println(domains.getActiveDomain().getUsers());
-        System.out.println("------");
-
-        // todo: need to block by domain
-
-        return "redirect:/blog/posts";
-    }
-
-    @PreAuthorize("hasAuthority('READ')")
     @RequestMapping("/posts")
     public ModelAndView list(@RequestParam(value = "page", defaultValue = "1") int page) {
         ModelAndView view = new ModelAndView();
@@ -197,22 +173,22 @@ public class BlogController extends AbstractController {
     }
 
     @PreAuthorize("hasAuthority('READ')")
-    @RequestMapping(value = {"/domains/{id:[0-9]+}", "/domains"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/setting/domains/{id:[0-9]+}", "/setting/domains"}, method = RequestMethod.GET)
     public ModelAndView domains(
         @PathVariable(value = "id", required = false) Integer id, Model model
     ) {
         model.addAttribute("domains", domains.getDomains());
         model.addAttribute("entity", domains.getDomain(id));
 
-        return newView("domains/domains");
+        return newView("setting/domains");
     }
 
     @PreAuthorize("hasAnyRole('ADMIN', 'SUPERUSER')")
-    @RequestMapping(value = {"/domains/{id:[0-9]+}", "/domains"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/setting/domains/{id:[0-9]+}", "/setting/domains"}, method = RequestMethod.POST)
     public ModelAndView process(
         @PathVariable(value = "id", required = false) Integer id, @Valid DomainDto dto, BindingResult result, RedirectAttributes attributes
     ) {
-        ModelAndView view   = newView("domains/domains");
+        ModelAndView view   = newView("setting/domains");
         Domain       domain = domains.getDomain(id);
 
         domainMapper.map(dto, domain);
@@ -220,7 +196,7 @@ public class BlogController extends AbstractController {
         if (!result.hasErrors()) {
             domains.merge(domain);
             attributes.addFlashAttribute("message", getMessage("blog.domain.saved", domain.getDomain(), domain.getName()));
-            view.setViewName("redirect:/blog/domains");
+            view.setViewName("redirect:/blog/setting/domains");
         } else {
             view.addObject("entity", domain);
             view.addObject("domains", domains.getDomains());
@@ -230,10 +206,28 @@ public class BlogController extends AbstractController {
         return view;
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'SUPERUSER')")
-    @RequestMapping(value = "/setting")
-    public ModelAndView setting() {
-        return newView("setting/main");
+    @PreAuthorize("hasAuthority('READ')")
+    @RequestMapping("/setting/selectDomain/{id:[0-9]+}")
+    public String select(@PathVariable(value = "id", required = false) Integer id) {
+        domains.setActiveDomain(id);
+
+        System.out.println("------");
+        System.out.println(domains.getActiveDomain().getUsers());
+        System.out.println("------");
+
+        // todo: need to block by domain
+
+        return "redirect:/blog/posts";
+    }
+
+    @PreAuthorize("hasAuthority('READ')")
+    @RequestMapping("/setting/selectDomain")
+    public ModelAndView domains() {
+        ModelAndView view = newView("setting/selectDomain");
+
+        view.addObject("domains", domains.getDomains());
+
+        return view;
     }
 
 }

@@ -1,5 +1,6 @@
 package org.papaja.adminfly.commons.util.function;
 
+@SuppressWarnings({"unused"})
 final public class Lambda {
 
     public static <A> Predicate<A> as(Predicate<A> predicate) {

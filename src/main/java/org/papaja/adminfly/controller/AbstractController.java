@@ -11,8 +11,10 @@ import org.springframework.web.servlet.view.RedirectView;
 import java.util.Arrays;
 import java.util.List;
 
+import static java.lang.String.format;
+
 @Controller
-@SuppressWarnings("all")
+@SuppressWarnings({"unused"})
 abstract public class AbstractController {
 
     @Autowired
@@ -30,15 +32,17 @@ abstract public class AbstractController {
     }
 
     protected ModelAndView newView(String view) {
-        view = view.startsWith("/") ? view.substring(1) : view;
-
-        return new ModelAndView(String.format("%s/%s", getPrefix(), view));
+        return new ModelAndView(normalizeViewPath(view));
     }
 
     protected RedirectView newRedirect(String view) {
+        return new RedirectView(normalizeViewPath(view));
+    }
+
+    protected String normalizeViewPath(String view) {
         view = view.startsWith("/") ? view.substring(1) : view;
 
-        return new RedirectView(String.format("%s/%s", getPrefix(), view));
+        return format("%s/%s", getPrefix(), view);
     }
 
 }
