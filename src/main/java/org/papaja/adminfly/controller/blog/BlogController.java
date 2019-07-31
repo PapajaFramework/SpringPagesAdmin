@@ -230,4 +230,10 @@ public class BlogController extends AbstractController {
         return view;
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'SUPERUSER')")
+    @RequestMapping(value = "/setting")
+    public ModelAndView setting() {
+        return newView("setting/main");
+    }
+
 }

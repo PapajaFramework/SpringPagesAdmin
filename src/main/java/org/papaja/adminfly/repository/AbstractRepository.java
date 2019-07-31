@@ -14,6 +14,8 @@ import javax.persistence.criteria.Root;
 import java.util.Arrays;
 import java.util.List;
 
+import static java.lang.String.format;
+
 @SuppressWarnings({"all"})
 abstract public class AbstractRepository<E extends AbstractEntity> {
 
@@ -64,16 +66,8 @@ abstract public class AbstractRepository<E extends AbstractEntity> {
         return createQuery(criteria).getResultList();
     }
 
-    public Query<E> createQuery(CriteriaQuery<E> criteria) {
-        return session().createQuery(criteria);
-    }
-
     public List<E> getList() {
         return createQuery().getResultList();
-    }
-
-    public Query<E> createQuery() {
-        return session().createQuery(String.format("from %s", getReflection().getSimpleName()));
     }
 
     public E uniqueResult(CriteriaQuery<E> criteria) {
@@ -94,6 +88,18 @@ abstract public class AbstractRepository<E extends AbstractEntity> {
 
     public MultiIdentifierLoadAccess getMultiAccessor(Class<E> reflection) {
         return session().byMultipleIds(reflection);
+    }
+
+    public Query<E> createQuery() {
+        return session().createQuery(format("from %s", getReflection().getSimpleName()));
+    }
+
+    public Query<E> createQuery(CriteriaQuery<E> criteria) {
+        return session().createQuery(criteria);
+    }
+
+    public Query<E> createQuery(QueryConsumer<E> consumer) {
+        return createQuery(criteriaQuery(consumer));
     }
 
     public CriteriaQuery<E> criteriaQuery(String column, Object value) {
