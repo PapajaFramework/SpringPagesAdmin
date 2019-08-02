@@ -230,4 +230,11 @@ public class BlogController extends AbstractController {
         return view;
     }
 
+    @RequestMapping("/setting/permissions")
+    public ModelAndView permissions() {
+        ModelAndView mav = newView("setting/permissions");
+
+        return mav;
+    }
+
 }
