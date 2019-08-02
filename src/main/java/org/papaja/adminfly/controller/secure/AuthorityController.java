@@ -44,7 +44,7 @@ public class AuthorityController extends AbstractController {
     }
 
     @RequestMapping(value = "/role/edit/{id:[0-9]+}", method = RequestMethod.GET)
-    @PreAuthorize("hasAnyAuthority('SECURITY')")
+    @PreAuthorize("hasAuthority('READ')")
     public ModelAndView edit(@PathVariable("id") Integer id) {
         ModelAndView model = new ModelAndView("authority/role/form");
 
