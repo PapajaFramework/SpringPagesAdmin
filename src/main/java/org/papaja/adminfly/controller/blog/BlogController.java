@@ -26,6 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @SuppressWarnings({"unused"})
@@ -33,7 +34,7 @@ import javax.validation.Valid;
 @RequestMapping("/blog")
 public class BlogController extends AbstractController {
 
-    private static final String TO_SELECT_DOMAIN          = "/setting/selectDomain";
+    private static final String TO_SELECT_DOMAIN          = "/setting/selectDomain?redirected=1";
     private static final String REDIRECT_TO_SELECT_DOMAIN = "redirect:/blog" + TO_SELECT_DOMAIN;
 
     @Autowired
@@ -161,7 +162,7 @@ public class BlogController extends AbstractController {
             if (result.hasErrors()) {
                 attributes.addFlashAttribute("result", result);
             } else {
-                attributes.addFlashAttribute("message", getMessage("blog.category.saved", category.getName()));
+                attributes.addFlashAttribute("message", messages.getSuccessMessage("blog.category.saved", category.getName()));
                 categories.merge(category);
             }
 
@@ -195,7 +196,7 @@ public class BlogController extends AbstractController {
 
         if (!result.hasErrors()) {
             domains.merge(domain);
-            attributes.addFlashAttribute("message", getMessage("blog.domain.saved", domain.getDomain(), domain.getName()));
+            attributes.addFlashAttribute("message", messages.getSuccessMessage("blog.domain.saved", domain.getDomain(), domain.getName()));
             view.setViewName("redirect:/blog/setting/domains");
         } else {
             view.addObject("entity", domain);
@@ -211,10 +212,6 @@ public class BlogController extends AbstractController {
     public String select(@PathVariable(value = "id", required = false) Integer id) {
         domains.setActiveDomain(id);
 
-        System.out.println("------");
-        System.out.println(domains.getActiveDomain().getUsers());
-        System.out.println("------");
-
         // todo: need to block by domain
 
         return "redirect:/blog/posts";
@@ -222,7 +219,7 @@ public class BlogController extends AbstractController {
 
     @PreAuthorize("hasAuthority('READ')")
     @RequestMapping("/setting/selectDomain")
-    public ModelAndView domains() {
+    public ModelAndView domains(HttpServletRequest request) {
         ModelAndView view = newView("setting/selectDomain");
 
         view.addObject("domains", domains.getDomains());

@@ -1,8 +1,7 @@
 package org.papaja.adminfly.controller;
 
+import org.papaja.adminfly.service.FlashMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,7 +17,19 @@ import static java.lang.String.format;
 abstract public class AbstractController {
 
     @Autowired
-    private MessageSource messages;
+    protected FlashMessageService messages;
+
+    protected String getMessage(String key, Object... parameters) {
+        return messages.getMessage(key, parameters);
+    }
+
+    protected ModelAndView newView(String view) {
+        return new ModelAndView(normalizeViewPath(view));
+    }
+
+    private String normalizeViewPath(String view) {
+        return format("%s/%s", getPrefix(), (view.startsWith("/") ? view.substring(1) : view));
+    }
 
     protected String getPrefix() {
         RequestMapping annotation = this.getClass().getAnnotation(RequestMapping.class);
@@ -27,20 +38,8 @@ abstract public class AbstractController {
         return mapping.size() > 0 ? mapping.get(0) : null;
     }
 
-    protected String getMessage(String key, Object... parameters) {
-        return messages.getMessage(key, parameters, LocaleContextHolder.getLocale());
-    }
-
-    protected ModelAndView newView(String view) {
-        return new ModelAndView(normalizeViewPath(view));
-    }
-
     protected RedirectView newRedirect(String view) {
         return new RedirectView(normalizeViewPath(view));
-    }
-
-    protected String normalizeViewPath(String view) {
-        return format("%s/%s", getPrefix(), (view.startsWith("/") ? view.substring(1) : view)).substring(1);
     }
 
 }

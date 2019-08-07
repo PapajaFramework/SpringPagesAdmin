@@ -1,4 +1,4 @@
 {% import '../../../macro/flash.twig' as flash %}
 {% if message is defined %}
-    {{ flash.info(message, 'label.flash.info' | translate) }}
+    {{ flash.message(message.text, message.header, message.severity) }}
 {% endif %}
