@@ -1,4 +1,4 @@
 {% for locale in languages.locales %}
-<a class="dropdown-item" href="{{ uri }}?locale={{ lower(locale.language.code) }}">
-    <img class="lang-icon" src="{{ asset('icons/flags/' ~ lower(locale.code) ~ '.svg') }}">&nbsp;{{ locale.language.getName() }} ({{ locale.language.getLocal() }})</a>
+<a class="dropdown-item" href="{{ uri }}?locale={{ lower(locale.languages.code) }}">
+    <img class="lang-icon" src="{{ asset('icons/flags/' ~ lower(locale.code) ~ '.svg') }}">&nbsp;{{ locale.languages.getName() }} ({{ locale.languages.getLocal() }})</a>
 {% endfor %}

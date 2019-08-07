@@ -1,5 +1,8 @@
 package org.papaja.adminfly.commons.geo;
 
+import java.util.Arrays;
+import java.util.List;
+
 public enum Country {
 
     AF("AFGHANISTAN", "AF", Language.AR),
@@ -18,7 +21,7 @@ public enum Country {
     AZ("AZERBAIJAN", "AZ"),
     BS("BAHAMAS", "BS"),
     BH("BAHRAIN", "BH"),
-    BD("BANGLADESH", "BD", Language.BN),
+    BD("BANGLADESH", "BD", Language.MY_MM),
     BB("BARBADOS", "BB"),
     BY("BELARUS", "BY", Language.BE),
     BE("BELGIUM", "BE"),
@@ -36,7 +39,7 @@ public enum Country {
     BG("BULGARIA", "BG"),
     BF("BURKINA FASO", "BF"),
     BI("BURUNDI", "BI"),
-    KH("CAMBODIA", "KH", Language.KM),
+    KH("CAMBODIA", "KH", Language.KM_KH),
     CM("CAMEROON", "CM"),
     CA("CANADA", "CA"),
     CV("CAPE VERDE", "CV"),
@@ -68,7 +71,7 @@ public enum Country {
     GQ("EQUATORIAL GUINEA", "GQ"),
     ER("ERITREA", "ER"),
     EE("ESTONIA", "EE"),
-    ET("ETHIOPIA", "ET", Language.AM),
+    ET("ETHIOPIA", "ET", Language.AM_ET),
     FK("FALKLAND ISLANDS (MALVINAS)", "FK"),
     FO("FAROE ISLANDS", "FO"),
     FJ("FIJI", "FJ"),
@@ -99,7 +102,7 @@ public enum Country {
     HU("HUNGARY", "HU"),
     IS("ICELAND", "IS"),
     IN("INDIA", "IN", Language.HI),
-    ID("INDONESIA", "ID", Language.IN),
+    ID("INDONESIA", "ID", Language.ID_ID),
     IR("IRAN, ISLAMIC REPUBLIC OF", "IR"),
     IQ("IRAQ", "IQ"),
     IE("IRELAND", "IE"),
@@ -111,11 +114,11 @@ public enum Country {
     KZ("KAZAKHSTAN", "KZ"),
     KE("KENYA", "KE"),
     KI("KIRIBATI", "KI"),
-    KP("NORTH KOREA", "KP", Language.KO),
+    KP("NORTH KOREA", "KP", Language.KO_KR),
     KR("SOUTH KOREA", "KR", Language.KO),
     KW("KUWAIT", "KW"),
     KG("KYRGYZSTAN", "KG"),
-    LA("LAO PEOPLE'S DEMOCRATIC REPUBLIC (LAOS)", "LA", Language.LO),
+    LA("LAOS", "LA", Language.LO_LA),
     LV("LATVIA", "LV"),
     LB("LEBANON", "LB"),
     LS("LESOTHO", "LS"),
@@ -146,7 +149,7 @@ public enum Country {
     MS("MONTSERRAT", "MS"),
     MA("MOROCCO", "MA"),
     MZ("MOZAMBIQUE", "MZ"),
-    MM("MYANMAR", "MM", Language.MY),
+    MM("MYANMAR", "MM", Language.MY_MM),
     NA("NAMIBIA", "NA"),
     NR("NAURU", "NR"),
     NP("NEPAL", "NP"),
@@ -160,7 +163,7 @@ public enum Country {
     NU("NIUE", "NU"),
     NF("NORFOLK ISLAND", "NF"),
     MP("NORTHERN MARIANA ISLANDS", "MP"),
-    NO("NORWAY", "NO", Language.NO),
+    NO("NORWAY", "NO", Language.NB_NO),
     OM("OMAN", "OM"),
     PK("PAKISTAN", "PK"),
     PW("PALAU", "PW"),
@@ -241,18 +244,18 @@ public enum Country {
     ZM("ZAMBIA", "ZM"),
     ZW("ZIMBABWE", "ZW");
 
-    private String name;
-    private String code;
-    private Language language;
+    private String         name;
+    private String         code;
+    private List<Language> languages;
 
     Country(String name, String code) {
-        this(name, code, null);
-    }
-
-    Country(String name, String code, Language language) {
         this.name = name;
         this.code = code;
-        this.language = language;
+    }
+
+    Country(String name, String code, Language... languages) {
+        this(name, code);
+        this.languages = Arrays.asList(languages);
     }
 
     public String getName() {
@@ -263,12 +266,26 @@ public enum Country {
         return code;
     }
 
-    public Language getLanguage() {
-        return language;
+    public List<Language> getLanguages() {
+        return languages;
+    }
+
+    public Language language() {
+        return language(0);
+    }
+
+    public Language language(Integer index) {
+        return languages.size() > (index - 1) ? languages.get(index) : null;
+    }
+
+    public void attach(Language language) {
+        if (false == languages.contains(language)) {
+            languages.add(language);
+        }
     }
 
     @Override
     public String toString() {
-        return String.format("Country{name='%s', code='%s', language=%s}", name, code, language);
+        return String.format("Country{name='%s', code='%s', languages=%s}", name, code, languages);
     }
 }
