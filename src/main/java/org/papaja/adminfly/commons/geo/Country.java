@@ -1,11 +1,13 @@
 package org.papaja.adminfly.commons.geo;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@SuppressWarnings({"SpellCheckingInspection"})
 public enum Country {
 
-    AF("AFGHANISTAN", "AF", Language.AR),
+    AF("AFGHANISTAN", "AF"),
     AL("ALBANIA", "AL"),
     DZ("ALGERIA", "DZ"),
     AS("AMERICAN SAMOA", "AS"),
@@ -21,9 +23,9 @@ public enum Country {
     AZ("AZERBAIJAN", "AZ"),
     BS("BAHAMAS", "BS"),
     BH("BAHRAIN", "BH"),
-    BD("BANGLADESH", "BD", Language.MY_MM),
+    BD("BANGLADESH", "BD"),
     BB("BARBADOS", "BB"),
-    BY("BELARUS", "BY", Language.BE),
+    BY("BELARUS", "BY"),
     BE("BELGIUM", "BE"),
     BZ("BELIZE", "BZ"),
     BJ("BENIN", "BJ"),
@@ -39,7 +41,7 @@ public enum Country {
     BG("BULGARIA", "BG"),
     BF("BURKINA FASO", "BF"),
     BI("BURUNDI", "BI"),
-    KH("CAMBODIA", "KH", Language.KM_KH),
+    KH("CAMBODIA", "KH"),
     CM("CAMEROON", "CM"),
     CA("CANADA", "CA"),
     CV("CAPE VERDE", "CV"),
@@ -47,7 +49,7 @@ public enum Country {
     CF("CENTRAL AFRICAN REPUBLIC", "CF"),
     TD("CHAD", "TD"),
     CL("CHILE", "CL"),
-    CN("CHINA", "CN", Language.ZH),
+    CN("CHINA", "CN"),
     CX("CHRISTMAS ISLAND", "CX"),
     CC("COCOS (KEELING) ISLANDS", "CC"),
     CO("COLOMBIA", "CO"),
@@ -71,22 +73,22 @@ public enum Country {
     GQ("EQUATORIAL GUINEA", "GQ"),
     ER("ERITREA", "ER"),
     EE("ESTONIA", "EE"),
-    ET("ETHIOPIA", "ET", Language.AM_ET),
+    ET("ETHIOPIA", "ET"),
     FK("FALKLAND ISLANDS (MALVINAS)", "FK"),
     FO("FAROE ISLANDS", "FO"),
     FJ("FIJI", "FJ"),
     FI("FINLAND", "FI"),
-    FR("FRANCE", "FR", Language.FR),
+    FR("FRANCE", "FR"),
     GF("FRENCH GUIANA", "GF"),
     PF("FRENCH POLYNESIA", "PF"),
     TF("FRENCH SOUTHERN TERRITORIES", "TF"),
     GA("GABON", "GA"),
     GM("GAMBIA", "GM"),
-    GE("GEORGIA", "GE", Language.KA),
-    DE("GERMANY", "DE", Language.DE),
+    GE("GEORGIA", "GE"),
+    DE("GERMANY", "DE"),
     GH("GHANA", "GH"),
     GI("GIBRALTAR", "GI"),
-    GR("GREECE", "GR", Language.EL),
+    GR("GREECE", "GR"),
     GL("GREENLAND", "GL"),
     GD("GRENADA", "GD"),
     GP("GUADELOUPE", "GP"),
@@ -101,24 +103,24 @@ public enum Country {
     HK("HONG KONG", "HK"),
     HU("HUNGARY", "HU"),
     IS("ICELAND", "IS"),
-    IN("INDIA", "IN", Language.HI),
-    ID("INDONESIA", "ID", Language.ID_ID),
-    IR("IRAN, ISLAMIC REPUBLIC OF", "IR"),
+    IN("INDIA", "IN"),
+    ID("INDONESIA", "ID"),
+    IR("IRAN", "IR"),
     IQ("IRAQ", "IQ"),
     IE("IRELAND", "IE"),
     IL("ISRAEL", "IL"),
     IT("ITALY", "IT"),
     JM("JAMAICA", "JM"),
-    JP("JAPAN", "JP", Language.JA),
+    JP("JAPAN", "JP"),
     JO("JORDAN", "JO"),
     KZ("KAZAKHSTAN", "KZ"),
     KE("KENYA", "KE"),
     KI("KIRIBATI", "KI"),
-    KP("NORTH KOREA", "KP", Language.KO_KR),
-    KR("SOUTH KOREA", "KR", Language.KO),
+    KP("NORTH KOREA", "KP"),
+    KR("SOUTH KOREA", "KR"),
     KW("KUWAIT", "KW"),
     KG("KYRGYZSTAN", "KG"),
-    LA("LAOS", "LA", Language.LO_LA),
+    LA("LAOS", "LA"),
     LV("LATVIA", "LV"),
     LB("LEBANON", "LB"),
     LS("LESOTHO", "LS"),
@@ -149,7 +151,7 @@ public enum Country {
     MS("MONTSERRAT", "MS"),
     MA("MOROCCO", "MA"),
     MZ("MOZAMBIQUE", "MZ"),
-    MM("MYANMAR", "MM", Language.MY_MM),
+    MM("MYANMAR", "MM"),
     NA("NAMIBIA", "NA"),
     NR("NAURU", "NR"),
     NP("NEPAL", "NP"),
@@ -163,7 +165,7 @@ public enum Country {
     NU("NIUE", "NU"),
     NF("NORFOLK ISLAND", "NF"),
     MP("NORTHERN MARIANA ISLANDS", "MP"),
-    NO("NORWAY", "NO", Language.NB_NO),
+    NO("NORWAY", "NO"),
     OM("OMAN", "OM"),
     PK("PAKISTAN", "PK"),
     PW("PALAU", "PW"),
@@ -174,13 +176,13 @@ public enum Country {
     PE("PERU", "PE"),
     PH("PHILIPPINES", "PH"),
     PN("PITCAIRN", "PN"),
-    PL("POLAND", "PL", Language.PL),
-    PT("PORTUGAL", "PT", Language.PT),
+    PL("POLAND", "PL"),
+    PT("PORTUGAL", "PT"),
     PR("PUERTO RICO", "PR"),
     QA("QATAR", "QA"),
     RE("RÉUNION", "RE"),
     RO("ROMANIA", "RO"),
-    RU("RUSSIAN FEDERATION", "RU", Language.RU),
+    RU("RUSSIAN FEDERATION", "RU"),
     RW("RWANDA", "RW"),
     SH("SAINT HELENA", "SH"),
     KN("SAINT KITTS AND NEVIS", "KN"),
@@ -202,7 +204,7 @@ public enum Country {
     SO("SOMALIA", "SO"),
     ZA("SOUTH AFRICA", "ZA"),
     GS("SOUTH GEORGIA AND THE SOUTH SANDWICH ISLANDS", "GS"),
-    ES("SPAIN", "ES", Language.ES),
+    ES("SPAIN", "ES"),
     LK("SRI LANKA", "LK"),
     SD("SUDAN", "SD"),
     SR("SURINAME", "SR"),
@@ -210,11 +212,11 @@ public enum Country {
     SZ("SWAZILAND", "SZ"),
     SE("SWEDEN", "SE"),
     CH("SWITZERLAND", "CH"),
-    SY("SYRIAN ARAB REPUBLIC", "SY", Language.AR),
+    SY("SYRIAN ARAB REPUBLIC", "SY"),
     TW("TAIWAN", "TW"),
     TJ("TAJIKISTAN", "TJ"),
-    TZ("TANZANIA, UNITED REPUBLIC OF", "TZ"),
-    TH("THAILAND", "TH", Language.TH),
+    TZ("TANZANIA", "TZ"),
+    TH("THAILAND", "TH"),
     TL("TIMOR-LESTE", "TL"),
     TG("TOGO", "TG"),
     TK("TOKELAU", "TK"),
@@ -226,9 +228,9 @@ public enum Country {
     TC("TURKS AND CAICOS ISLANDS", "TC"),
     TV("TUVALU", "TV"),
     UG("UGANDA", "UG"),
-    UA("UKRAINE", "UA", Language.UK),
+    UA("UKRAINE", "UA"),
     AE("UNITED ARAB EMIRATES", "AE"),
-    GB("UNITED KINGDOM", "GB", Language.EN),
+    GB("UNITED KINGDOM", "GB"),
     US("UNITED STATES", "US"),
     UM("UNITED STATES MINOR OUTLYING ISLANDS", "UM"),
     UY("URUGUAY", "UY"),
@@ -251,11 +253,7 @@ public enum Country {
     Country(String name, String code) {
         this.name = name;
         this.code = code;
-    }
-
-    Country(String name, String code, Language... languages) {
-        this(name, code);
-        this.languages = Arrays.asList(languages);
+        this.languages = new ArrayList<>();
     }
 
     public String getName() {
@@ -279,7 +277,7 @@ public enum Country {
     }
 
     public void attach(Language language) {
-        if (false == languages.contains(language)) {
+        if (!languages.contains(language)) {
             languages.add(language);
         }
     }
