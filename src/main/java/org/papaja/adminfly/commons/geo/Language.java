@@ -86,7 +86,7 @@ public enum Language {
     VI("vi", "Vietnamese", "Tiếng"),
     XH("xh", "Xhosa", "Xhosa"),
     ZH("zh", "Chinese", "汉语"),
-    ZU("zu", "Zulu", "Zulu");
+    ZU("zu", "Zulu", "isiZulu");
 
     private String  code;
     private String  local;

@@ -11,10 +11,10 @@
                 <div class="card-header">{{ 'label.languages' | translate }}</div>
                 <div class="card-body">
                     <div class="list-group">
-                    {% for country in languages.locales %}
-                        {% set languageCode = lower(country.languages.code) %}
-                        <a class="list-group-item list-group-item-action {% if locale == languageCode %}active{% endif %}" href="{{ uri }}?locale={{ languageCode }}">
-                            <img class="lang-icon" src="{{ asset('icons/flags/' ~ lower(country.code) ~ '.svg') }}">&nbsp;{{ country.languages.getName() }} ({{ country.languages.getLocal() }})
+                    {% set locale = languages.currentLocale.getCode() %}
+                    {% for item in languages.locales %}
+                        <a class="list-group-item list-group-item-action {% if locale == item.code %}active{% endif %}" href="{{ uri }}?locale={{ item.getCode() }}">
+                            <img class="lang-icon" src="{{ asset('icons/flags/' ~ lower(item.country.code) ~ '.svg') }}">&nbsp;{{ item.language.getName() }} ({{ item.language.getLocal() }})
                         </a>
                     {% endfor %}
                     </div>

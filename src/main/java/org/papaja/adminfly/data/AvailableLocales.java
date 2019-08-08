@@ -1,6 +1,7 @@
 package org.papaja.adminfly.data;
 
 import org.papaja.adminfly.commons.geo.Locale;
+import org.springframework.context.i18n.LocaleContextHolder;
 
 import java.util.Arrays;
 import java.util.List;
@@ -24,6 +25,10 @@ public class AvailableLocales {
             Locale.TH_TH, Locale.KO_KR,
             Locale.BN_BD
         );
+    }
+
+    public Locale getCurrentLocale() {
+        return Locale.getLocale(LocaleContextHolder.getLocale().toString());
     }
 
     public List<Locale> getLocales() {

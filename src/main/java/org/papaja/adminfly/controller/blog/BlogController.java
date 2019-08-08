@@ -13,6 +13,7 @@ import org.papaja.adminfly.mapper.blog.PostMapper;
 import org.papaja.adminfly.service.blog.CategoryService;
 import org.papaja.adminfly.service.blog.DomainService;
 import org.papaja.adminfly.service.blog.PostService;
+import org.papaja.adminfly.service.security.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -38,19 +39,22 @@ public class BlogController extends AbstractController {
     private static final String REDIRECT_TO_SELECT_DOMAIN = "redirect:/blog" + TO_SELECT_DOMAIN;
 
     @Autowired
-    private PostService     posts;
+    private PostService posts;
 
     @Autowired
     private CategoryService categories;
 
     @Autowired
-    private DomainService   domains;
+    private UserService users;
 
     @Autowired
-    private CategoryMapper  categoryMapper;
+    private DomainService domains;
 
     @Autowired
-    private DomainMapper    domainMapper;
+    private CategoryMapper categoryMapper;
+
+    @Autowired
+    private DomainMapper domainMapper;
 
     @RequestMapping
     public String redirect() {
@@ -219,8 +223,15 @@ public class BlogController extends AbstractController {
 
     @PreAuthorize("hasAuthority('READ')")
     @RequestMapping("/setting/selectDomain")
-    public ModelAndView domains(HttpServletRequest request) {
+    public ModelAndView domains(
+        HttpServletRequest request,
+        @RequestParam(value = "redirected", required = false) boolean isRedirected
+    ) {
         ModelAndView view = newView("setting/selectDomain");
+
+        if (isRedirected) {
+            view.addObject("message", messages.getErrorMessage("blog.domain.selectDomain"));
+        }
 
         view.addObject("domains", domains.getDomains());
 
@@ -230,6 +241,9 @@ public class BlogController extends AbstractController {
     @RequestMapping("/setting/permissions")
     public ModelAndView permissions() {
         ModelAndView mav = newView("setting/permissions");
+
+        mav.addObject("users", users.getAllUsers());
+        mav.addObject("domains", domains.getDomains());
 
         return mav;
     }

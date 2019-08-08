@@ -1,15 +1,66 @@
 {% extends '../../layout/main.twig' %}
+{% import '../../macro/fields.twig' as fields %}
 {% block title %}{{ 'label.permissions' | translate }}{% endblock %}
 {% block content %}
     <div class="page-header mb-4">
         <h1 id="tables">{{ 'label.permissions' | translate }}</h1>
     </div>
     <div class="row">
-        <div class="col-lg-12">
+        <div class="col-lg-6">
             <div class="card border-light mb-3">
-                {% include '../partials/setting-header-buttons.twig' %}
+                <div class="card-header">{{ 'title.users' | translate }}</div>
                 <div class="card-body">
-                    <h1>{{ 'label.permissions' | translate }}</h1>
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th scope="col">{{ 'label.name' | translate }}</th>
+                            <th scope="col"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for user in users %}
+                            {% set edit = '/blog/setting/permissions?user_id=' ~ user.id %}
+                            <tr>
+                                <td>{{ user.username }}</td>
+                                <td>
+                                    <button type="button" onclick="location.href='{{ edit }}'"
+                                            class="btn btn-sm btn-primary">{{ 'label.select' | translate }}</button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card border-light mb-3">
+                <div class="card-header">{{ 'label.domains' | translate }}</div>
+                <div class="card-body">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th scope="col">{{ 'label.domain' | translate }}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for domain in domains %}
+                            <tr>
+                                <td>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" name="access" value=""
+                                               class="custom-control-input" id="userDomainAccess">
+                                        <label for="userDomainAccess{{ domain.id }}">{{ domain.domain }}</label>
+                                    </div>
+                                </td>
+                                <td>
+                                    {{ domain.domain }}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

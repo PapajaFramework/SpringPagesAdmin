@@ -47,7 +47,6 @@ public enum Locale {
     EN_JM(Language.EN, Country.JM),
     EN_NZ(Language.EN, Country.NZ),
     EN_PH(Language.EN, Country.PH),
-    EN_TT(Language.EN, Country.TT),
     EN_US(Language.EN, Country.US),
     EN_ZA(Language.EN, Country.ZA),
     EN_ZW(Language.EN, Country.ZW),
@@ -134,6 +133,7 @@ public enum Locale {
     SL_SI(Language.SL, Country.SI),
     SQ_AL(Language.SQ, Country.AL),
     SR_BA(Language.SR, Country.BA),
+    SR_RS(Language.SR, Country.RS),
     SV_FI(Language.SV, Country.FI),
     SV_SE(Language.SV, Country.SE),
     SW_KE(Language.SW, Country.KE),
@@ -174,11 +174,11 @@ public enum Locale {
     }
 
     public String getCode() {
-        return format("%s-%s", language.getCode(), country.getCode());
+        return format("%s_%s", language.getCode(), country.getCode());
     }
 
-    @Override
-    public String toString() {
-        return format("Locale{language=%s, country=%s}", language, country);
+    public static Locale getLocale(String value) {
+        return Enum.valueOf(Locale.class, value.toUpperCase());
     }
+
 }

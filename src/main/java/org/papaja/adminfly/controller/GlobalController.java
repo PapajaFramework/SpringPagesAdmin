@@ -3,7 +3,6 @@ package org.papaja.adminfly.controller;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.papaja.adminfly.data.AvailableLocales;
 import org.papaja.adminfly.data.AvailableThemes;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -29,7 +28,7 @@ public class GlobalController {
 
     @ExceptionHandler({Exception.class})
     public String handleException(
-            Exception exception, Model model, HttpServletRequest request, HttpServletResponse response, Principal principal
+        Exception exception, Model model, HttpServletRequest request, HttpServletResponse response, Principal principal
     ) {
         String template = "errors/exception";
 
@@ -44,7 +43,6 @@ public class GlobalController {
 
     @ModelAttribute
     public void handleRequest(HttpServletRequest request, Model view) {
-        view.addAttribute("locale", LocaleContextHolder.getLocale().toString());
         view.addAttribute("languages", new AvailableLocales());
         view.addAttribute("themes", new AvailableThemes());
         view.addAttribute("principal", request.getUserPrincipal());

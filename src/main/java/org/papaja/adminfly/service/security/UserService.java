@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 import static java.util.Objects.nonNull;
 
 @Service
@@ -32,6 +34,10 @@ public class UserService {
 
     public Pagination<User> getUsers(int offset) {
         return Pagination.of(repository.getUsersQuery(), offset, MAX_RESULT_PER_PAGE);
+    }
+
+    public List<User> getAllUsers() {
+        return repository.getUsers();
     }
 
     public void merge(UserDto dto, User entity) {
