@@ -126,7 +126,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public LocaleResolver localeResolver() {
         CookieLocaleResolver resolver = new CookieLocaleResolver();
 
-        resolver.setDefaultLocale(Locale.forLanguageTag(environment.getProperty("app.locale.default").replace('_', '-')));
+//        resolver.setDefaultLocale(Locale.forLanguageTag(environment.getProperty("app.locale.default").replace('_', '-')));
         resolver.setCookieName(environment.getProperty("app.locale.cookieName"));
         resolver.setCookieMaxAge(Integer.valueOf(environment.getProperty("app.locale.cookieMaxAge")));
 
