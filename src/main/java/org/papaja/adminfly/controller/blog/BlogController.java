@@ -225,11 +225,11 @@ public class BlogController extends AbstractController {
     @RequestMapping("/setting/selectDomain")
     public ModelAndView domains(
         HttpServletRequest request,
-        @RequestParam(value = "redirected", required = false) boolean isRedirected
+        @RequestParam(value = "redirected", required = false) boolean forced
     ) {
         ModelAndView view = newView("setting/selectDomain");
 
-        if (isRedirected) {
+        if (forced) {
             view.addObject("message", messages.getErrorMessage("blog.domain.selectDomain"));
         }
 
@@ -238,10 +238,13 @@ public class BlogController extends AbstractController {
         return view;
     }
 
-    @RequestMapping("/setting/permissions")
-    public ModelAndView permissions() {
-        ModelAndView mav = newView("setting/permissions");
+    @RequestMapping("/setting/domainAccess")
+    public ModelAndView permissions(
+            @RequestParam(value = "userId", required = false) Integer userId
+    ) {
+        ModelAndView mav = newView("setting/domainAccess");
 
+        mav.addObject("active", users.getUser(userId));
         mav.addObject("users", users.getAllUsers());
         mav.addObject("domains", domains.getDomains());
 

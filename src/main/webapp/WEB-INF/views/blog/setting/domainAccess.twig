@@ -1,0 +1,63 @@
+{% extends '../../layout/main.twig' %}
+{% import '../../macro/fields.twig' as fields %}
+{% block title %}{{ 'label.permissions' | translate }}{% endblock %}
+{% block content %}
+    <div class="page-header mb-4">
+        <h1 id="tables">{{ 'label.permissions' | translate }}</h1>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card bg-light mb-3">
+                <div class="card-header">{{ 'title.users' | translate }}</div>
+                <div class="card-body">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th scope="col">{{ 'label.name' | translate }}</th>
+                            <th scope="col"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for user in users %}
+                            {% set edit = '/blog/setting/permissions?userId=' ~ user.id %}
+                            <tr>
+                                <td>{{ user.username }}</td>
+                                <td>
+                                    <button type="button" onclick="location.href='{{ edit }}'"
+                                            class="btn btn-sm btn-primary">{{ 'label.select' | translate }}</button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <form method="post" action="">
+                <div class="card bg-light mb-3">
+                    <div class="card-header">{{ 'label.domains' | translate }}</div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            {% set counter = 0 %}
+                            {% for domain in domains %}
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" name="domainId[{{ counter }}]" value="{{ domain.id }}"
+                                           class="custom-control-input" id="domainCheck{{ domain.id }}"
+                                           {% if domain.hasUserAccess(active.id) %}checked{% endif %}>
+                                    <label class="custom-control-label"
+                                           for="domainCheck{{ domain.id }}">{{ domain.domain }}</label>
+                                </div>
+                                {% set counter = counter + 1 %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-secondary btn-sm my-2 my-sm-0"
+                                type="submit">{{ 'label.save' | translate }}</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

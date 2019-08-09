@@ -1,7 +1,5 @@
 package org.papaja.adminfly.commons.util.structure;
 
-import java.util.Arrays;
-import java.util.List;
 
 public class BiValue<A, B> implements MultiValue<Object> {
 
@@ -19,11 +17,6 @@ public class BiValue<A, B> implements MultiValue<Object> {
 
     public B getB() {
         return b;
-    }
-
-    @Override
-    public List<Object> asList() {
-        return Arrays.asList(a, b);
     }
 
     @Override

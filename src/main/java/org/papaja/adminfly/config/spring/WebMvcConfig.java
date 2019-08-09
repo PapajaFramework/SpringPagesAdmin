@@ -4,14 +4,14 @@ import org.hibernate.validator.HibernateValidator;
 import org.jtwig.environment.EnvironmentConfigurationBuilder;
 import org.jtwig.render.RenderExtension;
 import org.jtwig.spring.JtwigView;
-import org.jtwig.spring.JtwigViewResolver;
 import org.jtwig.spring.asset.SpringAssetExtension;
 import org.jtwig.spring.asset.resolver.AssetResolver;
 import org.jtwig.translate.spring.SpringTranslateExtension;
 import org.jtwig.translate.spring.SpringTranslateExtensionConfiguration;
 import org.jtwig.web.servlet.JtwigRenderer;
 import org.papaja.adminfly.commons.vendor.jtwig.extension.asset.resolver.ResourceUrlBasedAssetResolver;
-import org.papaja.adminfly.commons.vendor.jtwig.function.theme.ThemeResolverExtension;
+import org.papaja.adminfly.commons.vendor.jtwig.extension.theme.ThemeResolverExtension;
+import org.papaja.adminfly.commons.vendor.jtwig.spring.SpringTemplateViewResolver;
 import org.papaja.adminfly.commons.vendor.spring.web.servlet.resource.ContentHashVersionStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -25,6 +25,7 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ThemeResolver;
+import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -58,9 +59,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    public JtwigViewResolver viewResolver() {
+    public ViewResolver viewResolver() {
         EnvironmentConfigurationBuilder       builder   = EnvironmentConfigurationBuilder.configuration();
-        JtwigViewResolver                     resolver  = new JtwigViewResolver();
+        SpringTemplateViewResolver            resolver  = new SpringTemplateViewResolver();
         SpringTranslateExtensionConfiguration translate = SpringTranslateExtensionConfiguration.builder(messageSource()).withLocaleResolver(localeResolver()).build();
 
         builder.extensions()
@@ -93,7 +94,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    public ThemeResolver themeResolver(){
+    public ThemeResolver themeResolver() {
         CookieThemeResolver resolver = new CookieThemeResolver();
 
         resolver.setCookieMaxAge(2400);

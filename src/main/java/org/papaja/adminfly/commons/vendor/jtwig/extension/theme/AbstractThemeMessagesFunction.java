@@ -1,4 +1,4 @@
-package org.papaja.adminfly.commons.vendor.jtwig.function.theme;
+package org.papaja.adminfly.commons.vendor.jtwig.extension.theme;
 
 import org.jtwig.functions.JtwigFunction;
 import org.jtwig.web.servlet.ServletRequestHolder;

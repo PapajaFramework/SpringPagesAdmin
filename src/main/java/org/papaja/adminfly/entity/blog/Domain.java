@@ -5,6 +5,8 @@ import org.papaja.adminfly.entity.security.User;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "blog_domains")
@@ -42,6 +44,14 @@ public class Domain extends AbstractEntity {
 
     public Collection<User> getUsers() {
         return users;
+    }
+
+    public Set<Integer> getUsersIds() {
+        return users.stream().map(User::getId).collect(Collectors.toSet());
+    }
+
+    public Boolean hasUserAccess(Integer userId) {
+        return getUsersIds().contains(userId);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package org.papaja.adminfly.commons.vendor.jtwig.function.theme;
+package org.papaja.adminfly.commons.vendor.jtwig.extension.theme;
 
 import org.jtwig.environment.EnvironmentConfigurationBuilder;
 import org.jtwig.extension.Extension;
