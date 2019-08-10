@@ -35,7 +35,7 @@ import javax.validation.Valid;
 @RequestMapping("/blog")
 public class BlogController extends AbstractController {
 
-    private static final String TO_SELECT_DOMAIN          = "/setting/selectDomain?redirected=1";
+    private static final String TO_SELECT_DOMAIN          = "/setting/selectDomain?forced=1";
     private static final String REDIRECT_TO_SELECT_DOMAIN = "redirect:/blog" + TO_SELECT_DOMAIN;
 
     @Autowired
@@ -225,7 +225,7 @@ public class BlogController extends AbstractController {
     @RequestMapping("/setting/selectDomain")
     public ModelAndView domains(
         HttpServletRequest request,
-        @RequestParam(value = "redirected", required = false) boolean forced
+        @RequestParam(value = "forced", required = false) boolean forced
     ) {
         ModelAndView view = newView("setting/selectDomain");
 
