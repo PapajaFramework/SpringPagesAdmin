@@ -8,7 +8,7 @@
     <div class="row">
         <div class="col-lg-6">
             <div class="card bg-light mb-3">
-                <div class="card-header">{{ 'title.users' | translate }}</div>
+                {% include '../partials/setting-header-buttons.twig' %}
                 <div class="card-body">
                     <table class="table table-hover">
                         <thead>
@@ -19,7 +19,7 @@
                         </thead>
                         <tbody>
                         {% for user in users %}
-                            {% set edit = '/blog/setting/permissions?userId=' ~ user.id %}
+                            {% set edit = '/blog/setting/domainAccess?userId=' ~ user.id %}
                             <tr>
                                 <td>{{ user.username }}</td>
                                 <td>

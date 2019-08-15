@@ -7,63 +7,53 @@
     {% include 'partials/buttons.twig' %}
     <div class="row">
         <div class="col-lg-6">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="card border-light mb-3">
-                        <div class="card-header">{{ 'label.mainInformation' | translate }}</div>
-                        <div class="card-body">
-                            <h4>{{ 'label.platform' | translate }}</h4>
-                            <div>
-                                <h5 class="card-title">{{ 'label.os' | translate }}</h5>
-                                <p class="card-text">
-                                    <b>{{ info.os }}</b>
-                                </p>
-                            </div>
-                            <div>
-                                <h5 class="card-title">{{ 'label.javaVersion' | translate }}</h5>
-                                <p class="card-text">
-                                    <b>{{ info.version }}</b>
-                                </p>
-                            </div>
-                            <h3>{{ 'label.memory' | translate }}</h3>
-                            <div>
-                                <h4 class="card-title">{{ 'label.total' | translate }}</h4>
-                                <p class="card-text">
-                                    {{ info.total }} MiB
-                                </p>
-                            </div>
-                            <div>
-                                <h4 class="card-title">{{ 'label.free' | translate }}</h4>
-                                <p class="card-text">
-                                    {{ info.free }} MiB
-                                </p>
-                            </div>
-                            <div>
-                                <h4 class="card-title">{{ 'label.used' | translate }}</h4>
-                                <p class="card-text">
-                                    {{ info.used }} MiB
-                                </p>
-                                <div class="progress">
-                                    <div class="progress-bar progress-bar-striped bg-danger" role="progressbar"
-                                         style="width: {{ info.usedPercent }}%" aria-valuenow="{{ info.usedPercent }}"
-                                         aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </div>
-                            <div>
-                                <h4 class="card-title">{{ 'label.max' | translate }}</h4>
-                                <p class="card-text">{{ info.maximum }} MiB</p>
-                                <div class="progress">
-                                    <div class="progress-bar progress-bar-striped bg-info" role="progressbar"
-                                         style="width: {{ info.maximumPercent }}%" aria-valuenow="{{ info.maximumPercent }}"
-                                         aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-footer">
-                            <button type="button" onclick="location.href='/application/gc'" type="button"
-                                    class="btn btn-secondary">{{ 'text.runGc' | translate }}</button>
-                        </div>
+            <div class="list-group">
+                <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">{{ 'label.os' | translate }}</h5>
                     </div>
+                    <small>{{ info.os }}</small>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">{{ 'label.javaVersion' | translate }}</h5>
+                    </div>
+                    <small>{{ info.version }}</small>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">{{ 'label.memory' | translate }}</h5>
+                    </div>
+                    <p>{{ 'label.total' | translate }} / {{ 'label.free' | translate }}</p>
+                    <small>{{ info.total }} MiB / {{ info.free }} MiB</small>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">{{ 'label.used' | translate }}</h5>
+                    </div>
+                    <p>{{ 'label.total' | translate }} / {{ 'label.free' | translate }}</p>
+                    <small>{{ info.used }} MiB</small>
+                    <div class="progress mt-1">
+                        <div class="progress-bar progress-bar-striped bg-info" role="progressbar"
+                             style="width: {{ info.usedPercent }}%" aria-valuenow="{{ info.usedPercent }}"
+                             aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">{{ 'label.used' | translate }}</h5>
+                    </div>
+                    <p>{{ 'label.total' | translate }} / {{ 'label.max' | translate }}</p>
+                    <small>{{ info.maximum }} MiB</small>
+                    <div class="progress mt-1">
+                        <div class="progress-bar progress-bar-striped bg-danger" role="progressbar"
+                             style="width: {{ info.maximumPercent }}%" aria-valuenow="{{ info.maximumPercent }}"
+                             aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </a>
+                <div class="card-footer">
+                    <button type="button" onclick="location.href='/application/gc'" type="button"
+                            class="btn btn-secondary">{{ 'text.runGc' | translate }}</button>
                 </div>
             </div>
         </div>
@@ -74,7 +64,7 @@
                         {% set currentLocale = languages.currentLocale %}
                         <div class="card-header">{{ 'label.locale' | translate }}</div>
                         <div class="card-body">
-                            <h4 class="card-title">{{ 'label.language' | translate }}</h4>
+                            <h4 class="card-title">{{ 'label.languages' | translate }}</h4>
                             <p class="card-text">
                                 {{ currentLocale.language.getName() }} ({{ currentLocale.language.getLocal() }})
                             </p>

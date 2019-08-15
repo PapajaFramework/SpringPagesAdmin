@@ -15,6 +15,7 @@ import org.papaja.adminfly.service.blog.DomainService;
 import org.papaja.adminfly.service.blog.PostService;
 import org.papaja.adminfly.service.security.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,6 +30,8 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+
+import static java.lang.String.format;
 
 @SuppressWarnings({"unused"})
 @Controller
@@ -70,47 +73,47 @@ public class BlogController extends AbstractController {
     @PreAuthorize("hasAuthority('READ')")
     @RequestMapping("/posts")
     public ModelAndView list(@RequestParam(value = "page", defaultValue = "1") int page) {
-        ModelAndView view = new ModelAndView();
+        ModelAndView mav = new ModelAndView();
 
         if (domains.hasActiveDomain()) {
-            view.addObject("domain", domains.getActiveDomain());
-            view.addObject("result", posts.getPosts(page));
-            view.setViewName("blog/posts/list");
+            mav.addObject("domain", domains.getActiveDomain());
+            mav.addObject("result", posts.getPosts(page));
+            mav.setViewName("blog/posts/list");
         } else {
-            view.setViewName(REDIRECT_TO_SELECT_DOMAIN);
+            mav.setViewName(REDIRECT_TO_SELECT_DOMAIN);
         }
 
-        return view;
+        return mav;
     }
 
     @PreAuthorize("hasAnyAuthority('CREATE', 'UPDATE')")
     @RequestMapping(value = {"/posts/create", "/posts/edit/{id:[0-9]+}"})
     public ModelAndView form(@PathVariable(value = "id", required = false) Integer id) {
-        ModelAndView view   = new ModelAndView("blog/posts/form");
+        ModelAndView mav    = new ModelAndView("blog/posts/form");
         Domain       domain = domains.getActiveDomain();
 
         if (domains.hasActiveDomain()) {
-            view.addObject("entity", posts.getPost(id));
-            view.addObject("categories", categories.getCategories(domain));
-            view.addObject("domain", domain);
+            mav.addObject("entity", posts.getPost(id));
+            mav.addObject("categories", categories.getCategories(domain));
+            mav.addObject("domain", domain);
         } else {
-            view.setViewName(REDIRECT_TO_SELECT_DOMAIN);
+            mav.setViewName(REDIRECT_TO_SELECT_DOMAIN);
         }
 
-        return view;
+        return mav;
     }
 
     @PreAuthorize("hasAnyAuthority('CREATE', 'UPDATE')")
     @RequestMapping(value = {"/posts/process"})
     public ModelAndView process(PostMapper mapper, @Valid PostDto dto, BindingResult result) {
-        ModelAndView view   = newView("posts/form");
+        ModelAndView mav    = newView("posts/form");
         Domain       domain = domains.getActiveDomain();
 
         if (domains.hasActiveDomain()) {
             if (result.hasErrors()) {
-                view.addObject("result", result);
-                view.addObject("entity", dto);
-                view.addObject("categories", categories.getCategories(domain));
+                mav.addObject("result", result);
+                mav.addObject("entity", dto);
+                mav.addObject("categories", categories.getCategories(domain));
             } else {
                 Post post = posts.getPost(dto.getId());
                 mapper.map(dto, post);
@@ -121,33 +124,33 @@ public class BlogController extends AbstractController {
                 posts.merge(post);
 
                 if (post.isNew()) {
-                    view.setViewName("redirect:/blog/posts");
+                    mav.setViewName("redirect:/blog/posts");
                 } else {
-                    view.setViewName(String.format("redirect:/blog/posts/edit/%d", post.getId()));
+                    mav.setViewName(format("redirect:/blog/posts/edit/%d", post.getId()));
                 }
             }
         } else {
-            view.setViewName(REDIRECT_TO_SELECT_DOMAIN);
+            mav.setViewName(REDIRECT_TO_SELECT_DOMAIN);
         }
 
-        return view;
+        return mav;
     }
 
     @PreAuthorize("hasAnyAuthority('CREATE', 'UPDATE')")
     @RequestMapping(value = {"/categories", "/categories/edit/{id:[0-9]+}"})
     public ModelAndView categories(@PathVariable(value = "id", required = false) Integer id) {
-        ModelAndView view   = newView("categories/categories");
+        ModelAndView mav   = newView("categories/categories");
         Domain       domain = domains.getActiveDomain();
 
         if (domains.hasActiveDomain()) {
-            view.addObject("domain", domain);
-            view.addObject("categories", categories.getCategories(domain));
-            view.addObject("entity", categories.getCategory(id));
+            mav.addObject("domain", domain);
+            mav.addObject("categories", categories.getCategories(domain));
+            mav.addObject("entity", categories.getCategory(id));
         } else {
-            view.setViewName(REDIRECT_TO_SELECT_DOMAIN);
+            mav.setViewName(REDIRECT_TO_SELECT_DOMAIN);
         }
 
-        return view;
+        return mav;
     }
 
     @PreAuthorize("hasAnyAuthority('CREATE', 'UPDATE')")
@@ -156,7 +159,7 @@ public class BlogController extends AbstractController {
         @PathVariable(value = "id", required = false) Integer id, @Valid CategoryDto dto,
         BindingResult result, RedirectAttributes attributes
     ) {
-        RedirectView view     = newRedirect("categories");
+        RedirectView redirect = newRedirect("categories");
         Category     category = categories.getCategory(id);
 
         if (domains.hasActiveDomain()) {
@@ -171,16 +174,17 @@ public class BlogController extends AbstractController {
             }
 
         } else {
-            view.setUrl(TO_SELECT_DOMAIN);
+            redirect.setUrl(TO_SELECT_DOMAIN);
         }
 
-        return view;
+        return redirect;
     }
 
     @PreAuthorize("hasAuthority('READ')")
     @RequestMapping(value = {"/setting/domains/{id:[0-9]+}", "/setting/domains"}, method = RequestMethod.GET)
     public ModelAndView domains(
-        @PathVariable(value = "id", required = false) Integer id, Model model
+        @PathVariable(value = "id", required = false) Integer id,
+        Model model
     ) {
         model.addAttribute("domains", domains.getDomains());
         model.addAttribute("entity", domains.getDomain(id));
@@ -189,11 +193,15 @@ public class BlogController extends AbstractController {
     }
 
     @PreAuthorize("hasAnyRole('ADMIN', 'SUPERUSER')")
-    @RequestMapping(value = {"/setting/domains/{id:[0-9]+}", "/setting/domains"}, method = RequestMethod.POST)
+    @RequestMapping(
+            value = {"/setting/domains/{id:[0-9]+}", "/setting/domains"},
+            method = RequestMethod.POST
+    )
     public ModelAndView process(
-        @PathVariable(value = "id", required = false) Integer id, @Valid DomainDto dto, BindingResult result, RedirectAttributes attributes
+        @PathVariable(value = "id", required = false) Integer id,
+        @Valid DomainDto dto, BindingResult result, RedirectAttributes attributes
     ) {
-        ModelAndView view   = newView("setting/domains");
+        ModelAndView mav    = newView("setting/domains");
         Domain       domain = domains.getDomain(id);
 
         domainMapper.map(dto, domain);
@@ -201,14 +209,14 @@ public class BlogController extends AbstractController {
         if (!result.hasErrors()) {
             domains.merge(domain);
             attributes.addFlashAttribute("message", messages.getSuccessMessage("blog.domain.saved", domain.getDomain(), domain.getName()));
-            view.setViewName("redirect:/blog/setting/domains");
+            mav.setViewName("redirect:/blog/setting/domains");
         } else {
-            view.addObject("entity", domain);
-            view.addObject("domains", domains.getDomains());
-            view.addObject("result", result);
+            mav.addObject("entity", domain);
+            mav.addObject("domains", domains.getDomains());
+            mav.addObject("result", result);
         }
 
-        return view;
+        return mav;
     }
 
     @PreAuthorize("hasAuthority('READ')")
@@ -227,19 +235,19 @@ public class BlogController extends AbstractController {
         HttpServletRequest request,
         @RequestParam(value = "forced", required = false) boolean forced
     ) {
-        ModelAndView view = newView("setting/selectDomain");
+        ModelAndView mav = newView("setting/selectDomain");
 
         if (forced) {
-            view.addObject("message", messages.getErrorMessage("blog.domain.selectDomain"));
+            mav.addObject("message", messages.getErrorMessage("blog.domain.selectDomain"));
         }
 
-        view.addObject("domains", domains.getDomains());
+        mav.addObject("domains", domains.getDomains());
 
-        return view;
+        return mav;
     }
 
-    @RequestMapping("/setting/domainAccess")
-    public ModelAndView permissions(
+    @RequestMapping(value = "/setting/domainAccess", method = RequestMethod.GET)
+    public ModelAndView domainAccess(
             @RequestParam(value = "userId", required = false) Integer userId
     ) {
         ModelAndView mav = newView("setting/domainAccess");
@@ -247,6 +255,18 @@ public class BlogController extends AbstractController {
         mav.addObject("active", users.getUser(userId));
         mav.addObject("users", users.getAllUsers());
         mav.addObject("domains", domains.getDomains());
+
+        return mav;
+    }
+
+    @RequestMapping(value = "/setting/domainAccess", method = RequestMethod.POST)
+    public RedirectView domainAccess(
+            @RequestParam(value = "userId", required = true) Integer userId,
+            RedirectAttributes attributes
+    ) {
+        RedirectView mav = newRedirect(format("setting/domainAccess?userId=%d", userId));
+
+        attributes.addFlashAttribute(messages.getNoticeMessage("blog.domain.access"));
 
         return mav;
     }
