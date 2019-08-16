@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpSession;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static java.util.Objects.nonNull;
 
@@ -40,15 +41,21 @@ public class DomainService {
         return repository.getDomains(ids);
     }
 
-    public void updateDomainAccess(User user, List<Domain> domains) {
+    public List<String> getDomainsNames(List<Domain> domains) {
+        return domains.stream().map(Domain::getDomain).collect(Collectors.toList());
+    }
+
+    public void removeAccessForUser(User user) {
+        for (Domain domain : getDomains()) {
+            domain.getUsers().removeIf(u -> u.getId().equals(user.getId()));
+            merge(domain);
+        }
+    }
+
+    public void assignAccessForUser(User user, List<Domain> domains) {
         domains.forEach(domain -> {
-            Collection<User> users = domain.getUsers();
-
-            users.removeIf(u -> u.getId().equals(user.getId()));
-            users.add(user);
-
-            domain.setUsers(users);
-            repository.merge(domain);
+            domain.getUsers().add(user);
+            merge(domain);
         });
     }
 

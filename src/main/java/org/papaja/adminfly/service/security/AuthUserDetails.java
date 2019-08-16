@@ -1,6 +1,6 @@
 package org.papaja.adminfly.service.security;
 
-import org.papaja.adminfly.entity.security.AuthUser;
+import org.papaja.adminfly.entity.security.Authorized;
 import org.papaja.adminfly.entity.security.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,7 +22,7 @@ public class AuthUserDetails implements UserDetailsService {
             throw new UsernameNotFoundException(username);
         }
 
-        return new AuthUser(user);
+        return new Authorized(user);
     }
 
 }

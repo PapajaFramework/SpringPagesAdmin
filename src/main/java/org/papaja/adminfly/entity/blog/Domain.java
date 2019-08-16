@@ -57,6 +57,10 @@ public class Domain extends AbstractEntity {
         this.users = users;
     }
 
+    public Boolean hasUserAccess(User user) {
+        return hasUserAccess(user.getId());
+    }
+
     public Boolean hasUserAccess(Integer userId) {
         return getUsersIds().contains(userId);
     }

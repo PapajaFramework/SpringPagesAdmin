@@ -2,13 +2,12 @@
 {% set menu = 'index' %}
 {% block title %}{{ 'text.accessDenied' | translate }}{% endblock %}
 {% block content %}
-    <div class="page-header mb-4">
-        <h1 id="tables">{{ 'text.accessDenied' | translate }}</h1>
-    </div>
-    <div class="card bg-light mb-3">
-        <div class="card-header"><h5 class="card-title mt-3">{{ 'text.accessDenied' | translate }}</h5></div>
-        <div class="card-body">
-            {{ 'text.accessDenied' | translate }} <b>{{ uri }}</b>
-        </div>
+    <div class="jumbotron">
+        <h1 class="display-3">{{ 'label.errorPage' | translate }}</h1>
+        <p class="lead">{{ 'text.accessDenied' | translate }} <b>{{ uri }}</b></p>
+        <hr>
+        <p class="lead">
+            <a class="btn btn-primary btn-lg" onclick="history.back();" role="button">{{ 'label.back' | translate }}</a>
+        </p>
     </div>
 {% endblock %}

@@ -8,11 +8,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class AuthUser implements UserDetails {
+public class Authorized implements UserDetails {
 
     private User user;
 
-    public AuthUser(User user) {
+    public Authorized(User user) {
         this.user = user;
     }
 

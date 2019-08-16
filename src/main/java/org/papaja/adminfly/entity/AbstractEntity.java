@@ -4,6 +4,8 @@ import javax.persistence.*;
 import javax.validation.constraints.Positive;
 import java.util.Objects;
 
+import static java.util.Objects.hash;
+
 @SuppressWarnings({"unused"})
 @MappedSuperclass
 abstract public class AbstractEntity {
@@ -30,4 +32,8 @@ abstract public class AbstractEntity {
         return !isNew();
     }
 
+    @Override
+    public int hashCode() {
+        return hash(getId(), getClass().getName());
+    }
 }

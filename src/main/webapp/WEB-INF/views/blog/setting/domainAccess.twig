@@ -44,7 +44,7 @@
                                 <div class="custom-control custom-checkbox">
                                     <input type="checkbox" name="ids[{{ counter }}]" value="{{ domain.id }}"
                                            class="custom-control-input" id="domainCheck{{ domain.id }}"
-                                           {% if domain.hasUserAccess(active.id) %}checked{% endif %}>
+                                           {% if domain.hasUserAccess(active) %}checked{% endif %}>
                                     <label class="custom-control-label"
                                            for="domainCheck{{ domain.id }}">{{ domain.domain }}</label>
                                 </div>
