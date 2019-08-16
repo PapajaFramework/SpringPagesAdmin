@@ -57,7 +57,9 @@ public class AuthorityController extends AbstractController {
     @PreAuthorize("hasAuthority('SECURITY')")
     @RequestMapping(value = "/{entity:[a-z]+}/remove/{id:[0-9]+}", method = RequestMethod.GET)
     public String remove(
-        @PathVariable("entity") String name, @PathVariable("id") Integer id, RedirectAttributes attributes
+        @PathVariable("entity") String name,
+        @PathVariable("id") Integer id,
+        RedirectAttributes attributes
     ) {
         switch (name) {
             case "role":
@@ -77,7 +79,9 @@ public class AuthorityController extends AbstractController {
     @PreAuthorize("hasAuthority('SECURITY')")
     @RequestMapping(value = {"/process/privilege/{id:[0-9]+}", "/process/privilege"}, method = RequestMethod.POST)
     public String privileges(
-        @PathVariable(value = "id", required = false) Integer id, @Valid Privilege privilege, final BindingResult result, RedirectAttributes attributes
+        @PathVariable(value = "id", required = false) Integer id,
+        @Valid Privilege privilege,
+        final BindingResult result, RedirectAttributes attributes
     ) {
         if (result.hasErrors()) {
             attributes.addFlashAttribute("id", id);

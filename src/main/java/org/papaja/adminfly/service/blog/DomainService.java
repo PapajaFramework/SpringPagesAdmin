@@ -2,15 +2,14 @@ package org.papaja.adminfly.service.blog;
 
 import org.papaja.adminfly.config.properties.BlogProperties;
 import org.papaja.adminfly.entity.blog.Domain;
+import org.papaja.adminfly.entity.security.User;
 import org.papaja.adminfly.repository.blog.DomainRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpSession;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 import static java.util.Objects.nonNull;
 
@@ -39,6 +38,18 @@ public class DomainService {
         ids.removeIf(Objects::isNull);
 
         return repository.getDomains(ids);
+    }
+
+    public void updateDomainAccess(User user, List<Domain> domains) {
+        domains.forEach(domain -> {
+            Collection<User> users = domain.getUsers();
+
+            users.removeIf(u -> u.getId().equals(user.getId()));
+            users.add(user);
+
+            domain.setUsers(users);
+            repository.merge(domain);
+        });
     }
 
     public void remove(Integer id) {

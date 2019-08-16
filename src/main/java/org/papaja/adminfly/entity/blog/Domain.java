@@ -5,6 +5,7 @@ import org.papaja.adminfly.entity.security.User;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -19,11 +20,13 @@ public class Domain extends AbstractEntity {
     private String domain;
 
     @ManyToMany(cascade = {
-        CascadeType.PERSIST, CascadeType.MERGE
+        CascadeType.DETACH, CascadeType.MERGE,
+        CascadeType.REFRESH, CascadeType.PERSIST
     })
     @JoinTable(name = "blog_users_domains",
-        joinColumns = @JoinColumn(name = "domain_id"),
-        inverseJoinColumns = @JoinColumn(name = "user_id"))
+        joinColumns = @JoinColumn(name = "domain_id", referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id")
+    )
     private Collection<User> users;
 
     public String getName() {
@@ -48,6 +51,10 @@ public class Domain extends AbstractEntity {
 
     public Set<Integer> getUsersIds() {
         return users.stream().map(User::getId).collect(Collectors.toSet());
+    }
+
+    public void setUsers(Collection<User> users) {
+        this.users = users;
     }
 
     public Boolean hasUserAccess(Integer userId) {

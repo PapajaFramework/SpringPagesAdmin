@@ -34,7 +34,7 @@
             </div>
         </div>
         <div class="col-lg-6">
-            <form method="post" action="">
+            <form method="post" action="/blog/setting/domainAccess?userId={{ active.id }}">
                 <div class="card bg-light mb-3">
                     <div class="card-header">{{ 'label.domains' | translate }}</div>
                     <div class="card-body">
@@ -42,7 +42,7 @@
                             {% set counter = 0 %}
                             {% for domain in domains %}
                                 <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" name="domainId[{{ counter }}]" value="{{ domain.id }}"
+                                    <input type="checkbox" name="ids[{{ counter }}]" value="{{ domain.id }}"
                                            class="custom-control-input" id="domainCheck{{ domain.id }}"
                                            {% if domain.hasUserAccess(active.id) %}checked{% endif %}>
                                     <label class="custom-control-label"

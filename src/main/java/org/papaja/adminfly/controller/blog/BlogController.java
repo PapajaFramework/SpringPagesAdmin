@@ -4,9 +4,11 @@ import org.papaja.adminfly.controller.AbstractController;
 import org.papaja.adminfly.dto.blog.CategoryDto;
 import org.papaja.adminfly.dto.blog.DomainDto;
 import org.papaja.adminfly.dto.blog.PostDto;
+import org.papaja.adminfly.dto.shared.IdsSet;
 import org.papaja.adminfly.entity.blog.Category;
 import org.papaja.adminfly.entity.blog.Domain;
 import org.papaja.adminfly.entity.blog.Post;
+import org.papaja.adminfly.entity.security.User;
 import org.papaja.adminfly.mapper.blog.CategoryMapper;
 import org.papaja.adminfly.mapper.blog.DomainMapper;
 import org.papaja.adminfly.mapper.blog.PostMapper;
@@ -15,21 +17,19 @@ import org.papaja.adminfly.service.blog.DomainService;
 import org.papaja.adminfly.service.blog.PostService;
 import org.papaja.adminfly.service.security.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+
+import java.util.Objects;
 
 import static java.lang.String.format;
 
@@ -261,12 +261,17 @@ public class BlogController extends AbstractController {
 
     @RequestMapping(value = "/setting/domainAccess", method = RequestMethod.POST)
     public RedirectView domainAccess(
-            @RequestParam(value = "userId", required = true) Integer userId,
+            @RequestParam(value = "userId") Integer userId,
+            @ModelAttribute("ids") IdsSet ids,
             RedirectAttributes attributes
     ) {
-        RedirectView mav = newRedirect(format("setting/domainAccess?userId=%d", userId));
+        RedirectView mav  = newRedirect(format("setting/domainAccess?userId=%d", userId));
+        User         user = users.getUser(userId);
 
-        attributes.addFlashAttribute(messages.getNoticeMessage("blog.domain.access"));
+        domains.updateDomainAccess(user, domains.getDomains(ids.getIds()));
+
+        attributes.addFlashAttribute("message", messages.getInfoMessage("blog.domain.access",
+            ids.getIds().toString(), user.getUsername()));
 
         return mav;
     }
