@@ -4,9 +4,9 @@
 {% block content %}
     <div class="jumbotron">
         <h1 class="display-3">{{ 'label.flash.danger' | translate }}</h1>
-        <hr>
+        <hr class="my-4">
         <p class="lead">{{ 'text.accessDenied' | translate }}: <b>[{{ uri }}]</b></p>
-        <hr>
+        <hr class="my-4">
         <p class="lead">
             <a class="btn btn-primary btn-lg" onclick="history.back();" role="button">{{ 'label.back' | translate }}</a>
         </p>

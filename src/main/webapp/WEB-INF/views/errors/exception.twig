@@ -1,18 +1,18 @@
 {% extends '../layout/main.twig' %}
 {% set menu = 'index' %}
-{% block title %}Exception[{{ exceptionClass }}]{% endblock %}
+{% block title %}{{ 'label.flash.danger' | translate }} [{{ exceptionClass }}]{% endblock %}
 {% block content %}
-    <div class="page-header mb-4">
-        <h1 id="tables">Exception</h1>
-    </div>
-    <div class="card bg-light mb-3">
-        <div class="card-header"><h5 class="card-title mt-3">{{ exceptionClass }}</h5></div>
-        <div class="card-body">
-            {{ rootMassage }}
-        </div>
-        <div class="card-footer">
-            <button type="button" class="btn btn-danger" onclick="$('#stackTraceModal').modal();">Stack Trace</button>
-        </div>
+    <div class="jumbotron">
+        <h1 class="display-3">{{ 'label.flash.danger' | translate }}</h1>
+        <hr class="my-4">
+        <p class="lead">{{ exceptionClass }}</p>
+        <hr class="my-4">
+        <p>{{ rootMassage }}</p>
+        <hr class="my-4">
+        <p class="lead">
+            <a class="btn btn-primary btn-lg" onclick="$('#stackTraceModal').modal();"
+               role="button">{{ 'label.stackTrace' | translate }}</a>
+        </p>
     </div>
     <div id="stackTraceModal" class="modal fade" tabindex='-1'>
         <div class="modal-dialog modal-xl">
