@@ -33,7 +33,7 @@ public enum Language {
     HR("hr", "Croatian", "Hrvatski"),
     HU("hu", "Hungarian", "Magyar"),
     HY("hy", "Armenian", "Հայերեն"),
-    ID("id", "Indonesian", "Bahasa Indonesia"),
+    IN("in", "Indonesian", "Bahasa Indonesia"),
     IS("is", "Icelandic", "Íslenska"),
     IT("it", "Italian", "Italiano"),
     JA("ja", "Japanese", "日本語"),

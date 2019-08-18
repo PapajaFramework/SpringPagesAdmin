@@ -17,18 +17,20 @@ public class AvailableLocales {
             Locale.KA_GE, Locale.PT_PT,
             Locale.ES_ES, Locale.DE_DE,
             Locale.FR_FR, Locale.PL_PL,
-            Locale.NB_NO, Locale.ID_ID,
+            Locale.NB_NO, Locale.IN_ID,
             Locale.EL_GR, Locale.MY_MM,
-            Locale.HI_IN, Locale.ZH_CN,
+            Locale.HI_IN, Locale.GU_IN,
             Locale.JA_JP, Locale.AM_ET,
             Locale.LO_LA, Locale.KM_KH,
             Locale.TH_TH, Locale.KO_KR,
-            Locale.BN_BD
+            Locale.BN_BD, Locale.ZH_CN
         );
     }
 
     public Locale getCurrentLocale() {
-        return Locale.getLocale(LocaleContextHolder.getLocale().toString());
+        return Locale.getLocale(
+                LocaleContextHolder.getLocale().toString()
+        );
     }
 
     public List<Locale> getLocales() {

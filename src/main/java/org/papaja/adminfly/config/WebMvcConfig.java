@@ -9,15 +9,15 @@ import org.jtwig.spring.asset.resolver.AssetResolver;
 import org.jtwig.translate.spring.SpringTranslateExtension;
 import org.jtwig.translate.spring.SpringTranslateExtensionConfiguration;
 import org.jtwig.web.servlet.JtwigRenderer;
+import org.papaja.adminfly.common.util.function.Supplier;
 import org.papaja.adminfly.shared.vendor.jtwig.extension.asset.resolver.ResourceUrlBasedAssetResolver;
 import org.papaja.adminfly.shared.vendor.jtwig.extension.theme.ThemeResolverExtension;
-import org.papaja.adminfly.shared.vendor.jtwig.spring.SpringTemplateViewResolver;
+import org.papaja.adminfly.shared.vendor.jtwig.spring.MultipleTemplateViewResolver;
 import org.papaja.adminfly.shared.vendor.spring.web.servlet.resource.ContentHashVersionStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
-import org.springframework.core.annotation.Order;
 import org.springframework.core.env.Environment;
 import org.springframework.ui.context.ThemeSource;
 import org.springframework.ui.context.support.ResourceBundleThemeSource;
@@ -38,10 +38,6 @@ import org.springframework.web.servlet.resource.ResourceUrlEncodingFilter;
 import org.springframework.web.servlet.resource.VersionResourceResolver;
 import org.springframework.web.servlet.theme.CookieThemeResolver;
 import org.springframework.web.servlet.theme.ThemeChangeInterceptor;
-import org.springframework.web.servlet.view.BeanNameViewResolver;
-import org.springframework.web.servlet.view.InternalResourceViewResolver;
-import org.springframework.web.servlet.view.ResourceBundleViewResolver;
-import org.springframework.web.servlet.view.UrlBasedViewResolver;
 
 import java.nio.charset.Charset;
 import java.util.Locale;
@@ -71,25 +67,30 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Bean
     public ViewResolver viewResolver() {
-        EnvironmentConfigurationBuilder       builder   = EnvironmentConfigurationBuilder.configuration();
-        SpringTemplateViewResolver            resolver  = new SpringTemplateViewResolver();
-        SpringTranslateExtensionConfiguration translate = SpringTranslateExtensionConfiguration.builder(messageSource()).withLocaleResolver(localeResolver()).build();
+        Supplier<JtwigRenderer> supplier = () -> {
+            EnvironmentConfigurationBuilder builder = EnvironmentConfigurationBuilder.configuration();
 
-        builder.extensions()
-                .add(new SpringAssetExtension())
-                .add(new ThemeResolverExtension())
-                .add(new RenderExtension())
-                .add(new SpringTranslateExtension(translate));
+            builder.extensions()
+                    .add(new SpringAssetExtension())
+                    .add(new ThemeResolverExtension())
+                    .add(new RenderExtension())
+                    .add(new SpringTranslateExtension(
+                            SpringTranslateExtensionConfiguration.builder(messageSource())
+                                    .withLocaleResolver(localeResolver()).build()
+                    ));
 
-        builder.render().withOutputCharset(UTF8);
-        builder.resources().withDefaultInputCharset(UTF8);
+            builder.render().withOutputCharset(UTF8);
+            builder.resources().withDefaultInputCharset(UTF8);
 
-        resolver.setRenderer(new JtwigRenderer(builder.build()));
+            return new JtwigRenderer(builder.build());
+        };
+        MultipleTemplateViewResolver resolver = new MultipleTemplateViewResolver("admin/", "module/");
+
+        resolver.setRenderer(supplier.get());
         resolver.setViewClass(JtwigView.class);
-        resolver.setPrefix("web:/WEB-INF/views/");
+        resolver.setPrefix("/WEB-INF/views/");
         resolver.setSuffix(".twig");
         resolver.setContentType("text/html");
-        resolver.setOrder(0);
 
         return resolver;
     }

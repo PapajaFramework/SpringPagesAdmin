@@ -24,7 +24,7 @@
                     <div class="d-flex w-100 justify-content-between">
                         <h5 class="mb-1">{{ 'label.memory' | translate }}</h5>
                     </div>
-                    <p>{{ 'label.total' | translate }} / {{ 'label.free' | translate }}</p>
+                    <p class="mb-0">{{ 'label.total' | translate }} / {{ 'label.free' | translate }}</p>
                     <small>{{ info.total }} MiB / {{ info.free }} MiB</small>
                 </a>
                 <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
@@ -60,7 +60,7 @@
                 <div class="col-lg-12">
                     <div class="card border-light mb-3">
                         {% set currentLocale = languages.currentLocale %}
-                        <div class="card-header">{{ 'label.locale' | translate }}</div>
+                        <div class="card-header">{{ 'label.locale' | translate }} ({{ currentLocale.getCode() }})</div>
                         <div class="card-body">
                             <h4 class="card-title">{{ 'label.languages' | translate }}</h4>
                             <p class="card-text">

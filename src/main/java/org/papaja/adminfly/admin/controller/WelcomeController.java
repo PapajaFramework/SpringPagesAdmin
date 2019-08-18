@@ -1,14 +1,14 @@
 package org.papaja.adminfly.admin.controller;
 
-import org.papaja.adminfly.shared.annotation.mvc.AdminController;
 import org.papaja.adminfly.shared.controller.AbstractController;
 import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 
-@AdminController
+@Controller
 @SuppressWarnings({"unused"})
 public class WelcomeController extends AbstractController {
 

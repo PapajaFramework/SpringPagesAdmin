@@ -88,7 +88,7 @@ public enum Locale {
     HR_HR(Language.HR, Country.HR),
     HU_HU(Language.HU, Country.HU),
     HY_AM(Language.HY, Country.AM),
-    ID_ID(Language.ID, Country.ID),
+    IN_ID(Language.IN, Country.ID),
     IS_IS(Language.IS, Country.IS),
     IT_CH(Language.IT, Country.CH),
     IT_IT(Language.IT, Country.IT),
