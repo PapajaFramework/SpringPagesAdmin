@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.core.annotation.Order;
 import org.springframework.core.env.Environment;
 import org.springframework.ui.context.ThemeSource;
 import org.springframework.ui.context.support.ResourceBundleThemeSource;
@@ -37,8 +38,13 @@ import org.springframework.web.servlet.resource.ResourceUrlEncodingFilter;
 import org.springframework.web.servlet.resource.VersionResourceResolver;
 import org.springframework.web.servlet.theme.CookieThemeResolver;
 import org.springframework.web.servlet.theme.ThemeChangeInterceptor;
+import org.springframework.web.servlet.view.BeanNameViewResolver;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.springframework.web.servlet.view.ResourceBundleViewResolver;
+import org.springframework.web.servlet.view.UrlBasedViewResolver;
 
 import java.nio.charset.Charset;
+import java.util.Locale;
 
 @SuppressWarnings({"unused"})
 @Configuration
@@ -47,6 +53,7 @@ import java.nio.charset.Charset;
 @PropertySource("classpath:application.properties")
 @ComponentScan(
         basePackages = {
+                "org.papaja.adminfly.shared.controller",
                 "org.papaja.adminfly.admin.controller",
                 "org.papaja.adminfly.module.*.controller"
         }
@@ -55,7 +62,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     private static final Charset UTF8 = Charset.forName("UTF-8");
 
-    private Environment environment;
+    protected Environment environment;
 
     @Autowired
     public WebMvcConfig(Environment environment) {
@@ -82,6 +89,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         resolver.setPrefix("web:/WEB-INF/views/");
         resolver.setSuffix(".twig");
         resolver.setContentType("text/html");
+        resolver.setOrder(0);
 
         return resolver;
     }
@@ -130,7 +138,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public LocaleResolver localeResolver() {
         CookieLocaleResolver resolver = new CookieLocaleResolver();
 
-//        resolver.setDefaultLocale(Locale.forLanguageTag(environment.getProperty("app.locale.default").replace('_', '-')));
+        if (false) {
+            resolver.setDefaultLocale(Locale.forLanguageTag(environment.getProperty("app.locale.default").replace('_', '-')));
+        }
+
         resolver.setCookieName(environment.getProperty("app.locale.cookieName"));
         resolver.setCookieMaxAge(Integer.valueOf(environment.getProperty("app.locale.cookieMaxAge")));
 

@@ -1,4 +1,4 @@
-package org.papaja.adminfly.admin.controller;
+package org.papaja.adminfly.shared.controller;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.papaja.adminfly.shared.data.AvailableLocales;

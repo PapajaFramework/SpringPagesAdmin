@@ -1,4 +1,4 @@
-{% extends '../../layout/main.twig' %}
+{% extends '../../../layout/main.twig' %}
 {% import '../../macro/fields.twig' as fields %}
 {% block title %}{% if empty(entity.title) %}{{ 'label.creation' | translate }}{% else %}{{ 'label.updating' | translate }} {{ entity.title }}{% endif %}{% endblock %}
 {% block content %}
