@@ -38,19 +38,19 @@ public class MultipleTemplateViewResolver extends JtwigViewResolver {
         throw new NoSuchFileException(name);
     }
 
-    protected String getViewLocation(String name) {
+    private String getViewLocation(String name) {
         return format("%s%s%s", getPrefix(), name, getSuffix());
     }
 
-    protected String resolveViewName(String name, String prefix) {
+    private String resolveViewName(String name, String prefix) {
         return prefix + resolveViewName(name);
     }
 
-    protected String resolveViewName(String name) {
+    private String resolveViewName(String name) {
         return name.startsWith("/") ? name.substring(1) : name;
     }
 
-    protected boolean isExistView(String location) {
+    private boolean isExistView(String location) {
         return loader.getResource(location).exists();
     }
 

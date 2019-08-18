@@ -19,6 +19,9 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.ui.context.ThemeSource;
 import org.springframework.ui.context.support.ResourceBundleThemeSource;
 import org.springframework.validation.Validator;
@@ -39,8 +42,12 @@ import org.springframework.web.servlet.resource.VersionResourceResolver;
 import org.springframework.web.servlet.theme.CookieThemeResolver;
 import org.springframework.web.servlet.theme.ThemeChangeInterceptor;
 
+import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Locale;
+
+import static java.lang.String.format;
+import static org.papaja.adminfly.common.util.StringUtils.substringBetween;
 
 @SuppressWarnings({"unused"})
 @Configuration
@@ -120,8 +127,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Bean
     public MessageSource messageSource() {
-        ReloadableResourceBundleMessageSource source = new ReloadableResourceBundleMessageSource();
+        ReloadableResourceBundleMessageSource source   = new ReloadableResourceBundleMessageSource();
+        ResourcePatternResolver               resolver = new PathMatchingResourcePatternResolver();
 
+        source.setResourceLoader(new PathMatchingResourcePatternResolver());
         source.addBasenames(
                 "classpath:locale/messages/messages",
                 "classpath:locale/system/text/text",
@@ -131,6 +140,21 @@ public class WebMvcConfig implements WebMvcConfigurer {
         );
         source.setFallbackToSystemLocale(true);
         source.setDefaultEncoding("UTF-8");
+
+
+        try {
+            String     pattern   = "classpath:locale/module/**/*.properties";
+            Resource[] resources = resolver.getResources(pattern);
+
+            for (Resource resource : resources) {
+                source.addBasenames(
+                    format("classpath:%s", substringBetween("locale", "_", resource.getURI().toString()))
+                );
+            }
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         return source;
     }
