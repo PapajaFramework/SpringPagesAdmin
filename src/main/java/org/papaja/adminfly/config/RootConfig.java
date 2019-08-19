@@ -16,8 +16,8 @@ import java.util.Properties;
 @Configuration
 @EnableTransactionManagement
 @PropertySource({
-        "classpath:database.properties",
-        "classpath:database.development.properties"
+    "classpath:properties/database.properties",
+    "classpath:properties/database.private.properties"
 })
 @ComponentScan(
         basePackages = {
@@ -51,7 +51,7 @@ public class RootConfig {
 
         factory.setPackagesToScan(
                 "org.papaja.adminfly.shared.entity",
-                "org.papaja.adminfly.module.*.entity"
+                "org.papaja.adminfly.module.**.entity"
         );
         factory.setHibernateProperties(getHibernateProperties());
 

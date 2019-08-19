@@ -35,7 +35,7 @@
         <hikaricp.version>2.7.9</hikaricp.version>
 
         <apache.lang3.version>3.9</apache.lang3.version>
-        <jayway.json-path>2.4.0</jayway.json-path>
+        <apache.beanutils.version>1.9.3</apache.beanutils.version>
     </properties>
 
     <dependencies>
@@ -179,10 +179,11 @@
             <version>${apache.lang3.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.jayway.jsonpath</groupId>
-            <artifactId>json-path</artifactId>
-            <version>${jayway.json-path}</version>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>${apache.beanutils.version}</version>
         </dependency>
+
 
         <!-- Hack -->
         <dependency>

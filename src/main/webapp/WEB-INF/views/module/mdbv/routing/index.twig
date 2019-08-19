@@ -1,0 +1,38 @@
+{% extends '../layout-link.twig'  %}
+{% block title %}MongoDB Viewer{% endblock %}
+{% block content %}
+    <div class="page-header mb-4">
+        <h1 id="tables">{{ 'label.routing' | translate }}</h1>
+    </div>
+    <div class="card border-light mb-3">
+        {% include '../partials/setting-header-buttons.twig' %}
+        <div class="card-body">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">{{ 'label.name' | translate }}</th>
+                    <th scope="col">{{ 'label.path' | translate }}</th>
+                    <th scope="col">{{ 'label.type' | translate }}</th>
+                    <th scope="col" class="w-25"></th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for path in paths %}
+                        {% set edit = '/mdbv/path/edit/' ~ user.id %}
+                        <tr>
+                            <td>{{ path.name }}</td>
+                            <td>{{ path.path }}</td>
+                            <td><b>[{{ path.type }}]</b></td>
+                            <td class="text-lg-right">
+                                <div class="btn-group btn-group-sm" role="group">
+                                    <button type="button" onclick="location.href='{{ edit }}'"
+                                            class="btn btn-sm btn-primary">{{ 'label.edit' | translate }}</button>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

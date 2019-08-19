@@ -53,7 +53,7 @@ import static org.papaja.adminfly.common.util.StringUtils.substringBetween;
 @Configuration
 @EnableWebMvc
 @EnableAspectJAutoProxy(proxyTargetClass = true)
-@PropertySource("classpath:application.properties")
+@PropertySource("classpath:properties/application.properties")
 @ComponentScan(
         basePackages = {
                 "org.papaja.adminfly.shared.controller",

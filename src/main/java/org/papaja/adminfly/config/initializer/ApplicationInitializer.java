@@ -69,7 +69,7 @@ public class ApplicationInitializer extends AbstractAnnotationConfigDispatcherSe
     private Properties getApplicationProperties() {
         ClassLoader loader     = ApplicationInitializer.class.getClassLoader();
         Properties  properties = new Properties();
-        InputStream stream     = new BufferedInputStream(loader.getResourceAsStream("application.properties"));
+        InputStream stream     = new BufferedInputStream(loader.getResourceAsStream("properties/application.properties"));
 
         try {
             properties.load(stream);
