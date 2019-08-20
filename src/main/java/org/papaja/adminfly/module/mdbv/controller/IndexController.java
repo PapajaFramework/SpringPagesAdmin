@@ -8,6 +8,7 @@ import org.papaja.adminfly.module.mdbv.mysql.service.ValuePathsService;
 import org.papaja.adminfly.shared.controller.AbstractController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
@@ -34,7 +35,17 @@ public class IndexController extends AbstractController {
     public ModelAndView routing() {
         ModelAndView mav = newView("routing/index");
 
-        mav.addObject("paths", paths.getPaths());
+        mav.addObject("items", paths.getPaths());
+
+        return mav;
+    }
+
+    @RequestMapping("/routing/edit/{id}")
+    public ModelAndView edit(@PathVariable Integer id) {
+        ModelAndView mav = newView("routing/index");
+
+        mav.addObject("path", paths.getPath(id));
+        mav.addObject("items", paths.getPaths());
 
         return mav;
     }

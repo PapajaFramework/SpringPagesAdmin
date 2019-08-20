@@ -15,10 +15,10 @@ import java.util.Properties;
 @SuppressWarnings({"unused"})
 @Configuration
 @EnableTransactionManagement
-@PropertySource({
+@PropertySource(value = {
     "classpath:properties/database.properties",
     "classpath:properties/database.private.properties"
-})
+}, ignoreResourceNotFound = true)
 @ComponentScan(
         basePackages = {
                 "org.papaja.adminfly.shared",

@@ -19,4 +19,8 @@ public class ValuePathsService {
         return repository.getList();
     }
 
+    public ValuePaths getPath(Integer id) {
+        return repository.get(id);
+    }
+
 }
