@@ -32,7 +32,7 @@
                                         <span class="badge badge-pill badge-danger">{{ 'label.disabled' | translate }}</span>
                                     {% endif %}
                                 </td>
-                                <td>
+                                <td class="text-lg-right">
                                     <button type="button" onclick="location.href='{{ edit }}'"
                                             class="btn btn-sm btn-primary">{{ 'label.edit' | translate }}</button>
                                 </td>
@@ -45,7 +45,6 @@
                     {{ pagination.pagination(result.total, result.limit, result.current, '/blog/posts?page=') }}
                 </div>
             </div>
-
         </div>
     </div>
 {% endblock %}

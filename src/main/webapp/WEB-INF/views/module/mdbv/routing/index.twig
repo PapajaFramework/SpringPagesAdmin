@@ -14,7 +14,6 @@
                     <thead>
                     <tr>
                         <th scope="col">{{ 'label.name' | translate }}</th>
-                        <th scope="col">{{ 'label.path' | translate }}</th>
                         <th scope="col">{{ 'label.type' | translate }}</th>
                         <th scope="col" class="w-25"></th>
                     </tr>
@@ -23,8 +22,15 @@
                     {% for item in items %}
                     {% set edit = '/mdbv/routing/edit/' ~ item.id %}
                     <tr>
-                        <td>{{ item.name }}</td>
-                        <td>{{ item.path }}</td>
+                        <td>
+                            <div>
+                                {{ item.name }}
+                            </div>
+                            <span class="small">
+                                {{ 'label.path' | translate }}:
+                                <code>{{ item.path }}</code>
+                            </span>
+                        </td>
                         <td><b>[{{ item.type }}]</b></td>
                         <td class="text-lg-right">
                             <div class="btn-group btn-group-sm" role="group">

@@ -1,0 +1,73 @@
+{% extends '../layout-link.twig' %}
+{% import '../../../shared/macro/fields.twig' as fields %}
+{% block title %}MongoDB Viewer{% endblock %}
+{% block content %}
+    <div class="page-header mb-4">
+        <h1 id="tables">{{ 'label.collection' | translate }}</h1>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card border-light mb-3">
+                {% include '../partials/setting-header-buttons.twig' %}
+                <div class="card-body">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th scope="col">{{ 'label.name' | translate }}</th>
+                            <th scope="col">{{ 'label.collection' | translate }}</th>
+                            <th scope="col" class="w-25"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for item in items %}
+                            {% set edit = '/mdbv/collection/edit/' ~ item.id %}
+                            {% set activate = '/mdbv/collection/activate/' ~ item.id %}
+                            <tr>
+                                <td>{{ item.name }}</td>
+                                <td><span class="small"><code>{{ item.collection }}</code></span></td>
+                                <td class="text-lg-right">
+                                    <div class="btn-group btn-group-sm" role="group">
+                                        <button type="button" onclick="location.href='{{ edit }}'"
+                                                class="btn btn-sm btn-primary">{{ 'label.edit' | translate }}
+                                        </button>
+                                        <button type="button" onclick="location.href='{{ activate }}'"
+                                                class="btn btn-sm btn-danger">{{ 'label.select' | translate }}
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <form action="/mdbv/collection/edit{% if not empty(collection.id) %}/{{ collection.id }}{% endif %}"
+                  method="post">
+                <div class="card border-light mb-3">
+                    <div class="card-header">{{ 'label.editing' | translate }}</div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="pathName">{{ 'label.name' | translate }}</label>
+                            <input type="text" class="form-control {{ fields.ifError(result, 'name', 'is-invalid') }}"
+                                   id="pathName" name="name" value="{{ collection.name }}">
+                            {{ fields.error(result, 'name') }}
+                        </div>
+                        <div class="form-group">
+                            <label for="pathPath">{{ 'label.collection' | translate }}</label>
+                            <input type="text"
+                                   class="form-control {{ fields.ifError(result, 'collection', 'is-invalid') }}"
+                                   id="pathPath" name="path" value="{{ collection.collection }}">
+                            {{ fields.error(result, 'collection') }}
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-secondary btn-sm my-2 my-sm-0"
+                            type="submit">{{ 'label.save' | translate }}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

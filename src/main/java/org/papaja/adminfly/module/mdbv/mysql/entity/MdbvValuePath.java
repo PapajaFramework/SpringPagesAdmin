@@ -8,7 +8,7 @@ import static java.lang.String.format;
 
 @Entity
 @Table(name = "mdbv_value_path")
-public class ValuePath extends AbstractEntity {
+public class MdbvValuePath extends AbstractEntity {
 
     @Column(name = "name")
     private String name;
@@ -50,6 +50,6 @@ public class ValuePath extends AbstractEntity {
 
     @Override
     public String toString() {
-        return format("ValuePath{name='%s', path='%s', type='%s'}", name, path, type);
+        return format("MdbvValuePath{name='%s', path='%s', type='%s'}", name, path, type);
     }
 }

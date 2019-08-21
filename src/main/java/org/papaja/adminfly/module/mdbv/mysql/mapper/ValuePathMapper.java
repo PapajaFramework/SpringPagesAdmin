@@ -2,23 +2,23 @@ package org.papaja.adminfly.module.mdbv.mysql.mapper;
 
 import org.papaja.adminfly.common.mapping.Mapper;
 import org.papaja.adminfly.module.mdbv.mysql.dto.ValuePathDto;
-import org.papaja.adminfly.module.mdbv.mysql.entity.ValuePath;
+import org.papaja.adminfly.module.mdbv.mysql.entity.MdbvValuePath;
 import org.springframework.stereotype.Component;
 
-import static org.papaja.adminfly.module.mdbv.mysql.entity.ValuePath.Type.valueOf;
+import static org.papaja.adminfly.module.mdbv.mysql.entity.MdbvValuePath.Type.valueOf;
 
 @Component
-public class ValuePathMapper implements Mapper<ValuePathDto, ValuePath> {
+public class ValuePathMapper implements Mapper<ValuePathDto, MdbvValuePath> {
 
     @Override
-    public void map(ValuePathDto source, ValuePath target) {
+    public void map(ValuePathDto source, MdbvValuePath target) {
         target.setName(source.getName());
         target.setPath(source.getPath());
         target.setType(valueOf(source.getType()));
     }
 
     @Override
-    public ValuePath get() {
-        return new ValuePath();
+    public MdbvValuePath get() {
+        return new MdbvValuePath();
     }
 }
