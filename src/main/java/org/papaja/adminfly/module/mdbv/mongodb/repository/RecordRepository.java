@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 @SuppressWarnings({"unused"})
 @Repository
-public interface RecordRepository extends MongoRepository<Record, String> {
+public interface RecordRepository<T> extends MongoRepository<Record, String> {
 
     @Query("{ ?0 : ?1 }")
     Record findByDynamicField(String field, Object value);
