@@ -14,7 +14,7 @@ public class AuthController extends AbstractController {
 
     @RequestMapping("/")
     public RedirectView home() {
-        return newRedirect("login");
+        return newRedirectView("login");
     }
 
     @PreAuthorize("isAnonymous()")

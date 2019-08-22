@@ -1,6 +1,6 @@
 package org.papaja.adminfly.module.mdbv.config;
 
-import org.papaja.adminfly.module.mdbv.common.detector.MongoDBViewerCollectionRevisor;
+import org.papaja.adminfly.module.mdbv.common.holder.MdbvCollectionNameHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,8 +21,8 @@ public class MongoDBViewerConfig {
     }
 
     @Bean
-    public MongoDBViewerCollectionRevisor getCollectionDetector() {
-        return new MongoDBViewerCollectionRevisor(environment);
+    public MdbvCollectionNameHolder getCollectionDetector() {
+        return new MdbvCollectionNameHolder(environment.getProperty("module.mdbv.currentCollection"));
     }
 
 }

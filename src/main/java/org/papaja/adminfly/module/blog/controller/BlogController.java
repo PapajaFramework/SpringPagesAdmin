@@ -160,7 +160,7 @@ public class BlogController extends AbstractController {
         @PathVariable(value = "id", required = false) Integer id, @Valid CategoryDto dto,
         BindingResult result, RedirectAttributes attributes
     ) {
-        RedirectView redirect = newRedirect("categories");
+        RedirectView redirect = newRedirectView("categories");
         Category     category = categories.getCategory(id);
 
         if (domains.hasActiveDomain()) {
@@ -227,7 +227,7 @@ public class BlogController extends AbstractController {
             RedirectAttributes attributes,
             Authentication authentication
     ) {
-        RedirectView redirect  = newRedirect("posts");
+        RedirectView redirect  = newRedirectView("posts");
         Domain       domain    = domains.getDomain(id);
         Authorized   principal = (Authorized) authentication.getPrincipal();
 
@@ -236,7 +236,7 @@ public class BlogController extends AbstractController {
                     messages.getSuccessMessage("blog.domain.accessGranted", domain.getName()));
             domains.setActiveDomain(domain);
         } else {
-            redirect = newRedirect("setting/selectDomain");
+            redirect = newRedirectView("setting/selectDomain");
             attributes.addFlashAttribute("message", messages.getErrorMessage("text.accessDenied"));
         }
 
@@ -281,7 +281,7 @@ public class BlogController extends AbstractController {
             @ModelAttribute("ids") IdsSet ids,
             RedirectAttributes attributes
     ) {
-        RedirectView mav     = newRedirect(format("setting/domainAccess?userId=%d", userId));
+        RedirectView mav     = newRedirectView(format("setting/domainAccess?userId=%d", userId));
         User         user    = this.users.getUser(userId);
         List<Domain> domains = this.domains.getDomains(ids.getIds());
 

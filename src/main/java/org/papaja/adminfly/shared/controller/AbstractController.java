@@ -38,7 +38,11 @@ abstract public class AbstractController {
         return mapping.size() > 0 ? mapping.get(0) : null;
     }
 
-    protected RedirectView newRedirect(String view) {
+    protected ModelAndView newRedirect(String view) {
+        return new ModelAndView(format("redirect:%s", normalizeViewPath(view)));
+    }
+
+    protected RedirectView newRedirectView(String view) {
         return new RedirectView(normalizeViewPath(view));
     }
 

@@ -24,9 +24,15 @@
                             {% set view = '/mdbv/records/view/' ~ record.getId() %}
                             <tr>
                                 <td>
-                                    <code>ObjectId({{ record.getId() }})</code>
+                                    <i>ObjectId:</i> [{{ record.getId() }}]
                                 </td>
-                                <td></td>
+                                <td>
+                                    {% if record.getTime().isPresent() %}
+                                        {{ record.getTime().get() }}
+                                    {% else %}
+                                        <i>[undefined]</i>
+                                    {% endif %}
+                                </td>
                                 <td class="text-lg-right">
                                     <button type="button" onclick="location.href='{{ view }}'"
                                             class="btn btn-sm btn-primary">{{ 'label.view' | translate }}</button>

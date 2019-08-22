@@ -7,7 +7,7 @@ import javax.persistence.*;
 import static java.lang.String.format;
 
 @Entity
-@Table(name = "mdbv_value_path")
+@Table(name = "mdbv_value_paths")
 public class MdbvValuePath extends AbstractEntity {
 
     @Column(name = "name")

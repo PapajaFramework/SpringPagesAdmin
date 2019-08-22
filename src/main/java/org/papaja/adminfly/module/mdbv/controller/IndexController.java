@@ -1,9 +1,10 @@
 package org.papaja.adminfly.module.mdbv.controller;
 
-import org.papaja.adminfly.module.mdbv.common.detector.MongoDBViewerCollectionRevisor;
+import org.papaja.adminfly.module.mdbv.common.holder.MdbvCollectionNameHolder;
 import org.papaja.adminfly.module.mdbv.mongodb.data.PaginationData;
 import org.papaja.adminfly.module.mdbv.mongodb.record.MapRecord;
 import org.papaja.adminfly.module.mdbv.mongodb.service.RecordService;
+import org.papaja.adminfly.module.mdbv.mysql.dto.CollectionDto;
 import org.papaja.adminfly.module.mdbv.mysql.dto.ValuePathDto;
 import org.papaja.adminfly.module.mdbv.mysql.entity.MdbvValuePath;
 import org.papaja.adminfly.module.mdbv.mysql.service.MdbvCollectionService;
@@ -23,6 +24,9 @@ import org.springframework.web.servlet.view.RedirectView;
 import javax.validation.Valid;
 import java.util.List;
 
+import static java.lang.String.format;
+import static java.util.Objects.isNull;
+
 @Controller("wsaIndex")
 @RequestMapping("/mdbv")
 public class IndexController extends AbstractController {
@@ -37,11 +41,11 @@ public class IndexController extends AbstractController {
     private MdbvCollectionService collections;
 
     @Autowired
-    private MongoDBViewerCollectionRevisor revisor;
+    private MdbvCollectionNameHolder holder;
 
     @RequestMapping
     public RedirectView home() {
-        return newRedirect("index");
+        return newRedirectView("index");
     }
 
     @RequestMapping("/collection")
@@ -59,6 +63,25 @@ public class IndexController extends AbstractController {
 
         mav.addObject("items", collections.getAll());
         mav.addObject("collection", collections.getOne(id));
+
+        return mav;
+    }
+
+    @RequestMapping(value = {
+            "/collection/edit/{id}", "/collection/edit"
+    }, method = RequestMethod.POST)
+    public ModelAndView collectionSave(
+        @PathVariable(required = false) Integer id, @Valid CollectionDto dto,
+        BindingResult result, RedirectAttributes attributes
+    ) {
+        ModelAndView mav = newRedirect(isNull(id) ? "collection" : format("collection/edit/%d", id));
+
+        if (result.hasErrors()) {
+            attributes.addFlashAttribute("result", result);
+            attributes.addFlashAttribute("collection", dto);
+        }
+
+        System.out.println(dto);
 
         return mav;
     }
@@ -89,7 +112,7 @@ public class IndexController extends AbstractController {
         @PathVariable(required = false) Integer id, @Valid ValuePathDto dto,
         BindingResult result, RedirectAttributes attributes
     ) {
-        RedirectView redirect = newRedirect("routing");
+        RedirectView redirect = newRedirectView("routing");
 
         if (result.hasErrors()) {
             attributes.addFlashAttribute("result", result);
@@ -112,7 +135,7 @@ public class IndexController extends AbstractController {
         mav.addObject("pagination", pagination);
         mav.addObject("records", records);
 
-        System.out.println(revisor.has());
+        System.out.println(holder.has());
 
         return mav;
     }
