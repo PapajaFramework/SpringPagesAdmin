@@ -19,11 +19,11 @@ public class AvailableLocales {
             Locale.FR_FR, Locale.PL_PL,
             Locale.NB_NO, Locale.IN_ID,
             Locale.EL_GR, Locale.MY_MM,
-            Locale.HI_IN, Locale.GU_IN,
-            Locale.JA_JP, Locale.AM_ET,
-            Locale.LO_LA, Locale.KM_KH,
-            Locale.TH_TH, Locale.KO_KR,
-            Locale.BN_BD, Locale.ZH_CN
+            Locale.HI_IN, Locale.JA_JP,
+            Locale.AM_ET, Locale.LO_LA,
+            Locale.KM_KH, Locale.TH_TH,
+            Locale.KO_KR, Locale.BN_BD,
+            Locale.ZH_CN
         );
     }
 

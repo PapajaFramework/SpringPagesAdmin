@@ -5,24 +5,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.http.HttpSession;
 
-public class MdbvCollectionNameHolder implements Holder<String> {
+public class MdbvCollectionNameHolder implements Holder<Integer> {
 
     @Autowired
     private HttpSession session;
 
-    protected String sessionKey;
+    private String sessionKey;
 
     public MdbvCollectionNameHolder(String sessionKey) {
         this.sessionKey = sessionKey;
     }
 
     @Override
-    public String get() {
-        return (String) session.getAttribute(sessionKey);
+    public Integer get() {
+        return (Integer) session.getAttribute(sessionKey);
     }
 
     @Override
-    public void set(String value) {
+    public void set(Integer value) {
         session.setAttribute(sessionKey, value);
     }
 

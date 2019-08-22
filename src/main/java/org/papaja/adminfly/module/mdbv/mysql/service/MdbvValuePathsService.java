@@ -1,6 +1,7 @@
 package org.papaja.adminfly.module.mdbv.mysql.service;
 
 import org.papaja.adminfly.module.mdbv.mysql.dto.ValuePathDto;
+import org.papaja.adminfly.module.mdbv.mysql.entity.MdbvCollection;
 import org.papaja.adminfly.module.mdbv.mysql.entity.MdbvValuePath;
 import org.papaja.adminfly.module.mdbv.mysql.mapper.ValuePathMapper;
 import org.papaja.adminfly.module.mdbv.mysql.repository.MdbvValuePathsRepository;
@@ -20,12 +21,25 @@ public class MdbvValuePathsService {
     private MdbvValuePathsRepository repository;
 
     @Autowired
+    private MdbvCollectionService service;
+
+    @Autowired
     private ValuePathMapper mapper;
 
     public void save(ValuePathDto dto, MdbvValuePath entity) {
         mapper.map(dto, entity);
 
+        entity.setCollection(service.getActiveCollection());
+
         merge(entity);
+    }
+
+    public void remove(Integer id) {
+        remove(getPath(id));
+    }
+
+    public void remove(MdbvValuePath entity) {
+        repository.remove(entity);
     }
 
     public void merge(MdbvValuePath entity) {
@@ -34,6 +48,10 @@ public class MdbvValuePathsService {
 
     public List<MdbvValuePath> getPaths() {
         return repository.getList();
+    }
+
+    public List<MdbvValuePath> getPaths(MdbvCollection collection) {
+        return repository.getPaths(collection);
     }
 
     public MdbvValuePath getPath(Integer id) {

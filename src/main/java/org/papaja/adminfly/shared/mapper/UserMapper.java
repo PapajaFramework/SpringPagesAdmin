@@ -1,6 +1,6 @@
 package org.papaja.adminfly.shared.mapper;
 
-import org.papaja.adminfly.common.mapping.Mapper;
+import org.papaja.adminfly.common.util.Mapper;
 import org.papaja.adminfly.shared.dto.UserDto;
 import org.papaja.adminfly.shared.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,6 @@
 package org.papaja.adminfly.module.mdbv.mysql.mapper;
 
-import org.papaja.adminfly.common.mapping.Mapper;
+import org.papaja.adminfly.common.util.Mapper;
 import org.papaja.adminfly.module.mdbv.mysql.dto.ValuePathDto;
 import org.papaja.adminfly.module.mdbv.mysql.entity.MdbvValuePath;
 import org.springframework.stereotype.Component;

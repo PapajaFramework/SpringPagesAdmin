@@ -10,6 +10,10 @@ public interface Holder<V> extends Supplier<V> {
         return nonNull(get());
     }
 
+    default boolean notHas() {
+        return !has();
+    }
+
     void set(V value);
 
 }

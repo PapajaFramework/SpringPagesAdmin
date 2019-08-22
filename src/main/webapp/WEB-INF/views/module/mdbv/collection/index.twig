@@ -6,7 +6,7 @@
         <h1 id="tables">{{ 'label.collection' | translate }}</h1>
     </div>
     <div class="row">
-        <div class="col-lg-6">
+        <div class="col-lg-7">
             <div class="card border-light mb-3">
                 {% include '../partials/setting-header-buttons.twig' %}
                 <div class="card-body">
@@ -20,18 +20,22 @@
                         </thead>
                         <tbody>
                         {% for item in items %}
-                            {% set edit = '/mdbv/collection/edit/' ~ item.id %}
                             {% set select = '/mdbv/collection/select/' ~ item.id %}
+                            {% set edit = '/mdbv/collection/edit/' ~ item.id %}
+                            {% set remove = '/mdbv/collection/remove/' ~ item.id %}
                             <tr>
                                 <td>{{ item.name }}</td>
                                 <td><code>[{{ item.collection }}]</code></td>
                                 <td class="text-lg-right">
                                     <div class="btn-group btn-group-sm" role="group">
                                         <button type="button" onclick="location.href='{{ edit }}'"
-                                                class="btn btn-sm btn-primary">{{ 'label.edit' | translate }}
+                                                class="btn btn-sm btn-secondary">{{ 'label.edit' | translate }}
+                                        </button>
+                                        <button type="button" onclick="location.href='{{ remove }}'"
+                                                class="btn btn-sm btn-danger">{{ 'label.remove' | translate }}
                                         </button>
                                         <button type="button" onclick="location.href='{{ select }}'"
-                                                class="btn btn-sm btn-danger">{{ 'label.select' | translate }}
+                                                class="btn btn-sm btn-primary">{{ 'label.select' | translate }}
                                         </button>
                                     </div>
                                 </td>
@@ -42,7 +46,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-5">
             <form action="/mdbv/collection/edit{% if not empty(collection.id) %}/{{ collection.id }}{% endif %}"
                   method="post">
                 <div class="card border-light mb-3">

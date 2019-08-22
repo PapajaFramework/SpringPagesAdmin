@@ -132,11 +132,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
         source.setResourceLoader(new PathMatchingResourcePatternResolver());
         source.addBasenames(
-                "classpath:locale/messages/messages",
-                "classpath:locale/system/text/text",
-                "classpath:locale/system/title/title",
-                "classpath:locale/system/label/label",
-                "classpath:locale/system/flash/flash"
+                "classpath:locale/common/validation/validation",
+                "classpath:locale/common/text/text",
+                "classpath:locale/common/title/title",
+                "classpath:locale/common/label/label",
+                "classpath:locale/common/flash/flash"
         );
         source.setFallbackToSystemLocale(true);
         source.setDefaultEncoding("UTF-8");

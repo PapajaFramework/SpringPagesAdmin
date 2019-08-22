@@ -1,6 +1,6 @@
 package org.papaja.adminfly.shared.mapper;
 
-import org.papaja.adminfly.common.mapping.Mapper;
+import org.papaja.adminfly.common.util.Mapper;
 import org.papaja.adminfly.shared.dto.RoleDto;
 import org.papaja.adminfly.shared.entity.Role;
 import org.springframework.stereotype.Component;
