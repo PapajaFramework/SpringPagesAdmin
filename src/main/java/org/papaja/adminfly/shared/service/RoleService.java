@@ -16,7 +16,7 @@ import static java.util.Objects.nonNull;
 
 @Service
 @Transactional
-public class RoleService {
+public class RoleService extends AbstractService<Role, RoleRepository> {
 
     @Autowired
     private RoleRepository repository;
@@ -28,17 +28,15 @@ public class RoleService {
     private RoleMapper mapper;
 
     public List<Role> getRoles() {
-        return repository.getRoles();
+        return getAll();
     }
 
     public List<Role> getRoles(Integer... ids) {
-        return getRoles(Arrays.asList(ids));
+        return getAll(ids);
     }
 
     public List<Role> getRoles(List<Integer> ids) {
-        ids.removeIf(Objects::isNull);
-
-        return repository.getRoles(ids);
+        return getAll(ids);
     }
 
     public void store(RoleDto dto, Role entity) {
@@ -52,18 +50,18 @@ public class RoleService {
         repository.merge(entity);
     }
 
-    public void remove(Integer id) {
-        repository.remove(id);
-    }
-
-    public void remove(Role entity) {
-        repository.remove(entity);
-    }
-
     public Role getRole(Integer id) {
-        boolean isValid = (nonNull(id) && id > 0);
+        return getOne(id);
+    }
 
-        return isValid ? repository.getRole(id) : new Role();
+    @Override
+    public RoleRepository getRepository() {
+        return repository;
+    }
+
+    @Override
+    public Role get() {
+        return new Role();
     }
 
 }

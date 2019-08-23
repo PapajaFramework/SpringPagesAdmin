@@ -2,10 +2,7 @@ package org.papaja.adminfly.module.mdbv.mysql.entity;
 
 import org.papaja.adminfly.shared.entity.AbstractEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
@@ -18,7 +15,7 @@ public class MdbvCollection extends AbstractEntity {
     @Column(name = "collection")
     private String collection;
 
-    @OneToMany(mappedBy = "collection")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "collection")
     private Collection<MdbvValuePath> paths;
 
     public String getName() {

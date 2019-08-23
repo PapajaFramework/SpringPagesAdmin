@@ -1,6 +1,5 @@
 package org.papaja.adminfly.module.mdbv.mysql.repository;
 
-import org.hibernate.query.Query;
 import org.papaja.adminfly.module.mdbv.mysql.entity.MdbvCollection;
 import org.papaja.adminfly.module.mdbv.mysql.entity.MdbvValuePath;
 import org.papaja.adminfly.shared.repository.AbstractRepository;
@@ -12,7 +11,7 @@ import java.util.List;
 public class MdbvValuePathsRepository extends AbstractRepository<MdbvValuePath> {
 
     public List<MdbvValuePath> getPaths(MdbvCollection collection) {
-        return getList(criteriaQuery("collection", collection));
+        return getList("collection", collection);
     }
 
     @Override

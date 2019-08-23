@@ -1,6 +1,5 @@
 package org.papaja.adminfly.module.mdbv.mysql.entity;
 
-import org.papaja.adminfly.module.blog.entity.Domain;
 import org.papaja.adminfly.shared.entity.AbstractEntity;
 
 import javax.persistence.*;
@@ -21,9 +20,7 @@ public class MdbvValuePath extends AbstractEntity {
     @Enumerated(EnumType.STRING)
     private Type type;
 
-    @OneToOne(cascade = {
-        CascadeType.PERSIST, CascadeType.MERGE
-    }, optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="collection_id")
     private MdbvCollection collection;
 

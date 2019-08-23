@@ -24,18 +24,18 @@
                             {% set edit = '/mdbv/collection/edit/' ~ item.id %}
                             {% set remove = '/mdbv/collection/remove/' ~ item.id %}
                             <tr>
-                                <td>{{ item.name }}</td>
+                                <td>#{{ item.id }} [{{ item.name }}]</td>
                                 <td><code>[{{ item.collection }}]</code></td>
                                 <td class="text-lg-right">
                                     <div class="btn-group btn-group-sm" role="group">
+                                        <button type="button" onclick="location.href='{{ select }}'"
+                                                class="btn btn-sm btn-primary">{{ 'label.select' | translate }}
+                                        </button>
                                         <button type="button" onclick="location.href='{{ edit }}'"
                                                 class="btn btn-sm btn-secondary">{{ 'label.edit' | translate }}
                                         </button>
-                                        <button type="button" onclick="location.href='{{ remove }}'"
+                                        <button type="button" onclick="confirm('Are you sure?') ? location.href='{{ remove }}' : false"
                                                 class="btn btn-sm btn-danger">{{ 'label.remove' | translate }}
-                                        </button>
-                                        <button type="button" onclick="location.href='{{ select }}'"
-                                                class="btn btn-sm btn-primary">{{ 'label.select' | translate }}
                                         </button>
                                     </div>
                                 </td>

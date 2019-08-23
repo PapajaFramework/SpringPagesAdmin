@@ -23,14 +23,6 @@ public class MdbvCollectionService extends AbstractService<MdbvCollection, MdbvC
     @Autowired
     private CollectionMapper mapper;
 
-    public void remove(Integer id) {
-        remove(getOne(id));
-    }
-
-    public void remove(MdbvCollection entity) {
-        repository.remove(entity);
-    }
-
     public boolean hasActiveCollection() {
         return holder.has();
     }

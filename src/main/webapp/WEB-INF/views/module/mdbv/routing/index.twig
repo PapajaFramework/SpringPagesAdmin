@@ -24,11 +24,8 @@
                     {% set edit = '/mdbv/routing/remove/' ~ item.id %}
                     <tr>
                         <td>
-                            <div>
-                                {{ item.name }}
-                            </div>
+                            <div>{{ item.name }}</div>
                             <span class="small">
-                                <b>{{ 'label.path' | translate }}:</b>
                                 [{{ item.path }}]
                             </span>
                         </td>
@@ -38,7 +35,7 @@
                                 <button type="button" onclick="location.href='{{ edit }}'"
                                         class="btn btn-sm btn-primary">{{ 'label.edit' | translate }}
                                 </button>
-                                <button type="button" onclick="location.href='{{ edit }}'"
+                                <button type="button" onclick="confirm('Are you sure?') ? location.href='{{ edit }}' : false"
                                         class="btn btn-sm btn-danger">{{ 'label.remove' | translate }}
                                 </button>
                             </div>

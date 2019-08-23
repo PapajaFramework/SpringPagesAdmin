@@ -11,10 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
 import static java.lang.String.format;
+import static java.util.Arrays.asList;
 
 @SuppressWarnings({"all"})
 abstract public class AbstractRepository<E extends AbstractEntity> {
@@ -50,7 +52,7 @@ abstract public class AbstractRepository<E extends AbstractEntity> {
         remove(get(id));
     }
 
-    public E get(Integer id) {
+    public <T extends Serializable> E get(T id) {
         return session().get(getReflection(), id);
     }
 
@@ -66,6 +68,10 @@ abstract public class AbstractRepository<E extends AbstractEntity> {
         return createQuery(criteria).getResultList();
     }
 
+    public List<E> getList(String column, Object value) {
+        return getList(criteriaQuery(column, value));
+    }
+
     public List<E> getList() {
         return createQuery().getResultList();
     }
@@ -78,11 +84,11 @@ abstract public class AbstractRepository<E extends AbstractEntity> {
         return createQuery().uniqueResult();
     }
 
-    public List<E> getList(Integer... ids) {
-        return getList(Arrays.asList(ids));
+    public <T extends Serializable> List<E> getList(T... ids) {
+        return getList(asList(ids));
     }
 
-    public List<E> getList(List<Integer> ids) {
+    public <T extends Serializable> List<E> getList(List<T> ids) {
         return getMultiAccessor(getReflection()).multiLoad(ids);
     }
 
