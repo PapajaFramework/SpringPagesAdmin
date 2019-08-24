@@ -3,41 +3,50 @@
 {% import '../../../shared/macro/pagination.twig' as pagi %}
 {% block title %}{{name}} — {{ source.name }}{% endblock %}
 {% block content %}
-    <div class="page-header mb-4">
-        <h1 id="tables">[{{ source.name }}]: <b>{{ record.getId() }}</b></h1>
-    </div>
-    <div class="row">
-        <div class="col-lg-12">
-
-            <div class="card border-light mb-3">
-                <div class="card-header">
-                    {% include '../partials/setting-header-buttons.twig' %}
-                    <button type="button" class="btn btn-sm btn-outline-danger">HTML / JSON</button>
-                </div>
+<div class="page-header mb-4">
+    <h1 id="tables">[{{ source.name }}]: <b>{{ record.getId() }}</b></h1>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card bg-light mb-3">
+            <div class="card-header">
+                {% include '../partials/setting-header-buttons.twig' %}
+                <button onclick="switchContent()" type="button" class="btn btn-sm btn-outline-danger">HTML / JSON</button>
             </div>
-
-            <div>
-                <ul class="nav nav-tabs">
-                    <li class="nav-item">
-                        <a class="nav-link active" data-toggle="tab" href="#recordRendered">{{ 'label.beautified' | translate }}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#recordRaw">{{ 'label.raw' | translate }}</a>
-                    </li>
-                </ul>
-                <div id="myTabContent" class="tab-content">
-                    <div class="tab-pane fade active show" id="recordRendered">
+            <div class="card-body">
+                <div id="recordContent">
+                    <div class="d-block" id="recordRendered">
                         {% for path in paths %}
                         <h3>{{ path.name }} [{{ path.type }}]</h3>
                         <code>{{ path.path }}</code>
                         {% endfor %}
                     </div>
-                    <div class="tab-pane fade" id="recordRaw">
-                        <textarea>{{ jsonRecord }}</textarea>
+                    <div class="d-none" id="recordRaw">
+                        <pre id="jsonRecord" class="prettyprint lang-json">{{ jsonRecord }}</pre>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
+</div>
+<link rel="stylesheet" href="{{ asset('js/google-code-prettify/prettify.css') }}">
+<script src="{{ asset('js/google-code-prettify/prettify.js') }}"></script>
+<script>
+    function switchContent() {
+        let elements = document.querySelectorAll("#recordContent > div");
+        let numberOfElements = elements.length;
+
+        for (let i = 0; i < numberOfElements; i++) {
+            elements[i].className = elements[i].className == "d-block" ? "d-none" : "d-block";
+        }
+
+        return true;
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        let element = document.getElementById("jsonRecord");
+        element.innerText = JSON.stringify(JSON.parse(element.innerText), null, 4);
+        PR.prettyPrint();
+    });
+</script>
 {% endblock %}
