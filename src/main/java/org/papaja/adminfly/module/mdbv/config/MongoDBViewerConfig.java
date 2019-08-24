@@ -1,6 +1,7 @@
 package org.papaja.adminfly.module.mdbv.config;
 
 import com.mongodb.MongoClient;
+import org.papaja.adminfly.module.mdbv.common.converter.RawJsonConverter;
 import org.papaja.adminfly.module.mdbv.common.holder.SourceIdHolder;
 import org.papaja.adminfly.module.mdbv.common.manager.MongoDatabaseManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.data.mongodb.core.convert.MongoCustomConversions;
+
+import java.util.Collections;
 
 import static java.lang.Integer.valueOf;
 
@@ -39,6 +43,10 @@ public class MongoDBViewerConfig {
         return new MongoClient(
             environment.getProperty("mdbv.connection.host"), valueOf(environment.getProperty("mdbv.connection.port"))
         );
+    }
+
+    public @Bean MongoCustomConversions customConversions() {
+        return new MongoCustomConversions(Collections.singletonList(new RawJsonConverter()));
     }
 
 }

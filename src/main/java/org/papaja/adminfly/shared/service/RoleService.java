@@ -36,10 +36,9 @@ public class RoleService extends AbstractService<Role, RoleRepository> {
     }
 
     public void store(RoleDto dto, Role entity) {
-        boolean isOld = entity.isOld();
         mapper.map(dto, entity);
 
-        if (isOld) {
+        if (entity.isOld()) {
             entity.setPrivileges(privileges.getPrivileges(dto.getPrivileges()));
         }
 

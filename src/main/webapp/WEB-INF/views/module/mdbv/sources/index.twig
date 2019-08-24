@@ -3,12 +3,14 @@
 {% block title %}MongoDB Viewer{% endblock %}
 {% block content %}
     <div class="page-header mb-4">
-        <h1 id="tables">{{ 'label.source' | translate }} [{% if sourceService.hasActiveSource() %}{{ sourceService.getActiveSource().getName() }}{% else %}?{% endif %}]</h1>
+        <h1 id="tables">{{ 'label.source' | translate }} [{% if source is not null %}{{ source.name }}{% else %}?{% endif %}]</h1>
     </div>
     <div class="row">
-        <div class="col-lg-7">
+        <div class="col-lg-8">
             <div class="card border-light mb-3">
-                {% include '../partials/setting-header-buttons.twig' %}
+                <div class="card-header">
+                    {% include '../partials/setting-header-buttons.twig' %}
+                </div>
                 <div class="card-body">
                     <table class="table table-hover">
                         <thead>
@@ -48,7 +50,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-5">
+        <div class="col-lg-4">
             <form action="/mdbv/sources/edit{% if not empty(source.id) %}/{{ source.id }}{% endif %}"
                   method="post">
                 <div class="card border-light mb-3">
@@ -75,10 +77,10 @@
                             {{ fields.error(result, 'collection') }}
                         </div>
                     </div>
-                </div>
-                <div class="card-footer">
-                    <button class="btn btn-secondary btn-sm my-2 my-sm-0"
-                            type="submit">{{ 'label.save' | translate }}</button>
+                    <div class="card-footer">
+                        <button class="btn btn-secondary btn-sm my-2 my-sm-0"
+                                type="submit">{{ 'label.save' | translate }}</button>
+                    </div>
                 </div>
             </form>
         </div>

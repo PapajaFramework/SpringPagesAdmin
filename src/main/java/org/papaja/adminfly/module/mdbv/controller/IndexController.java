@@ -10,13 +10,12 @@ import org.papaja.adminfly.module.mdbv.mysql.service.SourceService;
 import org.papaja.adminfly.module.mdbv.mysql.service.SourcePathService;
 import org.papaja.adminfly.shared.controller.AbstractController;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -39,6 +38,14 @@ public class IndexController extends AbstractController {
     @Autowired
     private SourceService sources;
 
+    @Value("${module.name}")
+    private String name;
+
+    @ModelAttribute
+    public void addAttributes(ModelAndView model) {
+        model.addObject("name", name);
+    }
+
     @RequestMapping
     public ModelAndView home() {
         return newRedirect("sources");
@@ -52,6 +59,7 @@ public class IndexController extends AbstractController {
         ModelAndView mav = newView("sources/index");
 
         mav.addObject("items", sources.getAll());
+        mav.addObject("source", sources.getActiveSource());
 
         if (forced) {
             mav.addObject("message", messages.getErrorMessage("text.accessDenied"));
@@ -126,6 +134,7 @@ public class IndexController extends AbstractController {
         ModelAndView mav = newView("paths/index");
 
         if (sources.hasActiveSource()) {
+            mav.addObject("source", sources.getActiveSource());
             mav.addObject("items", paths.getPaths(sources.getActiveSource()));
             mav.addObject("types", SourcePath.Type.values());
         } else {
@@ -141,6 +150,7 @@ public class IndexController extends AbstractController {
         ModelAndView mav = newView("paths/index");
 
         if (sources.hasActiveSource()) {
+            mav.addObject("source", sources.getActiveSource());
             mav.addObject("path", paths.getPath(id));
             mav.addObject("items", paths.getPaths());
             mav.addObject("types", SourcePath.Type.values());
@@ -205,6 +215,8 @@ public class IndexController extends AbstractController {
 
             mav.addObject("pagination", pagination);
             mav.addObject("records", records);
+
+            mav.addObject("source", sources.getActiveSource());
         } else {
             mav = newRedirect("sources?forced=1");
         }
@@ -221,6 +233,11 @@ public class IndexController extends AbstractController {
 
         if (sources.hasActiveSource()) {
             System.out.println(records.getRecord(objectId));
+            System.out.println(records.getJsonRecord(objectId));
+            mav.addObject("jsonRecord", records.getJsonRecord(objectId));
+            mav.addObject("record", records.getRecord(objectId));
+            mav.addObject("paths", paths.getPaths(sources.getActiveSource()));
+            mav.addObject("source", sources.getActiveSource());
         } else {
             mav = newRedirect("sources?forced=1");
         }

@@ -4,18 +4,20 @@
 {% block title %}MongoDB Viewer | {{ 'label.records' | translate }}{% endblock %}
 {% block content %}
     <div class="page-header mb-4">
-        <h1 id="tables">{{ 'label.records' | translate }} [{% if sourceService.hasActiveSource() %}{{ sourceService.getActiveSource().getName() }}{% else %}?{% endif %}]</h1>
+        <h1 id="tables">{{ 'label.records' | translate }} [{{ source.name }}]</h1>
     </div>
     <div class="row">
         <div class="col-lg-12">
             <div class="card border-light mb-3">
-                {% include '../partials/setting-header-buttons.twig' %}
+                <div class="card-header">
+                    {% include '../partials/setting-header-buttons.twig' %}
+                </div>
                 <div class="card-body">
                     <table class="table table-hover">
                         <thead>
                         <tr>
                             <th scope="col">{{ 'label.id' | translate }}</th>
-                            <th scope="col">{{ 'label.time' | translate }}</th>
+                            <th scope="col">[{{ 'label.database' | translate }}].[{{ 'label.collection' | translate }}]</th>
                             <th scope="col" class="w-25"></th>
                         </tr>
                         </thead>
@@ -27,11 +29,7 @@
                                     [{{ record.getId() }}]
                                 </td>
                                 <td>
-                                    {% if record.getTime().isPresent() %}
-                                        {{ record.getTime().get() }}
-                                    {% else %}
-                                        <i>[undefined]</i>
-                                    {% endif %}
+                                   db.{{ source.database }}.{{ source.collection }}
                                 </td>
                                 <td class="text-lg-right">
                                     <button type="button" onclick="location.href='{{ view }}'"

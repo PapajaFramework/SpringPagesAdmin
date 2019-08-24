@@ -55,12 +55,20 @@ public class RecordService {
         return getRecords(0, DEFAULT_SIZE, service.getActiveSource().getCollection());
     }
 
-    public MapRecord getRecord(String id) {
-        Criteria criteria   = Criteria.where("_id").is(id);
-        Query    query      = new Query().addCriteria(criteria);
-        String   collection = service.getActiveSource().getCollection();
+    public Query getQueryFor(String column, Object value) {
+        return new Query().addCriteria(Criteria.where(column).is(value));
+    }
 
-        return template().findOne(query, MapRecord.class, collection);
+    public <T> T getRecord(String id, Class<T> reflection) {
+        return template().findOne(getQueryFor("_id", id), reflection, service.getActiveSource().getCollection());
+    }
+
+    public MapRecord getRecord(String id) {
+        return getRecord(id, MapRecord.class);
+    }
+
+    public String getJsonRecord(String id) {
+        return getRecord(id, String.class);
     }
 
 }

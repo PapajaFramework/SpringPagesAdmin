@@ -3,12 +3,14 @@
 {% block title %}MongoDB Viewer{% endblock %}
 {% block content %}
 <div class="page-header mb-4">
-    <h1 id="tables">{{ 'label.routing' | translate }} [{% if sourceService.hasActiveSource() %}{{ sourceService.getActiveSource().getName() }}{% else %}?{% endif %}]</h1>
+    <h1 id="tables">{{ 'label.paths' | translate }} [{% if source is not null %}{{ source.name }}{% else %}?{% endif %}]</h1>
 </div>
 <div class="row">
     <div class="col-lg-7">
         <div class="card border-light mb-3">
-            {% include '../partials/setting-header-buttons.twig' %}
+            <div class="card-header">
+                {% include '../partials/setting-header-buttons.twig' %}
+            </div>
             <div class="card-body">
                 <table class="table table-hover">
                     <thead>
@@ -20,8 +22,8 @@
                     </thead>
                     <tbody>
                     {% for item in items %}
-                    {% set edit = '/mdbv/routing/edit/' ~ item.id %}
-                    {% set edit = '/mdbv/routing/remove/' ~ item.id %}
+                    {% set edit = '/mdbv/paths/edit/' ~ item.id %}
+                    {% set edit = '/mdbv/paths/remove/' ~ item.id %}
                     <tr>
                         <td>
                             <div>{{ item.name }}</div>
@@ -48,7 +50,7 @@
         </div>
     </div>
     <div class="col-lg-5">
-        <form action="/mdbv/routing/edit{% if not empty(path.id) %}/{{ path.id }}{% endif %}" method="post">
+        <form action="/mdbv/paths/edit{% if not empty(path.id) %}/{{ path.id }}{% endif %}" method="post">
             <div class="card border-light mb-3">
                 <div class="card-header">{{ 'label.editing' | translate }}</div>
                 <div class="card-body">
