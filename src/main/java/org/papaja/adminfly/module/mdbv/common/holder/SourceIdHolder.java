@@ -5,14 +5,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.http.HttpSession;
 
-public class MdbvCollectionNameHolder implements Holder<Integer> {
+public class SourceIdHolder implements Holder<Integer> {
 
     @Autowired
     private HttpSession session;
 
     private String sessionKey;
 
-    public MdbvCollectionNameHolder(String sessionKey) {
+    public SourceIdHolder(String sessionKey) {
         this.sessionKey = sessionKey;
     }
 

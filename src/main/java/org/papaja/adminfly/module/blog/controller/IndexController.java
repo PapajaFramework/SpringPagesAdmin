@@ -268,7 +268,7 @@ public class IndexController extends AbstractController {
         ModelAndView mav = newView("setting/domainAccess");
 
         mav.addObject("active", users.getUser(userId));
-        mav.addObject("users", users.getAllUsers());
+        mav.addObject("users", users.getUsers());
         mav.addObject("domains", domains.getDomains());
 
         return mav;

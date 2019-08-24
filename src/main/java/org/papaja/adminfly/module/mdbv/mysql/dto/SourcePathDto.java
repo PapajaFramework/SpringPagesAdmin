@@ -5,15 +5,18 @@ import javax.validation.constraints.Size;
 
 import static java.lang.String.format;
 
-public class CollectionDto {
+public class SourcePathDto {
 
     @NotBlank(message = "{validation.notBlank}")
-    @Size(min = 4, max = 32, message = "{validation.size}")
+    @Size(min = 4, max = 64, message = "{validation.size}")
     private String name;
 
     @NotBlank(message = "{validation.notBlank}")
     @Size(min = 4, max = 64, message = "{validation.size}")
-    private String collection;
+    private String path;
+
+    @Size(min = 3, max = 8, message = "{validation.size}")
+    private String type;
 
     public String getName() {
         return name;
@@ -23,17 +26,24 @@ public class CollectionDto {
         this.name = name;
     }
 
-    public String getCollection() {
-        return collection;
+    public String getPath() {
+        return path;
     }
 
-    public void setCollection(String collection) {
-        this.collection = collection;
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     @Override
     public String toString() {
-        return format("CollectionDto{name='%s', collection='%s'}", name, collection);
+        return format("SourcePathDto{name='%s', path='%s', type=%s}", name, path, type);
     }
-
 }

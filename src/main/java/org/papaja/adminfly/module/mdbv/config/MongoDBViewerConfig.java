@@ -1,28 +1,44 @@
 package org.papaja.adminfly.module.mdbv.config;
 
-import org.papaja.adminfly.module.mdbv.common.holder.MdbvCollectionNameHolder;
+import com.mongodb.MongoClient;
+import org.papaja.adminfly.module.mdbv.common.holder.SourceIdHolder;
+import org.papaja.adminfly.module.mdbv.common.manager.MongoDatabaseManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 
+import static java.lang.Integer.valueOf;
+
+@SuppressWarnings({"unused"})
 @Configuration
 @PropertySource(value = {
-    "classpath:properties/module/mdbv/module.properties"
+    "classpath:properties/module/mdbv/database.properties",
+    "classpath:properties/module/mdbv/database.private.properties",
+    "classpath:properties/module/mdbv/module.properties",
 }, ignoreResourceNotFound = true)
 public class MongoDBViewerConfig {
 
     protected Environment environment;
 
-    @Autowired
-    public MongoDBViewerConfig(Environment environment) {
+    public @Autowired
+    MongoDBViewerConfig(Environment environment) {
         this.environment = environment;
     }
 
-    @Bean
-    public MdbvCollectionNameHolder getCollectionDetector() {
-        return new MdbvCollectionNameHolder(environment.getProperty("module.mdbv.currentCollection"));
+    public @Bean SourceIdHolder getCollectionDetector() {
+        return new SourceIdHolder(environment.getProperty("module.mdbv.currentCollection"));
+    }
+
+    public @Bean MongoDatabaseManager mongoDatabaseManager() {
+        return new MongoDatabaseManager(mongoClient());
+    }
+
+    public @Bean MongoClient mongoClient() {
+        return new MongoClient(
+            environment.getProperty("mdbv.connection.host"), valueOf(environment.getProperty("mdbv.connection.port"))
+        );
     }
 
 }

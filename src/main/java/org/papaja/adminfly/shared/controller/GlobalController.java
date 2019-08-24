@@ -3,6 +3,8 @@ package org.papaja.adminfly.shared.controller;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.papaja.adminfly.shared.data.AvailableLocales;
 import org.papaja.adminfly.shared.data.AvailableThemes;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -15,6 +17,7 @@ import java.security.Principal;
 
 @SuppressWarnings({"unused"})
 @ControllerAdvice
+@Order(Ordered.HIGHEST_PRECEDENCE)
 public class GlobalController {
 
     @ExceptionHandler({AccessDeniedException.class})

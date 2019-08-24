@@ -15,7 +15,7 @@ import static java.util.Objects.nonNull;
 
 @Service
 @Transactional
-public class UserService {
+public class UserService extends AbstractService<User, UserRepository> {
 
     private static final int MAX_RESULT_PER_PAGE = 5;
 
@@ -33,14 +33,14 @@ public class UserService {
     }
 
     public Pagination<User> getUsers(int offset) {
-        return Pagination.of(repository.getUsersQuery(), offset, MAX_RESULT_PER_PAGE);
+        return Pagination.of(getQuery(), offset, MAX_RESULT_PER_PAGE);
     }
 
-    public List<User> getAllUsers() {
-        return repository.getUsers();
+    public List<User> getUsers() {
+        return getAll();
     }
 
-    public void merge(UserDto dto, User entity) {
+    public void save(UserDto dto, User entity) {
         mapper.map(dto, entity);
 
         if (entity.isOld()) {
@@ -50,18 +50,17 @@ public class UserService {
         merge(entity);
     }
 
-    public void merge(User user) {
-        repository.merge(user);
-    }
-
     public User getUser(Integer id) {
-        boolean isValid = (nonNull(id) && id > 0);
-
-        return isValid ? repository.getUser(id) : new User();
+        return getOne(id);
     }
 
-    public User getUser(Long id) {
-        return getUser(id.intValue());
+    @Override
+    public UserRepository getRepository() {
+        return repository;
     }
 
+    @Override
+    public User get() {
+        return new User();
+    }
 }

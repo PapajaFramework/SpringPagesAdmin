@@ -6,17 +6,20 @@ import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
-@Table(name = "mdbv_collections")
-public class MdbvCollection extends AbstractEntity {
+@Table(name = "mdbv_sources")
+public class Source extends AbstractEntity {
 
     @Column(name = "name")
     private String name;
 
+    @Column(name = "db")
+    private String database;
+
     @Column(name = "collection")
     private String collection;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "collection")
-    private Collection<MdbvValuePath> paths;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "source")
+    private Collection<SourcePath> paths;
 
     public String getName() {
         return name;
@@ -24,6 +27,14 @@ public class MdbvCollection extends AbstractEntity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDatabase() {
+        return database;
+    }
+
+    public void setDatabase(String database) {
+        this.database = database;
     }
 
     public String getCollection() {
@@ -34,11 +45,11 @@ public class MdbvCollection extends AbstractEntity {
         this.collection = collection;
     }
 
-    public Collection<MdbvValuePath> getPaths() {
+    public Collection<SourcePath> getPaths() {
         return paths;
     }
 
-    public void setPaths(Collection<MdbvValuePath> paths) {
+    public void setPaths(Collection<SourcePath> paths) {
         this.paths = paths;
     }
 

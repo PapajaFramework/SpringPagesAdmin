@@ -31,10 +31,6 @@ public class RoleService extends AbstractService<Role, RoleRepository> {
         return getAll();
     }
 
-    public List<Role> getRoles(Integer... ids) {
-        return getAll(ids);
-    }
-
     public List<Role> getRoles(List<Integer> ids) {
         return getAll(ids);
     }

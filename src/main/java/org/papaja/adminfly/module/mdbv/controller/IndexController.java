@@ -3,11 +3,11 @@ package org.papaja.adminfly.module.mdbv.controller;
 import org.papaja.adminfly.module.mdbv.mongodb.data.PaginationData;
 import org.papaja.adminfly.module.mdbv.mongodb.record.MapRecord;
 import org.papaja.adminfly.module.mdbv.mongodb.service.RecordService;
-import org.papaja.adminfly.module.mdbv.mysql.dto.CollectionDto;
-import org.papaja.adminfly.module.mdbv.mysql.dto.ValuePathDto;
-import org.papaja.adminfly.module.mdbv.mysql.entity.MdbvValuePath;
-import org.papaja.adminfly.module.mdbv.mysql.service.MdbvCollectionService;
-import org.papaja.adminfly.module.mdbv.mysql.service.MdbvValuePathsService;
+import org.papaja.adminfly.module.mdbv.mysql.dto.SourceDto;
+import org.papaja.adminfly.module.mdbv.mysql.dto.SourcePathDto;
+import org.papaja.adminfly.module.mdbv.mysql.entity.SourcePath;
+import org.papaja.adminfly.module.mdbv.mysql.service.SourceService;
+import org.papaja.adminfly.module.mdbv.mysql.service.SourcePathService;
 import org.papaja.adminfly.shared.controller.AbstractController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -34,24 +34,24 @@ public class IndexController extends AbstractController {
     private RecordService records;
 
     @Autowired
-    private MdbvValuePathsService paths;
+    private SourcePathService paths;
 
     @Autowired
-    private MdbvCollectionService collections;
+    private SourceService sources;
 
     @RequestMapping
     public ModelAndView home() {
-        return newRedirect("collection");
+        return newRedirect("sources");
     }
 
     @PreAuthorize("hasAuthority('READ')")
-    @RequestMapping("/collection")
-    public ModelAndView collection(
+    @RequestMapping("/sources")
+    public ModelAndView sources(
         @RequestParam(value = "forced", required = false) boolean forced
     ) {
-        ModelAndView mav = newView("collection/index");
+        ModelAndView mav = newView("sources/index");
 
-        mav.addObject("items", collections.getAll());
+        mav.addObject("items", sources.getAll());
 
         if (forced) {
             mav.addObject("message", messages.getErrorMessage("text.accessDenied"));
@@ -61,108 +61,108 @@ public class IndexController extends AbstractController {
     }
 
     @PreAuthorize("hasAuthority('READ')")
-    @RequestMapping(value = "/collection/edit/{id}", method = RequestMethod.GET)
-    public ModelAndView collectionEdit(@PathVariable Integer id) {
-        ModelAndView mav = newView("collection/index");
+    @RequestMapping(value = "/sources/edit/{id}", method = RequestMethod.GET)
+    public ModelAndView sourcesEdit(@PathVariable Integer id) {
+        ModelAndView mav = newView("sources/index");
 
-        mav.addObject("items", collections.getAll());
-        mav.addObject("collection", collections.getOne(id));
+        mav.addObject("items", sources.getAll());
+        mav.addObject("source", sources.getOne(id));
 
         return mav;
     }
 
     @PreAuthorize("hasAuthority('READ')")
-    @RequestMapping(value = "/collection/select/{id}", method = RequestMethod.GET)
-    public ModelAndView selectCollection(
+    @RequestMapping(value = "/sources/select/{id}", method = RequestMethod.GET)
+    public ModelAndView selectSources(
         @PathVariable Integer id, RedirectAttributes attributes
     ) {
-        ModelAndView mav = newRedirect("collection");
+        ModelAndView mav = newRedirect("sources");
 
-        collections.setActiveCollection(id);
+        sources.setActiveSource(id);
         attributes.addFlashAttribute("message",
-            messages.getSuccessMessage("mdbv.access.granted", collections.getActiveCollection().getName()));
+            messages.getSuccessMessage("mdbv.access.granted", sources.getActiveSource().getName()));
 
         return mav;
     }
 
     @PreAuthorize("hasAuthority('UPDATE')")
     @RequestMapping(value = {
-            "/collection/edit/{id}", "/collection/edit"
+            "/sources/edit/{id}", "/sources/edit"
     }, method = RequestMethod.POST)
-    public ModelAndView collectionSave(
-        @PathVariable(required = false) Integer id, @Valid CollectionDto dto,
+    public ModelAndView sourcesSave(
+        @PathVariable(required = false) Integer id, @Valid SourceDto dto,
         BindingResult result, RedirectAttributes attributes
     ) {
-        ModelAndView mav = newRedirect(isNull(id) ? "collection" : format("collection/edit/%d", id));
+        ModelAndView mav = newRedirect(isNull(id) ? "sources" : format("sources/edit/%d", id));
 
         if (result.hasErrors()) {
             attributes.addFlashAttribute("result", result);
-            attributes.addFlashAttribute("collection", dto);
+            attributes.addFlashAttribute("sources", dto);
         } else {
-            collections.save(dto, collections.getOne(id));
-            attributes.addFlashAttribute("message", messages.getSuccessMessage("record.saved", "collection"));
+            sources.save(dto, sources.getOne(id));
+            attributes.addFlashAttribute("message", messages.getSuccessMessage("record.saved", "sources"));
         }
 
         return mav;
     }
 
     @PreAuthorize("hasAuthority('REMOVE')")
-    @RequestMapping(value = "/collection/remove/{id}", method = RequestMethod.GET)
-    public ModelAndView collectionRemove(
+    @RequestMapping(value = "/sources/remove/{id}", method = RequestMethod.GET)
+    public ModelAndView sourcesRemove(
         @PathVariable Integer id, RedirectAttributes attributes
     ) {
-        ModelAndView mav = newRedirect("collection");
+        ModelAndView mav = newRedirect("sources");
 
-        collections.remove(id);
+        sources.remove(id);
         attributes.addFlashAttribute("message",
-            messages.getSuccessMessage("record.removed.id", messages.getMessage("label.collection"), id));
+            messages.getSuccessMessage("record.removed.id", messages.getMessage("label.sources"), id));
 
         return mav;
     }
 
     @PreAuthorize("hasAuthority('READ')")
-    @RequestMapping("/routing")
-    public ModelAndView routing() {
-        ModelAndView mav = newView("routing/index");
+    @RequestMapping("/paths")
+    public ModelAndView paths() {
+        ModelAndView mav = newView("paths/index");
 
-        if (collections.hasActiveCollection()) {
-            mav.addObject("items", paths.getPaths(collections.getActiveCollection()));
-            mav.addObject("types", MdbvValuePath.Type.values());
+        if (sources.hasActiveSource()) {
+            mav.addObject("items", paths.getPaths(sources.getActiveSource()));
+            mav.addObject("types", SourcePath.Type.values());
         } else {
-            mav = newRedirect("collection?forced=1");
+            mav = newRedirect("sources?forced=1");
         }
 
         return mav;
     }
 
     @PreAuthorize("hasAuthority('READ')")
-    @RequestMapping(value = "/routing/edit/{id}", method = RequestMethod.GET)
-    public ModelAndView routingEdit(@PathVariable Integer id) {
-        ModelAndView mav = newView("routing/index");
+    @RequestMapping(value = "/paths/edit/{id}", method = RequestMethod.GET)
+    public ModelAndView pathsEdit(@PathVariable Integer id) {
+        ModelAndView mav = newView("paths/index");
 
-        if (collections.hasActiveCollection()) {
+        if (sources.hasActiveSource()) {
             mav.addObject("path", paths.getPath(id));
             mav.addObject("items", paths.getPaths());
-            mav.addObject("types", MdbvValuePath.Type.values());
+            mav.addObject("types", SourcePath.Type.values());
         } else {
-            mav = newRedirect("collection?forced=1");
+            mav = newRedirect("sources?forced=1");
         }
 
         return mav;
     }
 
     @PreAuthorize("hasAuthority('REMOVE')")
-    @RequestMapping(value = "/routing/remove/{id}", method = RequestMethod.GET)
-    public ModelAndView routingRemove(
+    @RequestMapping(value = "/paths/remove/{id}", method = RequestMethod.GET)
+    public ModelAndView pathsRemove(
         @PathVariable Integer id, RedirectAttributes attributes
     ) {
-        ModelAndView mav = newRedirect("routing");
+        ModelAndView mav = newRedirect("paths");
 
-        if (collections.hasActiveCollection()) {
+        if (sources.hasActiveSource()) {
             paths.remove(id);
             attributes.addFlashAttribute("message", messages.getSuccessMessage("record.removed.id", "path", id));
         } else {
-            mav = newRedirect("collection?forced=1");
+            mav = newRedirect("sources?forced=1");
         }
 
         return mav;
@@ -170,23 +170,23 @@ public class IndexController extends AbstractController {
 
     @PreAuthorize("hasAuthority('UPDATE')")
     @RequestMapping(value = {
-        "/routing/edit/{id}", "/routing/edit"
+        "/paths/edit/{id}", "/paths/edit"
     }, method = RequestMethod.POST)
-    public ModelAndView routingSave(
-        @PathVariable(required = false) Integer id, @Valid ValuePathDto dto,
+    public ModelAndView pathsSave(
+        @PathVariable(required = false) Integer id, @Valid SourcePathDto dto,
         BindingResult result, RedirectAttributes attributes
     ) {
-        ModelAndView mav = newRedirect("routing");
+        ModelAndView mav = newRedirect("paths");
 
-        if (collections.hasActiveCollection()) {
+        if (sources.hasActiveSource()) {
             if (result.hasErrors()) {
                 attributes.addFlashAttribute("result", result);
                 attributes.addFlashAttribute("path", dto);
             } else {
-                paths.save(dto, paths.getPathOrNew(id));
+                paths.save(dto, paths.getPath(id));
             }
         } else {
-            mav = newRedirect("collection?forced=1");
+            mav = newRedirect("sources?forced=1");
         }
 
         return mav;
@@ -197,15 +197,32 @@ public class IndexController extends AbstractController {
     public ModelAndView records(
         @RequestParam(value = "page", required = false, defaultValue = "1") Integer page
     ) {
-        ModelAndView    mav        = newView("records/index");
-        List<MapRecord> records    = this.records.getRecords(page - 1);
-        PaginationData  pagination = new PaginationData(this.records.count(), page, RecordService.DEFAULT_SIZE);
+        ModelAndView mav = newView("records/index");
 
-        if (collections.hasActiveCollection()) {
+        if (sources.hasActiveSource()) {
+            List<MapRecord> records    = this.records.getRecords(page - 1);
+            PaginationData  pagination = new PaginationData(this.records.count(), page, RecordService.DEFAULT_SIZE);
+
             mav.addObject("pagination", pagination);
             mav.addObject("records", records);
         } else {
-            mav = newRedirect("collection?forced=1");
+            mav = newRedirect("sources?forced=1");
+        }
+
+        return mav;
+    }
+
+    @PreAuthorize("hasAuthority('READ')")
+    @RequestMapping("/records/view/{objectId:[\\w\\d.\\-]+}")
+    public ModelAndView recordView(
+        @PathVariable(name = "objectId", required = false) String objectId
+    ) {
+        ModelAndView mav = newView("records/view");
+
+        if (sources.hasActiveSource()) {
+            System.out.println(records.getRecord(objectId));
+        } else {
+            mav = newRedirect("sources?forced=1");
         }
 
         return mav;

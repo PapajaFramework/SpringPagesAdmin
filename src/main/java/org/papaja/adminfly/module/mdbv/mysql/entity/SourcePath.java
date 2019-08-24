@@ -7,8 +7,8 @@ import javax.persistence.*;
 import static java.lang.String.format;
 
 @Entity
-@Table(name = "mdbv_value_paths")
-public class MdbvValuePath extends AbstractEntity {
+@Table(name = "mdbv_paths")
+public class SourcePath extends AbstractEntity {
 
     @Column(name = "name")
     private String name;
@@ -21,8 +21,8 @@ public class MdbvValuePath extends AbstractEntity {
     private Type type;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="collection_id")
-    private MdbvCollection collection;
+    @JoinColumn(name="source_id")
+    private Source source;
 
     public String getName() {
         return name;
@@ -48,12 +48,12 @@ public class MdbvValuePath extends AbstractEntity {
         this.type = type;
     }
 
-    public MdbvCollection getCollection() {
-        return collection;
+    public Source getSource() {
+        return source;
     }
 
-    public void setCollection(MdbvCollection collection) {
-        this.collection = collection;
+    public void setSource(Source source) {
+        this.source = source;
     }
 
     public enum Type {
@@ -62,6 +62,6 @@ public class MdbvValuePath extends AbstractEntity {
 
     @Override
     public String toString() {
-        return format("MdbvValuePath{name='%s', path='%s', type='%s'}", name, path, type);
+        return format("SourcePath{name='%s', path='%s', type='%s'}", name, path, type);
     }
 }

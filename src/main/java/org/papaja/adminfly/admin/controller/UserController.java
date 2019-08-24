@@ -65,7 +65,7 @@ public class UserController extends AbstractController {
         User         entity = users.getUser(id);
 
         if (!result.hasErrors()) {
-            users.merge(dto, entity);
+            users.save(dto, entity);
             attributes.addFlashAttribute("message", getMessage("user.saved", entity.getUsername()));
         } else {
             view.addObject("result", result);

@@ -11,31 +11,27 @@ import java.util.Objects;
 
 @Service
 @Transactional
-public class PrivilegeService {
+public class PrivilegeService extends AbstractService<Privilege, PrivilegeRepository> {
 
     @Autowired
     private PrivilegeRepository repository;
 
     public List<Privilege> getPrivileges() {
-        return repository.getPrivileges();
+        return getAll();
     }
 
     public List<Privilege> getPrivileges(List<Integer> ids) {
-        ids.removeIf(Objects::isNull);
-
-        return repository.getPrivileges(ids);
+        return getAll(ids);
     }
 
-    public void merge(Privilege entity) {
-        repository.merge(entity);
+    @Override
+    public PrivilegeRepository getRepository() {
+        return repository;
     }
 
-    public void remove(Integer id) {
-        repository.remove(id);
-    }
-
-    public void remove(Privilege privilege) {
-        repository.remove(privilege);
+    @Override
+    public Privilege get() {
+        return new Privilege();
     }
 
 }
