@@ -8,7 +8,7 @@
 </div>
 <div class="row">
     <div class="col-lg-12">
-        <div class="card bg-light mb-3">
+        <div class="card border-light mb-3">
             <div class="card-header">
                 {% include '../partials/setting-header-buttons.twig' %}
                 <button onclick="switchContent()" type="button" class="btn btn-sm btn-outline-danger">HTML / JSON</button>
@@ -30,6 +30,7 @@
     </div>
 </div>
 <link rel="stylesheet" href="{{ asset('js/google-code-prettify/prettify.css') }}">
+<link rel="stylesheet" href="{{ asset('js/google-code-prettify/skins/ih.css') }}">
 <script src="{{ asset('js/google-code-prettify/prettify.js') }}"></script>
 <script>
     function switchContent() {
