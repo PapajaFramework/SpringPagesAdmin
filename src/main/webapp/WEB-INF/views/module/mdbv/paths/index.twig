@@ -23,7 +23,7 @@
                     <tbody>
                     {% for item in items %}
                     {% set edit = '/mdbv/paths/edit/' ~ item.id %}
-                    {% set edit = '/mdbv/paths/remove/' ~ item.id %}
+                    {% set remove = '/mdbv/paths/remove/' ~ item.id %}
                     <tr>
                         <td>
                             <div>{{ item.name }}</div>
@@ -37,7 +37,7 @@
                                 <button type="button" onclick="location.href='{{ edit }}'"
                                         class="btn btn-sm btn-primary">{{ 'label.edit' | translate }}
                                 </button>
-                                <button type="button" onclick="confirm('Are you sure?') ? location.href='{{ edit }}' : false"
+                                <button type="button" onclick="confirm('{{ 'text.areYouSure' | translate }}') ? location.href='{{ remove }}' : false"
                                         class="btn btn-sm btn-danger">{{ 'label.remove' | translate }}
                                 </button>
                             </div>

@@ -1,19 +1,20 @@
 package org.papaja.adminfly.module.mdbv.controller;
 
+import org.papaja.adminfly.common.util.MapPathAccessor;
 import org.papaja.adminfly.module.mdbv.mongodb.data.PaginationData;
 import org.papaja.adminfly.module.mdbv.mongodb.record.MapRecord;
 import org.papaja.adminfly.module.mdbv.mongodb.service.RecordService;
 import org.papaja.adminfly.module.mdbv.mysql.dto.SourceDto;
 import org.papaja.adminfly.module.mdbv.mysql.dto.SourcePathDto;
 import org.papaja.adminfly.module.mdbv.mysql.entity.SourcePath;
-import org.papaja.adminfly.module.mdbv.mysql.service.SourceService;
 import org.papaja.adminfly.module.mdbv.mysql.service.SourcePathService;
+import org.papaja.adminfly.module.mdbv.mysql.service.SourceService;
+import org.papaja.adminfly.module.mdbv.shared.drawer.DrawerFactory;
 import org.papaja.adminfly.shared.controller.AbstractController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -232,10 +233,14 @@ public class IndexController extends AbstractController {
         ModelAndView mav = newView("records/view");
 
         if (sources.hasActiveSource()) {
-            System.out.println(records.getRecord(objectId));
-            System.out.println(records.getJsonRecord(objectId));
+            MapRecord               record   = records.getRecord(objectId);
+            MapPathAccessor<Object> accessor = new MapPathAccessor<>(record);
+            DrawerFactory           factory  = new DrawerFactory();
+
             mav.addObject("jsonRecord", records.getJsonRecord(objectId));
-            mav.addObject("record", records.getRecord(objectId));
+            mav.addObject("record", record);
+            mav.addObject("accessor", accessor);
+            mav.addObject("drawers", factory);
             mav.addObject("paths", paths.getPaths(sources.getActiveSource()));
             mav.addObject("source", sources.getActiveSource());
         } else {

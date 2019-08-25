@@ -16,8 +16,7 @@
                         <thead>
                         <tr>
                             <th scope="col">{{ 'label.name' | translate }}</th>
-                            <th scope="col">{{ 'label.database' | translate }}</th>
-                            <th scope="col">{{ 'label.collection' | translate }}</th>
+                            <th scope="col">[{{ 'label.database' | translate }}].[{{ 'label.collection' | translate }}]</th>
                             <th scope="col" class="w-25"></th>
                         </tr>
                         </thead>
@@ -28,8 +27,7 @@
                             {% set remove = '/mdbv/sources/remove/' ~ item.id %}
                             <tr>
                                 <td>[{{ item.name }}]</td>
-                                <td><code>[{{ item.database }}]</code></td>
-                                <td><code>[{{ item.collection }}]</code></td>
+                                <td><code>{{ item.database }}.{{ item.collection }}</code></td>
                                 <td class="text-lg-right">
                                     <div class="btn-group btn-group-sm" role="group">
                                         <button type="button" onclick="location.href='{{ select }}'"
@@ -38,7 +36,7 @@
                                         <button type="button" onclick="location.href='{{ edit }}'"
                                                 class="btn btn-sm btn-success">{{ 'label.edit' | translate }}
                                         </button>
-                                        <button type="button" onclick="confirm('Are you sure?') ? location.href='{{ remove }}' : false"
+                                        <button type="button" onclick="confirm('{{ 'text.areYouSure' | translate }}') ? location.href='{{ remove }}' : false"
                                                 class="btn btn-sm btn-danger">{{ 'label.remove' | translate }}
                                         </button>
                                     </div>

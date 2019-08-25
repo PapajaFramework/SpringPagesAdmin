@@ -11,7 +11,6 @@ import static java.util.Optional.ofNullable;
 public class MapRecord extends HashMap<String, Object> {
 
     private static final String OBJECT_ID = "_id";
-    private static final String TIME_ID   = "time";
 
     public String getId() {
         Object value = get(OBJECT_ID);
@@ -21,10 +20,6 @@ public class MapRecord extends HashMap<String, Object> {
         }
 
         return (String) value;
-    }
-
-    public Optional<Object> getTime() {
-        return ofNullable(get(TIME_ID));
     }
 
 }

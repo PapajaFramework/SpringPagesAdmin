@@ -17,8 +17,15 @@
                 <div id="recordContent">
                     <div class="d-block" id="recordRendered">
                         {% for path in paths %}
-                        <h3>{{ path.name }} [{{ path.type }}]</h3>
-                        <code>{{ path.path }}</code>
+                            <div class="card bg-light mb-3">
+                                <div class="card-header"><b>[{{ path.path }}]</b></div>
+                                <div class="card-body">
+                                    <h4 class="card-title">
+                                        {{ path.name }} [{{ path.type }}]
+                                    </h4>
+                                    <pre class="prettyprint">{% autoescape 'html' %}{{ drawers.get(path.type).draw(accessor.get(path.path)) }}{% endautoescape %}</pre>
+                                </div>
+                            </div>
                         {% endfor %}
                     </div>
                     <div class="d-none" id="recordRaw">
@@ -38,7 +45,7 @@
         let numberOfElements = elements.length;
 
         for (let i = 0; i < numberOfElements; i++) {
-            elements[i].className = elements[i].className == "d-block" ? "d-none" : "d-block";
+            elements[i].className = elements[i].className === "d-block" ? "d-none" : "d-block";
         }
 
         return true;

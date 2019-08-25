@@ -1,7 +1,7 @@
 package org.papaja.adminfly.common.security.rsa;
 
-import org.papaja.adminfly.common.security.Base64;
-import org.papaja.adminfly.common.security.Decoder;
+import org.papaja.adminfly.common.coder.Base64;
+import org.papaja.adminfly.common.coder.Decoder;
 
 import java.security.Key;
 import java.security.KeyFactory;

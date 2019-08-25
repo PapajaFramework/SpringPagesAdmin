@@ -1,4 +1,4 @@
-package org.papaja.adminfly.common.security;
+package org.papaja.adminfly.common.coder;
 
 import static org.apache.commons.codec.binary.Base64.*;
 
