@@ -1,6 +1,6 @@
 package org.papaja.adminfly.common.security.rsa;
 
-import org.papaja.adminfly.common.data.coder.Base64;
+import org.papaja.adminfly.common.converter.coder.Base64Coder;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -9,10 +9,10 @@ import java.io.Writer;
 public class RSA {
 
     private static final RSAKeyGenerator GENERATOR;
-    private static final Base64 BASE_64;
+    private static final Base64Coder BASE_64;
 
     static {
-        BASE_64 = new Base64();
+        BASE_64 = new Base64Coder();
         GENERATOR = new RSAKeyGenerator();
     }
 

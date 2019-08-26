@@ -1,10 +1,10 @@
-package org.papaja.adminfly.common.data.coder;
+package org.papaja.adminfly.common.converter.coder;
 
-import org.papaja.adminfly.common.data.Coder;
+import org.papaja.adminfly.common.converter.Coder;
 
 import static org.apache.commons.codec.binary.Base64.*;
 
-public class Base64 implements Coder<byte[], String> {
+public class Base64Coder implements Coder<byte[], String> {
 
     @Override
     public byte[] decode(String source) {

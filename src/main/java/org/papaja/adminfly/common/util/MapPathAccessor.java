@@ -1,11 +1,12 @@
 package org.papaja.adminfly.common.util;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.papaja.adminfly.common.util.function.Provider;
 
 import java.util.Map;
 
 @SuppressWarnings({"unchecked"})
-public class MapPathAccessor<V> implements Accessor<String, V> {
+public class MapPathAccessor<V> implements Provider<String, V> {
 
     private Map<String, V> map;
 

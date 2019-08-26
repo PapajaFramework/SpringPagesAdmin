@@ -1,6 +1,6 @@
-package org.papaja.adminfly.common.data.coder;
+package org.papaja.adminfly.common.converter.coder;
 
-import org.papaja.adminfly.common.data.Coder;
+import org.papaja.adminfly.common.converter.Coder;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -8,7 +8,7 @@ import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
-public class JavaDate implements Coder<Date, String> {
+public class JavaDateCoder implements Coder<Date, String> {
 
     private static final DateTimeFormatter FORMATTER;
 

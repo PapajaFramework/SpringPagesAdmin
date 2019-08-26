@@ -1,5 +1,6 @@
 package org.papaja.adminfly.module.mdbv.controller;
 
+import org.papaja.adminfly.common.converter.Coders;
 import org.papaja.adminfly.common.util.MapPathAccessor;
 import org.papaja.adminfly.module.mdbv.mongodb.data.PaginationData;
 import org.papaja.adminfly.module.mdbv.mongodb.record.MapRecord;
@@ -9,8 +10,7 @@ import org.papaja.adminfly.module.mdbv.mysql.dto.SourcePathDto;
 import org.papaja.adminfly.module.mdbv.mysql.entity.Source;
 import org.papaja.adminfly.module.mdbv.mysql.service.SourcePathService;
 import org.papaja.adminfly.module.mdbv.mysql.service.SourceService;
-import org.papaja.adminfly.common.data.Format;
-import org.papaja.adminfly.module.mdbv.shared.formatter.FormatterFactory;
+import org.papaja.adminfly.common.converter.Format;
 import org.papaja.adminfly.shared.controller.AbstractController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -210,19 +210,21 @@ public class IndexController extends AbstractController {
     public ModelAndView records(
         @RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
         @RequestParam(value = "query", required = false) String queryString,
-        @RequestParam(value = "path", required = false) String queryPath
+        @RequestParam(value = "path", required = false) String queryPath,
+        @RequestParam(value = "type", required = false) String queryType
     ) {
         ModelAndView mav = newView("records/index");
 
         if (sources.hasActiveSource()) {
-            Source          source     = sources.getActiveSource();
-            PaginationData  pagination = new PaginationData(this.records.count(), page, RecordService.DEFAULT_SIZE);
+            Source          source        = sources.getActiveSource();
+            PaginationData  pagination    = new PaginationData(this.records.count(), page, RecordService.DEFAULT_SIZE);
             List<MapRecord> records;
+            Boolean         hasFilterData = (nonNull(queryString) && nonNull(queryPath) && nonNull(queryType));
 
             page = page - 1;
 
-            if (nonNull(queryString)) {
-                records = this.records.getRecords(source.getCollection(), queryPath, queryString, page, RecordService.DEFAULT_SIZE);
+            if (hasFilterData) {
+                records = this.records.getRecords(source.getCollection(), queryPath, Format.valueOf(queryType), queryString, page, RecordService.DEFAULT_SIZE);
             } else {
                 records = this.records.getRecords(page);
             }
@@ -255,7 +257,7 @@ public class IndexController extends AbstractController {
             mav.addObject("jsonRecord", records.getJsonRecord(objectId));
             mav.addObject("record", record);
             mav.addObject("accessor", accessor);
-            mav.addObject("formatters", FormatterFactory.INSTANCE);
+            mav.addObject("coders", Coders.INSTANCE);
             mav.addObject("paths", paths.getPaths(sources.getActiveSource()));
             mav.addObject("source", sources.getActiveSource());
         } else {

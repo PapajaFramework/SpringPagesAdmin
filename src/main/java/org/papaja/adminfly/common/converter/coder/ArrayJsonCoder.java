@@ -1,7 +1,7 @@
-package org.papaja.adminfly.common.data.coder;
+package org.papaja.adminfly.common.converter.coder;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.papaja.adminfly.common.data.Coder;
+import org.papaja.adminfly.common.converter.Coder;
 
 abstract public class ArrayJsonCoder<T> implements Coder<T, String> {
 
@@ -23,7 +23,7 @@ abstract public class ArrayJsonCoder<T> implements Coder<T, String> {
         String json = null;
 
         try{
-            json = MAPPER.writeValueAsString(source);
+            json = MAPPER.writerWithDefaultPrettyPrinter().writeValueAsString(source);
         } catch (Exception exception) {}
 
         return json;
