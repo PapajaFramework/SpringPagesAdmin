@@ -3,7 +3,7 @@
 {% block title %}MongoDB Viewer{% endblock %}
 {% block content %}
     <div class="page-header mb-4">
-        <h1 id="tables">{{ 'label.source' | translate }} [{% if source is not null %}{{ source.name }}{% else %}?{% endif %}]</h1>
+        <h1 id="tables">{{ 'label.source' | translate }} [{% if activeSource is not null %}{{ activeSource.name }}{% else %}?{% endif %}]</h1>
     </div>
     <div class="row">
         <div class="col-lg-8">

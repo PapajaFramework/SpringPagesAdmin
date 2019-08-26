@@ -6,6 +6,7 @@ import org.papaja.adminfly.module.mdbv.mongodb.record.MapRecord;
 import org.papaja.adminfly.module.mdbv.mongodb.service.RecordService;
 import org.papaja.adminfly.module.mdbv.mysql.dto.SourceDto;
 import org.papaja.adminfly.module.mdbv.mysql.dto.SourcePathDto;
+import org.papaja.adminfly.module.mdbv.mysql.entity.Source;
 import org.papaja.adminfly.module.mdbv.mysql.entity.SourcePath;
 import org.papaja.adminfly.module.mdbv.mysql.service.SourcePathService;
 import org.papaja.adminfly.module.mdbv.mysql.service.SourceService;
@@ -25,6 +26,7 @@ import java.util.List;
 
 import static java.lang.String.format;
 import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 
 @Controller("mdbvIndexController")
 @RequestMapping("/mdbv")
@@ -60,7 +62,7 @@ public class IndexController extends AbstractController {
         ModelAndView mav = newView("sources/index");
 
         mav.addObject("items", sources.getAll());
-        mav.addObject("source", sources.getActiveSource());
+        mav.addObject("activeSource", sources.getActiveSource());
 
         if (forced) {
             mav.addObject("message", messages.getErrorMessage("text.accessDenied"));
@@ -85,7 +87,7 @@ public class IndexController extends AbstractController {
     public ModelAndView selectSources(
         @PathVariable Integer id, RedirectAttributes attributes
     ) {
-        ModelAndView mav = newRedirect("sources");
+        ModelAndView mav = newRedirect("records");
 
         sources.setActiveSource(id);
         attributes.addFlashAttribute("message",
@@ -124,7 +126,7 @@ public class IndexController extends AbstractController {
 
         sources.remove(id);
         attributes.addFlashAttribute("message",
-            messages.getSuccessMessage("record.removed.id", messages.getMessage("label.sources"), id));
+            messages.getSuccessMessage("record.removed.id", messages.getMessage("label.source"), id));
 
         return mav;
     }
@@ -135,7 +137,7 @@ public class IndexController extends AbstractController {
         ModelAndView mav = newView("paths/index");
 
         if (sources.hasActiveSource()) {
-            mav.addObject("source", sources.getActiveSource());
+            mav.addObject("activeSource", sources.getActiveSource());
             mav.addObject("items", paths.getPaths(sources.getActiveSource()));
             mav.addObject("types", SourcePath.Type.values());
         } else {
@@ -151,9 +153,9 @@ public class IndexController extends AbstractController {
         ModelAndView mav = newView("paths/index");
 
         if (sources.hasActiveSource()) {
-            mav.addObject("source", sources.getActiveSource());
+            mav.addObject("activeSource", sources.getActiveSource());
             mav.addObject("path", paths.getPath(id));
-            mav.addObject("items", paths.getPaths());
+            mav.addObject("items", paths.getPaths(sources.getActiveSource()));
             mav.addObject("types", SourcePath.Type.values());
         } else {
             mav = newRedirect("sources?forced=1");
@@ -206,18 +208,32 @@ public class IndexController extends AbstractController {
     @PreAuthorize("hasAuthority('READ')")
     @RequestMapping("/records")
     public ModelAndView records(
-        @RequestParam(value = "page", required = false, defaultValue = "1") Integer page
+        @RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
+        @RequestParam(value = "query", required = false) String queryString,
+        @RequestParam(value = "path", required = false) String queryPath
     ) {
         ModelAndView mav = newView("records/index");
 
         if (sources.hasActiveSource()) {
-            List<MapRecord> records    = this.records.getRecords(page - 1);
+            Source          source     = sources.getActiveSource();
             PaginationData  pagination = new PaginationData(this.records.count(), page, RecordService.DEFAULT_SIZE);
+            List<MapRecord> records;
+
+            page = page - 1;
+
+            if (nonNull(queryString)) {
+                records = this.records.getRecords(source.getCollection(), queryPath, queryString, page, RecordService.DEFAULT_SIZE);
+            } else {
+                records = this.records.getRecords(page);
+            }
 
             mav.addObject("pagination", pagination);
+            mav.addObject("paths", paths.getPaths(source));
             mav.addObject("records", records);
+            mav.addObject("queryString", queryString);
+            mav.addObject("queryPath", queryPath);
 
-            mav.addObject("source", sources.getActiveSource());
+            mav.addObject("activeSource", sources.getActiveSource());
         } else {
             mav = newRedirect("sources?forced=1");
         }

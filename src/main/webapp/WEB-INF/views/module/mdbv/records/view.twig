@@ -5,6 +5,7 @@
 {% block content %}
 <div class="page-header mb-4">
     <h1 id="tables">[{{ source.name }}]: <b>{{ record.getId() }}</b></h1>
+    <h3 class="text-muted">{{ 'label.source' | translate }}: [{{ source.database }}.{{ source.collection }}]</h3>
 </div>
 <div class="row">
     <div class="col-lg-12">
@@ -17,13 +18,18 @@
                 <div id="recordContent">
                     <div class="d-block" id="recordRendered">
                         {% for path in paths %}
+                            {% set value = accessor.get(path.path) %}
                             <div class="card bg-light mb-3">
-                                <div class="card-header"><b>[{{ path.path }}]</b></div>
+                                <div class="card-header">{{ 'label.path' | translate }}: <b>[{{ path.path }}]</b></div>
                                 <div class="card-body">
-                                    <h4 class="card-title">
+                                    <h5 class="card-title">
                                         {{ path.name }} [{{ path.type }}]
-                                    </h4>
-                                    <pre class="prettyprint">{% autoescape 'html' %}{{ drawers.get(path.type).draw(accessor.get(path.path)) }}{% endautoescape %}</pre>
+                                    </h5>
+                                    {% if value is not null %}
+                                        <pre class="prettyprint">{% autoescape 'html' %}{{ drawers.get(path.type).draw(value) }}{% endautoescape %}</pre>
+                                    {% else %}
+                                        <i>[undefined]</i>
+                                    {% endif %}
                                 </div>
                             </div>
                         {% endfor %}

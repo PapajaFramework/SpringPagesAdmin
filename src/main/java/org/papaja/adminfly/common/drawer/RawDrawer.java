@@ -1,14 +1,14 @@
-package org.papaja.adminfly.common.util.drawer;
+package org.papaja.adminfly.common.drawer;
 
 import org.papaja.adminfly.common.util.Drawer;
 
-import static java.lang.String.format;
+import java.util.Objects;
 
 public class RawDrawer implements Drawer<Object, String> {
 
     @Override
     public String apply(Object object) {
-        return object.toString();
+        return Objects.toString(object);
     }
 
 }

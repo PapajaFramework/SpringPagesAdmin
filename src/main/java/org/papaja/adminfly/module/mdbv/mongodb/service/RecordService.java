@@ -39,8 +39,16 @@ public class RecordService {
         return getRecords(number, DEFAULT_SIZE, collection);
     }
 
+    public List<MapRecord> getRecords(String collection, String column, Object value, Integer number, Integer size) {
+        return getRecords(collection, getQueryFor(column, value), number, size);
+    }
+
+    public List<MapRecord> getRecords(String collection, Query query, Integer number, Integer size) {
+        return template().find(query.with(PageRequest.of(number, size)), MapRecord.class, collection);
+    }
+
     public List<MapRecord> getRecords(Integer number, Integer size, String collection) {
-        return template().find(new Query().with(PageRequest.of(number, size)), MapRecord.class, collection);
+        return getRecords(collection, new Query(), number, size);
     }
 
     public List<MapRecord> getRecords(Integer number, Integer size) {
