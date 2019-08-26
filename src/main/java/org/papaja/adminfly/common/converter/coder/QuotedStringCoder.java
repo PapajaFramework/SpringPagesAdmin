@@ -7,29 +7,28 @@ import static java.lang.String.format;
 
 public class QuotedStringCoder implements Coder<String, String> {
 
-    private static final Braces BRACES;
-
-    static {
-        BRACES = new Braces("['", "']");
-    }
+    public static final Braces DEFAULT_BRACES = new Braces("'", "'");
+    private             Braces braces         = DEFAULT_BRACES;
 
     @Override
     public String decode(String source) {
-        System.out.println(source);
-        source = source.substring(BRACES.sizeA());
-
-        System.out.println(source);
-        System.out.println(source.length());
-        System.out.println(source.lastIndexOf(BRACES.getB()));
-
-        source = source.substring(0, source.lastIndexOf(BRACES.getB()));
+        source = source.substring(braces.sizeA());
+        source = source.substring(0, source.lastIndexOf(braces.getB()));
 
         return source;
     }
 
     @Override
     public String encode(String source) {
-        return format("%s%s%s", BRACES.getA(), source, BRACES.getB());
+        return format("%s%s%s", braces.getA(), source, braces.getB());
+    }
+
+    public void setBraces(String a, String b) {
+        setBraces(new Braces(a, b));
+    }
+
+    public void setBraces(Braces braces) {
+        this.braces = braces;
     }
 
     private static class Braces extends BiValue<String, String> {

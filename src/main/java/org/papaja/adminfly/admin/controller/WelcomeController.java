@@ -19,7 +19,6 @@ public class WelcomeController extends AbstractController {
 
     @RequestMapping(value = "/home")
     public void home(Authentication authentication, Model model) {
-        System.out.println(messages.getSuccessMessage("test.blog").getText());
         model.addAttribute("authentication", authentication);
     }
 

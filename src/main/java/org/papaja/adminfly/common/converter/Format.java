@@ -5,7 +5,7 @@ import org.papaja.adminfly.common.converter.coder.*;
 public enum Format {
 
     RAW(new NullCoder()),
-    BASE64(new Base64Coder()),
+    BASE64(new Base64CoderReverse()),
     LIST(new ListCoder()),
     MAP(new MapCoder()),
     JAVA_DATE(new JavaDateCoder()),

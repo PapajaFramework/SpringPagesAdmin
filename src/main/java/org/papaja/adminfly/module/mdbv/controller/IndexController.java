@@ -1,6 +1,7 @@
 package org.papaja.adminfly.module.mdbv.controller;
 
 import org.papaja.adminfly.common.converter.Coders;
+import org.papaja.adminfly.common.converter.Format;
 import org.papaja.adminfly.common.util.MapPathAccessor;
 import org.papaja.adminfly.module.mdbv.mongodb.data.PaginationData;
 import org.papaja.adminfly.module.mdbv.mongodb.record.MapRecord;
@@ -10,10 +11,10 @@ import org.papaja.adminfly.module.mdbv.mysql.dto.SourcePathDto;
 import org.papaja.adminfly.module.mdbv.mysql.entity.Source;
 import org.papaja.adminfly.module.mdbv.mysql.service.SourcePathService;
 import org.papaja.adminfly.module.mdbv.mysql.service.SourceService;
-import org.papaja.adminfly.common.converter.Format;
 import org.papaja.adminfly.shared.controller.AbstractController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -22,11 +23,10 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
-import java.util.List;
 
 import static java.lang.String.format;
 import static java.util.Objects.isNull;
-import static java.util.Objects.nonNull;
+import static org.springframework.util.StringUtils.hasText;
 
 @Controller("mdbvIndexController")
 @RequestMapping("/mdbv")
@@ -216,24 +216,27 @@ public class IndexController extends AbstractController {
         ModelAndView mav = newView("records/index");
 
         if (sources.hasActiveSource()) {
-            Source          source        = sources.getActiveSource();
-            PaginationData  pagination    = new PaginationData(this.records.count(), page, RecordService.DEFAULT_SIZE);
-            List<MapRecord> records;
-            Boolean         hasFilterData = (nonNull(queryString) && nonNull(queryPath) && nonNull(queryType));
+            Query   query;
+            Source  source        = sources.getActiveSource();
+            Boolean hasFilterData = (hasText(queryString) && hasText(queryPath) && hasText(queryType));
 
             page = page - 1;
 
             if (hasFilterData) {
-                records = this.records.getRecords(source.getCollection(), queryPath, Format.valueOf(queryType), queryString, page, RecordService.DEFAULT_SIZE);
+                query = this.records.getQuery(
+                    queryPath, Format.valueOf(queryType),
+                    queryString, page, RecordService.DEFAULT_SIZE
+                );
             } else {
-                records = this.records.getRecords(page);
+                query = this.records.getQuery(page, RecordService.DEFAULT_SIZE);
             }
 
-            mav.addObject("pagination", pagination);
+            mav.addObject("pagination", new PaginationData(this.records.count(query), page, RecordService.DEFAULT_SIZE));
             mav.addObject("paths", paths.getPaths(source));
-            mav.addObject("records", records);
-            mav.addObject("queryString", queryString);
+            mav.addObject("records", this.records.getRecords(sources.getActiveSource().getCollection(), query));
             mav.addObject("queryPath", queryPath);
+            mav.addObject("queryString", queryString);
+            mav.addObject("queryType", queryType);
 
             mav.addObject("activeSource", sources.getActiveSource());
         } else {

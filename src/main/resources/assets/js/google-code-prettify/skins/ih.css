@@ -39,7 +39,9 @@
 }
 
 pre.prettyprint {
-    border: 0 solid #888
+    border: 0 solid #888;
+    padding: 15px;
+    border-radius: 8px;
 }
 
 ol.linenums {
