@@ -11,7 +11,7 @@
             <form method="get" action="/mdbv/records" class="form-inline my-2 my-lg-0 float-left">
                 <input id="queryInput" class="form-control mr-sm-2 form-control" type="text" name="query" value="{{ queryString }}" placeholder="{{ queryPath }}">
                 <input type="hidden" name="path" id="queryPath" value="{{ queryPath }}">
-                <input type="hidden" name="path" id="queryType" value="{{ queryType }}">
+                <input type="hidden" name="type" id="queryType" value="{{ queryType }}">
                 <div class="btn-group btn-group-sm" role="group" aria-label="Button group with nested dropdown">
                     <button type="submit" class="btn btn-success">{{ 'label.search' | translate }}</button>
                     <div class="btn-group" role="group">
