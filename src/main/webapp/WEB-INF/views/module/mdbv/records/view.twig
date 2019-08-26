@@ -18,12 +18,12 @@
                     <div class="d-block" id="recordRendered">
                         <div class="card-body">
                             <div class="card-title">
-                                <h3><b>{{ record.getId() }}</b></h3>
+                                <h3>[<b>{{ record.getId() }}</b>]</h3>
                             </div>
                             {% for path in paths %}
                                 {% set value = accessor.get(path.path) %}
                                 <h6 class="card-title">
-                                    {{ path.name }} [{{ path.type }}]
+                                    {{ path.name }}: [{{ path.type }}] [{{ path.path }}]
                                 </h6>
                                 {% if value is not null %}
                                     <pre class="prettyprint">{% autoescape 'html' %}{{ coders.get(path.type).encode(value) }}{% endautoescape %}</pre>
