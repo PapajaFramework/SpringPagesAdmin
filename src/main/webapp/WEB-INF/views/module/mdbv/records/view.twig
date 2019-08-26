@@ -26,7 +26,7 @@
                                         {{ path.name }} [{{ path.type }}]
                                     </h5>
                                     {% if value is not null %}
-                                        <pre class="prettyprint">{% autoescape 'html' %}{{ drawers.get(path.type).draw(value) }}{% endautoescape %}</pre>
+                                        <pre class="prettyprint">{% autoescape 'html' %}{{ formatters.get(path.type).format(value) }}{% endautoescape %}</pre>
                                     {% else %}
                                         <i>[undefined]</i>
                                     {% endif %}

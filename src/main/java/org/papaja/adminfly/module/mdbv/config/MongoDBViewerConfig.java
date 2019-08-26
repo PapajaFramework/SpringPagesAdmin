@@ -1,6 +1,7 @@
 package org.papaja.adminfly.module.mdbv.config;
 
 import com.mongodb.MongoClient;
+import org.papaja.adminfly.module.mdbv.common.converter.DateTimeConverter;
 import org.papaja.adminfly.module.mdbv.common.converter.RawJsonConverter;
 import org.papaja.adminfly.module.mdbv.common.holder.SourceIdHolder;
 import org.papaja.adminfly.module.mdbv.common.manager.MongoDatabaseManager;
@@ -8,10 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.env.Environment;
 import org.springframework.data.mongodb.core.convert.MongoCustomConversions;
 
-import java.util.Collections;
+import java.util.ArrayList;
+import java.util.List;
 
 import static java.lang.Integer.valueOf;
 
@@ -46,7 +49,12 @@ public class MongoDBViewerConfig {
     }
 
     public @Bean MongoCustomConversions customConversions() {
-        return new MongoCustomConversions(Collections.singletonList(new RawJsonConverter()));
+        List<Converter<?, ?>> converters = new ArrayList<>();
+
+        converters.add(new RawJsonConverter());
+        converters.add(new DateTimeConverter());
+
+        return new MongoCustomConversions(converters);
     }
 
 }

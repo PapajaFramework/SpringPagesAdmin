@@ -1,5 +1,6 @@
 package org.papaja.adminfly.module.mdbv.mysql.entity;
 
+import org.papaja.adminfly.common.data.Format;
 import org.papaja.adminfly.shared.entity.AbstractEntity;
 
 import javax.persistence.*;
@@ -18,7 +19,7 @@ public class SourcePath extends AbstractEntity {
 
     @Column(name = "value_type", columnDefinition = "CHAR")
     @Enumerated(EnumType.STRING)
-    private Type type;
+    private Format type;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="source_id")
@@ -40,11 +41,11 @@ public class SourcePath extends AbstractEntity {
         this.path = path;
     }
 
-    public Type getType() {
+    public Format getType() {
         return type;
     }
 
-    public void setType(Type type) {
+    public void setType(Format type) {
         this.type = type;
     }
 
@@ -54,10 +55,6 @@ public class SourcePath extends AbstractEntity {
 
     public void setSource(Source source) {
         this.source = source;
-    }
-
-    public enum Type {
-        RAW, BASE64, LIST, MAP
     }
 
     @Override

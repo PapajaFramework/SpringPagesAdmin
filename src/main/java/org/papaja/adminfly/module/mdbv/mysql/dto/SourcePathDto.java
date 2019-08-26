@@ -8,14 +8,14 @@ import static java.lang.String.format;
 public class SourcePathDto {
 
     @NotBlank(message = "{validation.notBlank}")
-    @Size(min = 4, max = 64, message = "{validation.size}")
+    @Size(min = 2, max = 64, message = "{validation.size}")
     private String name;
 
     @NotBlank(message = "{validation.notBlank}")
-    @Size(min = 4, max = 64, message = "{validation.size}")
+    @Size(min = 2, max = 64, message = "{validation.size}")
     private String path;
 
-    @Size(min = 3, max = 8, message = "{validation.size}")
+    @Size(min = 3, max = 12, message = "{validation.size}")
     private String type;
 
     public String getName() {

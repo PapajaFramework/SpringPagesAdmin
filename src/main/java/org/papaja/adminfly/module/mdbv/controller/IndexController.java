@@ -7,10 +7,10 @@ import org.papaja.adminfly.module.mdbv.mongodb.service.RecordService;
 import org.papaja.adminfly.module.mdbv.mysql.dto.SourceDto;
 import org.papaja.adminfly.module.mdbv.mysql.dto.SourcePathDto;
 import org.papaja.adminfly.module.mdbv.mysql.entity.Source;
-import org.papaja.adminfly.module.mdbv.mysql.entity.SourcePath;
 import org.papaja.adminfly.module.mdbv.mysql.service.SourcePathService;
 import org.papaja.adminfly.module.mdbv.mysql.service.SourceService;
-import org.papaja.adminfly.module.mdbv.shared.drawer.DrawerFactory;
+import org.papaja.adminfly.common.data.Format;
+import org.papaja.adminfly.module.mdbv.shared.formatter.FormatterFactory;
 import org.papaja.adminfly.shared.controller.AbstractController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -139,7 +139,7 @@ public class IndexController extends AbstractController {
         if (sources.hasActiveSource()) {
             mav.addObject("activeSource", sources.getActiveSource());
             mav.addObject("items", paths.getPaths(sources.getActiveSource()));
-            mav.addObject("types", SourcePath.Type.values());
+            mav.addObject("types", Format.values());
         } else {
             mav = newRedirect("sources?forced=1");
         }
@@ -156,7 +156,7 @@ public class IndexController extends AbstractController {
             mav.addObject("activeSource", sources.getActiveSource());
             mav.addObject("path", paths.getPath(id));
             mav.addObject("items", paths.getPaths(sources.getActiveSource()));
-            mav.addObject("types", SourcePath.Type.values());
+            mav.addObject("types", Format.values());
         } else {
             mav = newRedirect("sources?forced=1");
         }
@@ -251,12 +251,11 @@ public class IndexController extends AbstractController {
         if (sources.hasActiveSource()) {
             MapRecord               record   = records.getRecord(objectId);
             MapPathAccessor<Object> accessor = new MapPathAccessor<>(record);
-            DrawerFactory           factory  = new DrawerFactory();
 
             mav.addObject("jsonRecord", records.getJsonRecord(objectId));
             mav.addObject("record", record);
             mav.addObject("accessor", accessor);
-            mav.addObject("drawers", factory);
+            mav.addObject("formatters", FormatterFactory.INSTANCE);
             mav.addObject("paths", paths.getPaths(sources.getActiveSource()));
             mav.addObject("source", sources.getActiveSource());
         } else {

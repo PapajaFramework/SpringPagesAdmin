@@ -1,6 +1,6 @@
 package org.papaja.adminfly.common.security.rsa;
 
-import org.papaja.adminfly.common.coder.Base64;
+import org.papaja.adminfly.common.data.coder.Base64;
 
 import java.io.IOException;
 import java.io.OutputStream;

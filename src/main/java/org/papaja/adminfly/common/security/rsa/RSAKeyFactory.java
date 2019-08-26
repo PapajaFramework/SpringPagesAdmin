@@ -1,7 +1,7 @@
 package org.papaja.adminfly.common.security.rsa;
 
-import org.papaja.adminfly.common.coder.Base64;
-import org.papaja.adminfly.common.coder.Decoder;
+import org.papaja.adminfly.common.data.coder.Base64;
+import org.papaja.adminfly.common.data.Decoder;
 
 import java.security.Key;
 import java.security.KeyFactory;
@@ -20,11 +20,11 @@ public class RSAKeyFactory {
     }
 
     public PrivateKey getPrivateKey(String key) {
-        return getPrivateKey(BASE_64.decode(key));
+        return getPrivateKey(BASE_64.decode(key.getBytes()));
     }
 
     public PublicKey getPublicKey(String key) {
-        return getPublicKey(BASE_64.decode(key));
+        return getPublicKey(BASE_64.decode(key.getBytes()));
     }
 
     public PrivateKey getPrivateKey(byte[] bytes) {
@@ -35,7 +35,7 @@ public class RSAKeyFactory {
         return new PublicKeyDecoder().getKey(bytes);
     }
 
-    private class PublicKeyDecoder implements Decoder<PublicKey>, KeyCoder<PublicKey> {
+    private class PublicKeyDecoder implements Decoder<byte[], PublicKey>, KeyCoder<PublicKey> {
 
         @Override
         public PublicKey getKey(byte[] bytes) {
@@ -57,7 +57,7 @@ public class RSAKeyFactory {
 
     }
 
-    private class PrivateKeyDecoder implements Decoder<PrivateKey>, KeyCoder<PrivateKey> {
+    private class PrivateKeyDecoder implements Decoder<byte[], PrivateKey>, KeyCoder<PrivateKey> {
 
         @Override
         public PrivateKey getKey(byte[] bytes) {
