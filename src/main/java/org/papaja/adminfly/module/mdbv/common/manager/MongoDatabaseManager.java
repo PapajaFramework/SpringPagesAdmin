@@ -8,22 +8,23 @@ import java.util.Map;
 
 public class MongoDatabaseManager {
 
-    private Map<String, MongoTemplate> templates;
-    private MongoClient                client;
+    private ThreadLocal<Map<String, MongoTemplate>> local;
+    private MongoClient                             client;
 
     public MongoDatabaseManager(MongoClient client) {
         this.client = client;
-        this.templates = new HashMap<>();
+        this.local  = new ThreadLocal<>();
+        this.local.set(new HashMap<>());
     }
 
     public MongoTemplate getMongoTemplateForDatabase(String database) {
-        boolean isNew = !templates.containsKey(database);
+        boolean isNew = !local.get().containsKey(database);
 
         if (isNew) {
-            templates.put(database, new MongoTemplate(client, database));
+            local.get().put(database, new MongoTemplate(client, database));
         }
 
-        return templates.get(database);
+        return local.get().get(database);
     }
 
 
