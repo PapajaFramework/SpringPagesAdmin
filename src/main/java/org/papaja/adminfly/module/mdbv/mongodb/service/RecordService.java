@@ -18,6 +18,7 @@ import java.util.List;
 import static org.papaja.adminfly.common.converter.Format.RAW;
 
 @Service
+@SuppressWarnings({"unused"})
 public class RecordService {
 
     public static final Integer DEFAULT_SIZE = 5;
