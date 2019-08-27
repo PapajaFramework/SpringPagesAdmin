@@ -6,7 +6,7 @@
 
     <groupId>org.papaja</groupId>
     <artifactId>AdminFly</artifactId>
-    <version>1.0.1-RC1</version>
+    <version>1.0.0-BETA</version>
 
     <packaging>war</packaging>
 
@@ -234,7 +234,7 @@
     </dependencies>
 
     <build>
-        <finalName>ROOT##${project.version}</finalName>
+        <finalName>MongoDBViewer##${project.version}</finalName>
 
         <sourceDirectory>src/main/java</sourceDirectory>
         <resources>
