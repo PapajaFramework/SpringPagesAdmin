@@ -7,7 +7,7 @@
     {% set pages = [1..count] %}
     {% if count > 1 %}
         {% if count > max %}
-            {% set pages = slice(pages, current - size, size + size + 1) %}
+            {% set pages = slice(pages, current - size, size + size) %}
         {% endif %}
         {% if current > size %}
         <button onclick="location.href='{{ prefix ~ 1 }}'" type="button"
