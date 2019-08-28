@@ -14,7 +14,6 @@
                 class="btn btn-secondary btn-sm">{{ 'label.first_female' | translate | lower }}</button>
         {% endif %}
         <div class="btn-group btn-group-sm" role="group">
-            {% set current = current + 1 %}
             {% for page in pages %}
                 {% set link = prefix ~ page %}
                 <button onclick="location.href='{{ link }}'" type="button"

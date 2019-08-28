@@ -220,15 +220,13 @@ public class IndexController extends AbstractController {
             Source  source        = sources.getActiveSource();
             Boolean hasFilterData = (hasText(queryString) && hasText(queryPath) && hasText(queryType));
 
-            page = page - 1;
-
             if (hasFilterData) {
                 query = this.records.getQuery(
                     queryPath, Format.valueOf(queryType),
-                    queryString, page, RecordService.DEFAULT_SIZE
+                    queryString, page - 1, RecordService.DEFAULT_SIZE
                 );
             } else {
-                query = this.records.getQuery(page, RecordService.DEFAULT_SIZE);
+                query = this.records.getQuery(page - 1, RecordService.DEFAULT_SIZE);
             }
 
             mav.addObject("pagination", new PaginationData(this.records.count(query), page, RecordService.DEFAULT_SIZE));
