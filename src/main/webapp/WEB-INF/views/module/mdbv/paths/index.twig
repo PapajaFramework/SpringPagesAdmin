@@ -22,8 +22,8 @@
                     </thead>
                     <tbody>
                     {% for item in items %}
-                    {% set edit = '/mdbv/paths/edit/' ~ item.id %}
-                    {% set remove = '/mdbv/paths/remove/' ~ item.id %}
+                    {% set edit = url('/mdbv/paths/edit/' ~ item.id) %}
+                    {% set remove = url('/mdbv/paths/remove/' ~ item.id) %}
                     <tr>
                         <td>
                             <div>{{ item.name }}</div>
@@ -50,7 +50,7 @@
         </div>
     </div>
     <div class="col-lg-5">
-        <form action="/mdbv/paths/edit{% if not empty(path.id) %}/{{ path.id }}{% endif %}" method="post">
+        <form action="{{ url('/mdbv/paths/edit') }}{% if not empty(path.id) %}/{{ path.id }}{% endif %}" method="post">
             <div class="card border-light mb-3">
                 <div class="card-header">{{ 'label.editing' | translate }}</div>
                 <div class="card-body">

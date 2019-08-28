@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import static java.lang.String.format;
@@ -30,6 +32,7 @@ import static org.springframework.util.StringUtils.hasText;
 
 @Controller("mdbvIndexController")
 @RequestMapping("/mdbv")
+@SuppressWarnings({"unused"})
 public class IndexController extends AbstractController {
 
     @Autowired
@@ -40,6 +43,12 @@ public class IndexController extends AbstractController {
 
     @Autowired
     private SourceService sources;
+
+    @Autowired
+    private ServletContext context;
+
+    @Autowired
+    private HttpServletRequest request;
 
     @Value("${module.name}")
     private String name;

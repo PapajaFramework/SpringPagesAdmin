@@ -1,4 +1,4 @@
 <div class="btn-group mb-3" role="group">
-    <button onclick="window.location = '/application/setting'" type="button" class="btn btn-secondary">{{ 'title.setting' | translate }}</button>
-    <button onclick="window.location = '/application'" type="button" class="btn btn-secondary">{{ 'title.application' | translate }}</button>
+    <button onclick="window.location = {{ url('/application/setting') }}" type="button" class="btn btn-secondary">{{ 'title.setting' | translate }}</button>
+    <button onclick="window.location = {{ url('/application') }}" type="button" class="btn btn-secondary">{{ 'title.application' | translate }}</button>
 </div>

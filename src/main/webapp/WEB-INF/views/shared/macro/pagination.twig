@@ -7,7 +7,7 @@
     {% set pages = [1..count] %}
     {% if count > 1 %}
         {% if count > max %}
-            {% set pages = slice(pages, current - size, size + size + 1) %}
+            {% set pages = slice(pages, current - size - 1, size + size + 1) %}
         {% endif %}
         {% if current > size %}
         <button onclick="location.href='{{ prefix ~ 1 }}'" type="button"
@@ -20,7 +20,7 @@
                         class="btn btn-secondary {% if current == page %}active{% endif %}">{{ page }}</button>
             {% endfor %}
         </div>
-        {% if (count - size) > current %}
+        {% if (count - size) > current and count > max %}
         <button onclick="location.href='{{ prefix ~ count }}'" type="button"
                 class="btn btn-secondary btn-sm">{{ 'label.last_female' | translate | lower }}</button>
         {% endif %}

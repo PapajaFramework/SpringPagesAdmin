@@ -9,17 +9,17 @@
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <b>
-                        <a class="nav-link" href="/mdbv">[MongoDB Viewer]</a>
+                        <a class="nav-link" href="{{ url('/mdbv') }}">[MongoDB Viewer]</a>
                     </b>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/authority">{{ 'title.authority' | translate }}</a>
+                    <a class="nav-link" href="{{ url('/authority') }}">{{ 'title.authority' | translate }}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/users">{{ 'title.users' | translate }}</a>
+                    <a class="nav-link" href="{{ url('/users') }}">{{ 'title.users' | translate }}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/application">{{ 'title.application' | translate }}</a>
+                    <a class="nav-link" href="{{ url('/application') }}">{{ 'title.application' | translate }}</a>
                 </li>
             </ul>
 
@@ -33,7 +33,7 @@
                 </li>
             </ul>
             <div class="form-inline my-2 my-lg-0">
-                <button onclick="window.location='/auth/logout'" class="btn btn-secondary my-2 my-sm-0" type="submit">
+                <button onclick="window.location='{{ url('/auth/logout') }}'" class="btn btn-secondary my-2 my-sm-0" type="submit">
                     [{{ principal.name }}] {{ 'title.logout' | translate }}
                 </button>
             </div>

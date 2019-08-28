@@ -5,7 +5,7 @@
     <div class="page-header mb-4">
         <h1 id="tables">{% if empty(user.id) %}{{ 'label.creation' | translate }}{% else %}{{ 'label.updating' | translate }} [{{ user.username }}]{% endif %}</h1>
     </div>
-    <form method="post" action="/users/process{% if not empty(user.id) %}/{{ user.id }}{% endif %}">
+    <form method="post" action="{{ url('/users/process') }}{% if not empty(user.id) %}/{{ user.id }}{% endif %}">
         <div class="row">
             <div class="col-lg-6">
                 <div class="card bg-light mb-3">
