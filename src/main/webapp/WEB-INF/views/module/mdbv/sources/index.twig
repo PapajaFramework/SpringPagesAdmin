@@ -22,9 +22,9 @@
                         </thead>
                         <tbody>
                         {% for item in items %}
-                            {% set select = '/mdbv/sources/select/' ~ item.id %}
-                            {% set edit = '/mdbv/sources/edit/' ~ item.id %}
-                            {% set remove = '/mdbv/sources/remove/' ~ item.id %}
+                            {% set select = url('/mdbv/sources/select/' ~ item.id) %}
+                            {% set edit = url('/mdbv/sources/edit/' ~ item.id) %}
+                            {% set remove = url('/mdbv/sources/remove/' ~ item.id) %}
                             <tr>
                                 <td>[{{ item.name }}]</td>
                                 <td><code>{{ item.database }}.{{ item.collection }}</code></td>
@@ -34,7 +34,7 @@
                                                 class="btn btn-sm btn-primary">{{ 'label.select' | translate }}
                                         </button>
                                         <button type="button" onclick="location.href='{{ edit }}'"
-                                                class="btn btn-sm btn-success">{{ 'label.edit' | translate }}
+                                                class="btn btn-sm btn-info">{{ 'label.edit' | translate }}
                                         </button>
                                         <button type="button" onclick="confirm('{{ 'text.areYouSure' | translate }}') ? location.href='{{ remove }}' : false"
                                                 class="btn btn-sm btn-danger">{{ 'label.remove' | translate }}
@@ -49,7 +49,7 @@
             </div>
         </div>
         <div class="col-lg-4">
-            <form action="/mdbv/sources/edit{% if not empty(source.id) %}/{{ source.id }}{% endif %}"
+            <form action="{{ url('/mdbv/sources/edit') }}{% if not empty(source.id) %}/{{ source.id }}{% endif %}"
                   method="post">
                 <div class="card border-light mb-3">
                     <div class="card-header">{{ 'label.editing' | translate }}</div>

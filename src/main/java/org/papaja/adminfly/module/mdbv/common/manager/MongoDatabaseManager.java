@@ -12,8 +12,8 @@ public class MongoDatabaseManager {
     private MongoClient                client;
 
     public MongoDatabaseManager(MongoClient client) {
-        this.client = client;
-        this.templates = new HashMap<>();
+        this.client     = client;
+        this.templates  = new HashMap<>();
     }
 
     public MongoTemplate getMongoTemplateForDatabase(String database) {
@@ -25,6 +25,5 @@ public class MongoDatabaseManager {
 
         return templates.get(database);
     }
-
 
 }

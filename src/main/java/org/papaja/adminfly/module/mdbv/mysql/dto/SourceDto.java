@@ -8,15 +8,15 @@ import static java.lang.String.format;
 public class SourceDto {
 
     @NotBlank(message = "{validation.notBlank}")
-    @Size(min = 4, max = 32, message = "{validation.size}")
+    @Size(min = 3, max = 32, message = "{validation.size}")
     private String name;
 
     @NotBlank(message = "{validation.notBlank}")
-    @Size(min = 4, max = 16, message = "{validation.size}")
+    @Size(min = 3, max = 16, message = "{validation.size}")
     private String database;
 
     @NotBlank(message = "{validation.notBlank}")
-    @Size(min = 4, max = 32, message = "{validation.size}")
+    @Size(min = 3, max = 32, message = "{validation.size}")
     private String collection;
 
     public String getName() {

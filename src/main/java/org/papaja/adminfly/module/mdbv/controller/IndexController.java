@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import static java.lang.String.format;
@@ -30,6 +32,7 @@ import static org.springframework.util.StringUtils.hasText;
 
 @Controller("mdbvIndexController")
 @RequestMapping("/mdbv")
+@SuppressWarnings({"unused"})
 public class IndexController extends AbstractController {
 
     @Autowired
@@ -40,6 +43,12 @@ public class IndexController extends AbstractController {
 
     @Autowired
     private SourceService sources;
+
+    @Autowired
+    private ServletContext context;
+
+    @Autowired
+    private HttpServletRequest request;
 
     @Value("${module.name}")
     private String name;
@@ -220,15 +229,13 @@ public class IndexController extends AbstractController {
             Source  source        = sources.getActiveSource();
             Boolean hasFilterData = (hasText(queryString) && hasText(queryPath) && hasText(queryType));
 
-            page = page - 1;
-
             if (hasFilterData) {
                 query = this.records.getQuery(
                     queryPath, Format.valueOf(queryType),
-                    queryString, page, RecordService.DEFAULT_SIZE
+                    queryString, page - 1, RecordService.DEFAULT_SIZE
                 );
             } else {
-                query = this.records.getQuery(page, RecordService.DEFAULT_SIZE);
+                query = this.records.getQuery(page - 1, RecordService.DEFAULT_SIZE);
             }
 
             mav.addObject("pagination", new PaginationData(this.records.count(query), page, RecordService.DEFAULT_SIZE));

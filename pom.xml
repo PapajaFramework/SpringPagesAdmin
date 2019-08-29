@@ -6,7 +6,7 @@
 
     <groupId>org.papaja</groupId>
     <artifactId>AdminFly</artifactId>
-    <version>1.0.1-RC1</version>
+    <version>1.0.0-BETA</version>
 
     <packaging>war</packaging>
 
@@ -272,7 +272,7 @@
                 <artifactId>tomcat7-maven-plugin</artifactId>
                 <version>2.2</version>
                 <configuration>
-                    <port>8000</port>
+                    <port>8888</port>
                     <path>/</path>
                 </configuration>
             </plugin>

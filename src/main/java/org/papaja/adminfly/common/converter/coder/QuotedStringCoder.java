@@ -12,8 +12,12 @@ public class QuotedStringCoder implements Coder<String, String> {
 
     @Override
     public String decode(String source) {
-        source = source.substring(braces.sizeA());
-        source = source.substring(0, source.lastIndexOf(braces.getB()));
+        boolean hasQuote = source.startsWith(braces.getA()) && source.endsWith(braces.getB());
+
+        if (hasQuote) {
+            source = source.substring(braces.sizeA());
+            source = source.substring(0, source.lastIndexOf(braces.getB()));
+        }
 
         return source;
     }

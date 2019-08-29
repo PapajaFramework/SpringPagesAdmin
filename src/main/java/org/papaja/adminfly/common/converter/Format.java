@@ -21,4 +21,8 @@ public enum Format {
         return coder;
     }
 
+    public Format get(String name) {
+        return valueOf(name);
+    }
+
 }

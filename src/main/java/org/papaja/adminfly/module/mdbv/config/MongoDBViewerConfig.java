@@ -35,7 +35,7 @@ public class MongoDBViewerConfig {
     }
 
     public @Bean SourceIdHolder getCollectionDetector() {
-        return new SourceIdHolder(environment.getProperty("module.mdbv.currentCollection"));
+        return new SourceIdHolder(environment.getProperty("module.mdbv.session.currentCollection"));
     }
 
     public @Bean MongoDatabaseManager mongoDatabaseManager() {
