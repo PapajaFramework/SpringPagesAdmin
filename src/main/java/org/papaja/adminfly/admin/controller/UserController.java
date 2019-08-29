@@ -66,7 +66,7 @@ public class UserController extends AbstractController {
 
         if (!result.hasErrors()) {
             users.save(dto, entity);
-            attributes.addFlashAttribute("message", getMessage("user.saved", entity.getUsername()));
+            attributes.addFlashAttribute("message", messages.getSuccessMessage("user.saved", entity.getUsername()));
         } else {
             view.addObject("result", result);
             view.addObject("user", Optional.ofNullable(entity).orElseGet(User::new));
