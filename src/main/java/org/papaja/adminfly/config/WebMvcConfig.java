@@ -2,7 +2,6 @@ package org.papaja.adminfly.config;
 
 import org.hibernate.validator.HibernateValidator;
 import org.jtwig.environment.EnvironmentConfigurationBuilder;
-import org.jtwig.render.RenderExtension;
 import org.jtwig.spring.JtwigView;
 import org.jtwig.spring.asset.SpringAssetExtension;
 import org.jtwig.spring.asset.resolver.AssetResolver;
@@ -10,6 +9,7 @@ import org.jtwig.translate.spring.SpringTranslateExtension;
 import org.jtwig.translate.spring.SpringTranslateExtensionConfiguration;
 import org.jtwig.web.servlet.JtwigRenderer;
 import org.papaja.adminfly.common.util.function.Supplier;
+import org.papaja.adminfly.shared.vendor.jtwig.extension.url.UrlPathExtension;
 import org.papaja.adminfly.shared.vendor.jtwig.extension.asset.resolver.ResourceUrlBasedAssetResolver;
 import org.papaja.adminfly.shared.vendor.jtwig.extension.theme.ThemeResolverExtension;
 import org.papaja.adminfly.shared.vendor.jtwig.spring.MultipleTemplateViewResolver;
@@ -42,6 +42,7 @@ import org.springframework.web.servlet.resource.VersionResourceResolver;
 import org.springframework.web.servlet.theme.CookieThemeResolver;
 import org.springframework.web.servlet.theme.ThemeChangeInterceptor;
 
+import javax.servlet.ServletContext;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Locale;
@@ -68,6 +69,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
     protected Environment environment;
 
     @Autowired
+    private ServletContext context;
+
+    @Autowired
     public WebMvcConfig(Environment environment) {
         this.environment = environment;
     }
@@ -80,7 +84,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
             builder.extensions()
                     .add(new SpringAssetExtension())
                     .add(new ThemeResolverExtension())
-                    .add(new RenderExtension())
+                    .add(new UrlPathExtension())
                     .add(new SpringTranslateExtension(
                             SpringTranslateExtensionConfiguration.builder(messageSource())
                                     .withLocaleResolver(localeResolver()).build()

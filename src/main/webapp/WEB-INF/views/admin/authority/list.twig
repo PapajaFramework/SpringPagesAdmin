@@ -19,8 +19,8 @@
                         </thead>
                         <tbody>
                         {% for role in roles %}
-                            {% set edit = '/authority/role/edit/' ~ role.id %}
-                            {% set remove = '/authority/role/remove/' ~ role.id %}
+                            {% set edit = url('/authority/role/edit/' ~ role.id) %}
+                            {% set remove = url('/authority/role/remove/' ~ role.id) %}
                             <tr>
                                 <td>{{ role.id }}</td>
                                 <td>{{ role.name }}</td>
@@ -56,7 +56,7 @@
                         </thead>
                         <tbody>
                         {% for privilege in privileges %}
-                            {% set remove = '/authority/privilege/remove/' ~ privilege.id %}
+                            {% set remove = url('/authority/privilege/remove/' ~ privilege.id) %}
                             <tr>
                                 <td>{{ privilege.id }}</td>
                                 <td>
@@ -65,7 +65,7 @@
                                     {% else %}
                                         {% set errorClass = null %}
                                     {% endif %}
-                                    <form id="privilegeForm{{ privilege.id }}" method="post" action="/authority/process/privilege/{{ privilege.id }}" class="form-inline">
+                                    <form id="privilegeForm{{ privilege.id }}" method="post" action="{{ url('/authority/process/privilege/' ~ privilege.id) }}" class="form-inline">
                                         <input class="form-control form-control-sm {{ errorClass }}" type="text" name="name" value="{{ privilege.name }}">
                                     </form>
                                 </td>
@@ -84,7 +84,7 @@
                     {% if empty(id) %}
                         {% set errorClass = fields.ifError(result, 'name', 'is-invalid') %}
                     {% endif %}
-                    <form method="post" action="/authority/process/privilege" class="form-inline my-2 my-lg-0 float-right">
+                    <form method="post" action="{{ url('/authority/process/privilege') }}" class="form-inline my-2 my-lg-0 float-right">
                         <input class="form-control mr-sm-2 form-control-sm {{ errorClass }}" type="text" name="name" placeholder="PRIVILEGE_NAME">
                         <button class="btn btn-secondary btn-sm my-2 my-sm-0" type="submit">{{ 'label.create' | translate }}</button>
                     </form>
