@@ -145,7 +145,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
         source.setFallbackToSystemLocale(true);
         source.setDefaultEncoding("UTF-8");
 
-
         try {
             String     pattern   = "classpath:locale/module/**/*.properties";
             Resource[] resources = resolver.getResources(pattern);

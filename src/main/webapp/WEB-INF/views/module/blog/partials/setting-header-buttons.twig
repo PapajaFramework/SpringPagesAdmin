@@ -1,8 +1,8 @@
 <div class="card-header">
     <div class="btn-group btn-group-sm" role="group">
-        <button onclick="location.href='/blog/posts'" type="button" class="btn btn-secondary">{{ 'label.back' | translate }}</button>
-        <button onclick="location.href='/blog/setting/domains'" type="button" class="btn btn-primary">{{ 'label.domains' | translate }}</button>
-        <button onclick="location.href='/blog/setting/domainAccess'" type="button" class="btn btn-primary">{{ 'label.permissions' | translate }}</button>
-        <button onclick="location.href='/blog/setting/selectDomain'" type="button" class="btn btn-primary">{{ 'label.select' | translate }}&nbsp;{{ 'label.domain' | translate }}</button>
+        <button onclick="location.href='{{ url('/blog/posts') }}'" type="button" class="btn btn-secondary">{{ 'label.back' | translate }}</button>
+        <button onclick="location.href='{{ url('/blog/setting/domains') }}'" type="button" class="btn btn-primary">{{ 'label.domains' | translate }}</button>
+        <button onclick="location.href='{{ url('/blog/setting/domainAccess') }}'" type="button" class="btn btn-primary">{{ 'label.permissions' | translate }}</button>
+        <button onclick="location.href='{{ url('/blog/setting/selectDomain') }}'" type="button" class="btn btn-primary">{{ 'label.select' | translate }}&nbsp;{{ 'label.domain' | translate }}</button>
     </div>
 </div>

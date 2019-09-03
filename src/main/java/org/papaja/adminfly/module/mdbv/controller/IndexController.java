@@ -277,4 +277,16 @@ public class IndexController extends AbstractController {
         return mav;
     }
 
+    @PreAuthorize("hasAuthority('READ')")
+    @RequestMapping("/scan")
+    public ModelAndView scan() {
+        ModelAndView mav = newRedirect("records");
+
+        for (MapRecord record : records.getRecords(sources.getActiveSource().getCollection(), new Query())) {
+            System.out.println(record);
+        }
+
+        return mav;
+    }
+
 }
