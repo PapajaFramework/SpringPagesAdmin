@@ -3,6 +3,7 @@ package org.papaja.adminfly.module.mdbv.controller;
 import org.papaja.adminfly.common.converter.Coders;
 import org.papaja.adminfly.common.converter.Format;
 import org.papaja.adminfly.common.util.MapPathAccessor;
+import org.papaja.adminfly.common.util.MapUtils;
 import org.papaja.adminfly.module.mdbv.mongodb.data.PaginationData;
 import org.papaja.adminfly.module.mdbv.mongodb.record.MapRecord;
 import org.papaja.adminfly.module.mdbv.mongodb.service.RecordService;
@@ -25,6 +26,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+
+import java.util.ArrayList;
 
 import static java.lang.String.format;
 import static java.util.Objects.isNull;
@@ -264,6 +267,10 @@ public class IndexController extends AbstractController {
             MapRecord               record   = records.getRecord(objectId);
             MapPathAccessor<Object> accessor = new MapPathAccessor<>(record);
 
+            for (String path : MapUtils.getPaths(record)) {
+                System.out.println(path);
+            }
+
             mav.addObject("jsonRecord", records.getJsonRecord(objectId));
             mav.addObject("record", record);
             mav.addObject("accessor", accessor);
@@ -283,7 +290,7 @@ public class IndexController extends AbstractController {
         ModelAndView mav = newRedirect("records");
 
         for (MapRecord record : records.getRecords(sources.getActiveSource().getCollection(), new Query())) {
-            System.out.println(record);
+//            MapUtils.getPaths(record);
         }
 
         return mav;
