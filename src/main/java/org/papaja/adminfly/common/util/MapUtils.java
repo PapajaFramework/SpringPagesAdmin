@@ -16,14 +16,18 @@ public class MapUtils {
     }
 
     public static void collectPaths(Map<String, ?> map, List<String> paths, String prefix) {
-        map.forEach((key, value) -> {
-            key = nonNull(prefix) ? format("%s.%s", prefix, key) : key;
+        for (Map.Entry<String, ?> entry : map.entrySet()) {
+            String key   = entry.getKey();
+            Object value = entry.getValue();
+            String path  = nonNull(prefix) ? format("%s.%s", prefix, key) : key;
+
             if (Map.class.isAssignableFrom(value.getClass())) {
-                collectPaths((Map<String, ?>) value, paths, key);
-            } else {
-                paths.add(key);
+                collectPaths((Map<String, ?>) value, paths, path);
+                continue;
             }
-        });
+
+            paths.add(key);
+        }
     }
 
 }

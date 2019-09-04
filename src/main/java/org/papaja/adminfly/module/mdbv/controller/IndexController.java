@@ -290,7 +290,9 @@ public class IndexController extends AbstractController {
         ModelAndView mav = newRedirect("records");
 
         for (MapRecord record : records.getRecords(sources.getActiveSource().getCollection(), new Query())) {
-//            MapUtils.getPaths(record);
+            for (String path : MapUtils.getPaths(record)) {
+                System.out.println(path);
+            }
         }
 
         return mav;
