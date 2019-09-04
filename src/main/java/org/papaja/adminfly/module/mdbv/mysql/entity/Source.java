@@ -21,6 +21,9 @@ public class Source extends AbstractEntity {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "source")
     private Collection<SourcePath> paths;
 
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "source")
+    private Collection<Scanned> scannedPaths;
+
     public String getName() {
         return name;
     }
@@ -51,6 +54,14 @@ public class Source extends AbstractEntity {
 
     public void setPaths(Collection<SourcePath> paths) {
         this.paths = paths;
+    }
+
+    public Collection<Scanned> getScannedPaths() {
+        return scannedPaths;
+    }
+
+    public void setScannedPaths(Collection<Scanned> scannedPaths) {
+        this.scannedPaths = scannedPaths;
     }
 
 }

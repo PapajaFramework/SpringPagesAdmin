@@ -26,7 +26,7 @@ public class MapUtils {
                 continue;
             }
 
-            paths.add(key);
+            paths.add(path);
         }
     }
 

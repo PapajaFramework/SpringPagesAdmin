@@ -9,7 +9,9 @@ import org.papaja.adminfly.module.mdbv.mongodb.record.MapRecord;
 import org.papaja.adminfly.module.mdbv.mongodb.service.RecordService;
 import org.papaja.adminfly.module.mdbv.mysql.dto.SourceDto;
 import org.papaja.adminfly.module.mdbv.mysql.dto.SourcePathDto;
+import org.papaja.adminfly.module.mdbv.mysql.entity.Scanned;
 import org.papaja.adminfly.module.mdbv.mysql.entity.Source;
+import org.papaja.adminfly.module.mdbv.mysql.service.ScannedService;
 import org.papaja.adminfly.module.mdbv.mysql.service.SourcePathService;
 import org.papaja.adminfly.module.mdbv.mysql.service.SourceService;
 import org.papaja.adminfly.shared.controller.AbstractController;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.persistence.PersistenceException;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -46,6 +49,9 @@ public class IndexController extends AbstractController {
 
     @Autowired
     private SourceService sources;
+
+    @Autowired
+    private ScannedService scanned;
 
     @Autowired
     private ServletContext context;
@@ -267,10 +273,6 @@ public class IndexController extends AbstractController {
             MapRecord               record   = records.getRecord(objectId);
             MapPathAccessor<Object> accessor = new MapPathAccessor<>(record);
 
-            for (String path : MapUtils.getPaths(record)) {
-                System.out.println(path);
-            }
-
             mav.addObject("jsonRecord", records.getJsonRecord(objectId));
             mav.addObject("record", record);
             mav.addObject("accessor", accessor);
@@ -289,10 +291,24 @@ public class IndexController extends AbstractController {
     public ModelAndView scan() {
         ModelAndView mav = newRedirect("records");
 
-        for (MapRecord record : records.getRecords(sources.getActiveSource().getCollection(), new Query())) {
-            for (String path : MapUtils.getPaths(record)) {
-                System.out.println(path);
+        if (sources.hasActiveSource()) {
+            for (MapRecord record : records.getRecords(sources.getActiveSource().getCollection(), new Query())) {
+                for (String path : MapUtils.getPaths(record)) {
+                   try {
+                       Scanned entity = scanned.get();
+
+                       entity.setPath(path);
+                       entity.setSource(sources.getActiveSource());
+
+                       scanned.merge(entity);
+                   } catch (PersistenceException exception) {
+                       // ignore exception
+                       // @see https://stackoverflow.com/questions/23285757/hibernate-insert-ignore-in-same-transaction/23417128
+                   }
+                }
             }
+        } else {
+            mav = newRedirect("sources?forced=1");
         }
 
         return mav;
