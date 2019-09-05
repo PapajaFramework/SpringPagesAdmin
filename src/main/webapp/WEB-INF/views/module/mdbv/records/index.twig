@@ -9,9 +9,9 @@
     <div class="card border-light mb-3">
         <div class="card-body">
             <form method="get" action="{{ url('/mdbv/records') }}" class="form-inline my-2 my-lg-0 float-left">
-                <input id="queryInput" class="form-control mr-sm-2 form-control" type="text" name="query" value="{{ queryString }}" placeholder="{{ queryPath }}">
-                <input type="hidden" name="path" id="queryPath" value="{{ queryPath }}">
-                <input type="hidden" name="type" id="queryType" value="{{ queryType }}">
+                <input id="queryInput" class="form-control mr-sm-2 form-control" type="text" name="query" value="{{ app.request.query.query }}" placeholder>
+                <input type="hidden" name="path" id="queryPath" value="{{ app.request.query.path }}">
+                <input type="hidden" name="type" id="queryType" value="{{ app.request.query.type }}">
                 <div class="btn-group btn-group-sm" role="group" aria-label="Button group with nested dropdown">
                     <button type="submit" class="btn btn-success">{{ 'label.search' | translate }}</button>
                     <div class="btn-group" role="group">

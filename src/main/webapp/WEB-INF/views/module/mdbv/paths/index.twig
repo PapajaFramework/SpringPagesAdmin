@@ -10,6 +10,8 @@
         <div class="card border-light mb-3">
             <div class="card-header">
                 {% include '../partials/setting-header-buttons.twig' %}
+                <button onclick="location.href='{{ url('/mdbv/scan') }}'"
+                        type="button" class="btn btn-sm btn-danger">{{ 'label.scan' | translate }}</button>
             </div>
             <div class="card-body">
                 <table class="table table-hover">
@@ -67,6 +69,15 @@
                         {{ fields.error(result, 'path') }}
                     </div>
                     <div class="form-group">
+                        <label for="pathScanned">{{ 'label.scanned' | translate }} ({{ 'label.path' | translate }})</label>
+                        <select class="form-control" id="pathScanned" onchange="selectScanned(this);" onfocus="this.selectedIndex = -1;">
+                            <option>-- {{ 'label.select' | translate }} --</option>
+                            {% for item in scanned %}
+                            <option value="{{ item.path }}">{{ item.path }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <label for="pathType">{{ 'label.type' | translate }}</label>
                         <select class="form-control {{ fields.ifError(result, 'type', 'is-invalid') }}" name="type" id="pathType">
                             <option>-- {{ 'label.select' | translate }} --</option>
@@ -84,4 +95,9 @@
         </form>
     </div>
 </div>
+<script>
+    function selectScanned(select) {
+        document.getElementById('pathPath').setAttribute('value', select.options[select.selectedIndex].value);
+    }
+</script>
 {% endblock %}

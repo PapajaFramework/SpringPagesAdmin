@@ -14,10 +14,10 @@ public class SourcePath extends AbstractEntity {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "value_path")
+    @Column(name = "path")
     private String path;
 
-    @Column(name = "value_type", columnDefinition = "CHAR")
+    @Column(name = "type", columnDefinition = "CHAR")
     @Enumerated(EnumType.STRING)
     private Format type;
 

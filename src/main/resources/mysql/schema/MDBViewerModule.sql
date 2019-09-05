@@ -12,8 +12,8 @@ CREATE TABLE `mdbv_paths` (
   `id` int(10) UNSIGNED NOT NULL,
   `source_id` int(10) UNSIGNED NOT NULL,
   `name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
-  `value_path` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
-  `value_type` char(12) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'RAW'
+  `path` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+  `type` char(12) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'RAW'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO `mdbv_paths` (`id`, `source_id`, `name`, `value_path`, `value_type`) VALUES
@@ -21,6 +21,15 @@ INSERT INTO `mdbv_paths` (`id`, `source_id`, `name`, `value_path`, `value_type`)
 (16, 1, 'Build Version', 'buildinfo.version', 'STRING'),
 (17, 1, 'DB Directory', 'cmdLine.storage.dbPath', 'STRING'),
 (20, 1, 'JS Engine', 'buildinfo.javascriptEngine', 'RAW');
+
+CREATE TABLE `mdbv_scanned` (
+ `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+ `source_id` int(10) unsigned NOT NULL,
+ `path` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+ PRIMARY KEY (`id`),
+ UNIQUE KEY `path` (`path`),
+ KEY `source_id` (`source_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=788 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `mdbv_sources` (
   `id` int(10) UNSIGNED NOT NULL,
@@ -97,7 +106,7 @@ INSERT INTO `security_users_roles` (`user_id`, `role_id`) VALUES
 
 ALTER TABLE `mdbv_paths`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `collection_id` (`source_id`);
+  ADD KEY `source_id` (`source_id`);
 
 ALTER TABLE `mdbv_sources`
   ADD PRIMARY KEY (`id`);

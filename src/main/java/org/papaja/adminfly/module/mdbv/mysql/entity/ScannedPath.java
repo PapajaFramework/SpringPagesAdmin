@@ -7,8 +7,8 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "mdbv_scanned")
-@SQLInsert(sql="INSERT IGNORE INTO mdbv_scanned(`id`, `path`, `source_id`) VALUES(?, ?, ?)")
-public class Scanned extends AbstractEntity {
+@SQLInsert(sql="INSERT IGNORE INTO mdbv_scanned(`path`, `source_id`) VALUES(?, ?)")
+public class ScannedPath extends AbstractEntity {
 
     @Column(name = "path")
     private String path;
@@ -33,4 +33,8 @@ public class Scanned extends AbstractEntity {
         this.source = source;
     }
 
+    @Override
+    public String toString() {
+        return String.format("ScannedPath{id=%s, path='%s', source=%s}", id, path, source.getName());
+    }
 }

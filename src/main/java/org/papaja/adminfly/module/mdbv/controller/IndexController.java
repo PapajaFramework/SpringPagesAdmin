@@ -9,7 +9,7 @@ import org.papaja.adminfly.module.mdbv.mongodb.record.MapRecord;
 import org.papaja.adminfly.module.mdbv.mongodb.service.RecordService;
 import org.papaja.adminfly.module.mdbv.mysql.dto.SourceDto;
 import org.papaja.adminfly.module.mdbv.mysql.dto.SourcePathDto;
-import org.papaja.adminfly.module.mdbv.mysql.entity.Scanned;
+import org.papaja.adminfly.module.mdbv.mysql.entity.ScannedPath;
 import org.papaja.adminfly.module.mdbv.mysql.entity.Source;
 import org.papaja.adminfly.module.mdbv.mysql.service.ScannedService;
 import org.papaja.adminfly.module.mdbv.mysql.service.SourcePathService;
@@ -29,8 +29,6 @@ import javax.persistence.PersistenceException;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-
-import java.util.ArrayList;
 
 import static java.lang.String.format;
 import static java.util.Objects.isNull;
@@ -157,6 +155,7 @@ public class IndexController extends AbstractController {
         if (sources.hasActiveSource()) {
             mav.addObject("activeSource", sources.getActiveSource());
             mav.addObject("items", paths.getPaths(sources.getActiveSource()));
+            mav.addObject("scanned", scanned.getAll("source", sources.getActiveSource()));
             mav.addObject("types", Format.values());
         } else {
             mav = newRedirect("sources?forced=1");
@@ -174,6 +173,7 @@ public class IndexController extends AbstractController {
             mav.addObject("activeSource", sources.getActiveSource());
             mav.addObject("path", paths.getPath(id));
             mav.addObject("items", paths.getPaths(sources.getActiveSource()));
+            mav.addObject("scanned", scanned.getAll("source", sources.getActiveSource()));
             mav.addObject("types", Format.values());
         } else {
             mav = newRedirect("sources?forced=1");
@@ -250,9 +250,6 @@ public class IndexController extends AbstractController {
             mav.addObject("pagination", new PaginationData(this.records.count(query), page, RecordService.DEFAULT_SIZE));
             mav.addObject("paths", paths.getPaths(source));
             mav.addObject("records", this.records.getRecords(sources.getActiveSource().getCollection(), query));
-            mav.addObject("queryPath", queryPath);
-            mav.addObject("queryString", queryString);
-            mav.addObject("queryType", queryType);
 
             mav.addObject("activeSource", sources.getActiveSource());
         } else {
@@ -295,15 +292,14 @@ public class IndexController extends AbstractController {
             for (MapRecord record : records.getRecords(sources.getActiveSource().getCollection(), new Query())) {
                 for (String path : MapUtils.getPaths(record)) {
                    try {
-                       Scanned entity = scanned.get();
+                       ScannedPath entity = scanned.get();
 
                        entity.setPath(path);
                        entity.setSource(sources.getActiveSource());
 
                        scanned.merge(entity);
                    } catch (PersistenceException exception) {
-                       // ignore exception
-                       // @see https://stackoverflow.com/questions/23285757/hibernate-insert-ignore-in-same-transaction/23417128
+                       // ignoring exception dont critical here
                    }
                 }
             }
