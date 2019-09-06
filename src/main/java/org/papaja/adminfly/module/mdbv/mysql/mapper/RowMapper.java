@@ -1,23 +1,23 @@
 package org.papaja.adminfly.module.mdbv.mysql.mapper;
 
 import org.papaja.adminfly.common.util.Mapper;
-import org.papaja.adminfly.module.mdbv.mysql.dto.SourcePathDto;
-import org.papaja.adminfly.module.mdbv.mysql.entity.SourcePath;
+import org.papaja.adminfly.module.mdbv.mysql.dto.RowDto;
 import org.papaja.adminfly.common.converter.Format;
+import org.papaja.adminfly.module.mdbv.mysql.entity.FullRow;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SourcePathMapper implements Mapper<SourcePathDto, SourcePath> {
+public class RowMapper implements Mapper<RowDto, FullRow> {
 
     @Override
-    public void map(SourcePathDto source, SourcePath target) {
+    public void map(RowDto source, FullRow target) {
         target.setName(source.getName());
         target.setPath(source.getPath());
         target.setType(Format.valueOf(source.getType()));
     }
 
     @Override
-    public SourcePath get() {
-        return new SourcePath();
+    public FullRow get() {
+        return new FullRow();
     }
 }

@@ -5,7 +5,7 @@ import javax.validation.constraints.Size;
 
 import static java.lang.String.format;
 
-public class SourcePathDto {
+public class RowDto {
 
     @NotBlank(message = "{validation.notBlank}")
     @Size(min = 2, max = 64, message = "{validation.size}")

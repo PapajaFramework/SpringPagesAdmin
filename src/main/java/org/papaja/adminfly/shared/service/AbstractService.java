@@ -30,6 +30,10 @@ abstract public class AbstractService<E extends AbstractEntity, R extends Abstra
         getRepository().merge(entity);
     }
 
+    public void saveOrUpdate(E entity) {
+        getRepository().saveOrUpdate(entity);
+    }
+
     public E getOne() {
         return getOne(null);
     }

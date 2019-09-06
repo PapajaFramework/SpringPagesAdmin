@@ -8,14 +8,11 @@ import org.papaja.adminfly.module.mdbv.mongodb.data.PaginationData;
 import org.papaja.adminfly.module.mdbv.mongodb.record.MapRecord;
 import org.papaja.adminfly.module.mdbv.mongodb.service.RecordService;
 import org.papaja.adminfly.module.mdbv.mysql.dto.SourceDto;
-import org.papaja.adminfly.module.mdbv.mysql.dto.SourcePathDto;
+import org.papaja.adminfly.module.mdbv.mysql.dto.RowDto;
 import org.papaja.adminfly.module.mdbv.mysql.entity.Row;
-import org.papaja.adminfly.module.mdbv.mysql.entity.ScannedPath;
 import org.papaja.adminfly.module.mdbv.mysql.entity.ShortRow;
 import org.papaja.adminfly.module.mdbv.mysql.entity.Source;
 import org.papaja.adminfly.module.mdbv.mysql.service.RowService;
-import org.papaja.adminfly.module.mdbv.mysql.service.ScannedService;
-import org.papaja.adminfly.module.mdbv.mysql.service.SourcePathService;
 import org.papaja.adminfly.module.mdbv.mysql.service.SourceService;
 import org.papaja.adminfly.shared.controller.AbstractController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,13 +43,7 @@ public class IndexController extends AbstractController {
     private RecordService records;
 
     @Autowired
-    private SourcePathService paths;
-
-    @Autowired
     private SourceService sources;
-
-    @Autowired
-    private ScannedService scanned;
 
     @Autowired
     private RowService rows;
@@ -154,14 +145,13 @@ public class IndexController extends AbstractController {
     }
 
     @PreAuthorize("hasAuthority('READ')")
-    @RequestMapping("/paths")
-    public ModelAndView paths() {
-        ModelAndView mav = newView("paths/index");
+    @RequestMapping("/rows")
+    public ModelAndView rows() {
+        ModelAndView mav = newView("rows/index");
 
         if (sources.hasActiveSource()) {
             mav.addObject("activeSource", sources.getActiveSource());
-            mav.addObject("items", paths.getPaths(sources.getActiveSource()));
-            mav.addObject("scanned", scanned.getAll("source", sources.getActiveSource()));
+            mav.addObject("items", rows.getAll("source", sources.getActiveSource()));
             mav.addObject("types", Format.values());
         } else {
             mav = newRedirect("sources?forced=1");
@@ -171,9 +161,9 @@ public class IndexController extends AbstractController {
     }
 
     @PreAuthorize("hasAuthority('READ')")
-    @RequestMapping(value = "/paths/edit/{id}", method = RequestMethod.GET)
-    public ModelAndView pathsEdit(@PathVariable Integer id) {
-        ModelAndView mav = newView("paths/index");
+    @RequestMapping(value = "/rows/edit/{id}", method = RequestMethod.GET)
+    public ModelAndView rowsEdit(@PathVariable Integer id) {
+        ModelAndView mav = newView("rows/index");
 
         for (Row row : rows.getAll("source", sources.getActiveSource())) {
             System.out.println(row.isFull());
@@ -181,9 +171,8 @@ public class IndexController extends AbstractController {
 
         if (sources.hasActiveSource()) {
             mav.addObject("activeSource", sources.getActiveSource());
-            mav.addObject("path", paths.getPath(id));
-            mav.addObject("items", paths.getPaths(sources.getActiveSource()));
-            mav.addObject("scanned", scanned.getAll("source", sources.getActiveSource()));
+            mav.addObject("row", rows.getOne(id));
+            mav.addObject("items", rows.getAll("source", sources.getActiveSource()));
             mav.addObject("types", Format.values());
         } else {
             mav = newRedirect("sources?forced=1");
@@ -193,14 +182,14 @@ public class IndexController extends AbstractController {
     }
 
     @PreAuthorize("hasAuthority('REMOVE')")
-    @RequestMapping(value = "/paths/remove/{id}", method = RequestMethod.GET)
-    public ModelAndView pathsRemove(
+    @RequestMapping(value = "/rows/remove/{id}", method = RequestMethod.GET)
+    public ModelAndView rowsRemove(
         @PathVariable Integer id, RedirectAttributes attributes
     ) {
-        ModelAndView mav = newRedirect("paths");
+        ModelAndView mav = newRedirect("rows");
 
         if (sources.hasActiveSource()) {
-            paths.remove(id);
+            rows.remove(id);
             attributes.addFlashAttribute("message", messages.getSuccessMessage("record.removed.id", "path", id));
         } else {
             mav = newRedirect("sources?forced=1");
@@ -211,20 +200,20 @@ public class IndexController extends AbstractController {
 
     @PreAuthorize("hasAuthority('UPDATE')")
     @RequestMapping(value = {
-        "/paths/edit/{id}", "/paths/edit"
+        "/rows/edit/{id}", "/rows/edit"
     }, method = RequestMethod.POST)
-    public ModelAndView pathsSave(
-        @PathVariable(required = false) Integer id, @Valid SourcePathDto dto,
+    public ModelAndView rowsSave(
+        @PathVariable(required = false) Integer id, @Valid RowDto dto,
         BindingResult result, RedirectAttributes attributes
     ) {
-        ModelAndView mav = newRedirect("paths");
+        ModelAndView mav = newRedirect("rows");
 
         if (sources.hasActiveSource()) {
             if (result.hasErrors()) {
                 attributes.addFlashAttribute("result", result);
                 attributes.addFlashAttribute("path", dto);
             } else {
-                paths.save(dto, paths.getPath(id));
+                rows.save(dto, rows.getOne(id));
             }
         } else {
             mav = newRedirect("sources?forced=1");
@@ -246,7 +235,7 @@ public class IndexController extends AbstractController {
         if (sources.hasActiveSource()) {
             Query   query;
             Source  source        = sources.getActiveSource();
-            Boolean hasFilterData = (hasText(queryString) && hasText(queryPath) && hasText(queryType));
+            boolean hasFilterData = (hasText(queryString) && hasText(queryPath) && hasText(queryType));
 
             if (hasFilterData) {
                 query = this.records.getQuery(
@@ -258,7 +247,7 @@ public class IndexController extends AbstractController {
             }
 
             mav.addObject("pagination", new PaginationData(this.records.count(query), page, RecordService.DEFAULT_SIZE));
-            mav.addObject("paths", paths.getPaths(source));
+            mav.addObject("rows", rows.getAll("source", sources.getActiveSource()));
             mav.addObject("records", this.records.getRecords(sources.getActiveSource().getCollection(), query));
 
             mav.addObject("activeSource", sources.getActiveSource());
@@ -284,7 +273,7 @@ public class IndexController extends AbstractController {
             mav.addObject("record", record);
             mav.addObject("accessor", accessor);
             mav.addObject("coders", Coders.INSTANCE);
-            mav.addObject("paths", paths.getPaths(sources.getActiveSource()));
+            mav.addObject("rows", rows.getAll("source", sources.getActiveSource()));
             mav.addObject("source", sources.getActiveSource());
         } else {
             mav = newRedirect("sources?forced=1");
@@ -307,7 +296,7 @@ public class IndexController extends AbstractController {
                        row.setPath(path);
                        row.setSource(sources.getActiveSource());
 
-                       rows.merge(row);
+                       rows.saveOrUpdate(row);
                    } catch (PersistenceException exception) {
                        // ignoring exception dont critical here
                    }

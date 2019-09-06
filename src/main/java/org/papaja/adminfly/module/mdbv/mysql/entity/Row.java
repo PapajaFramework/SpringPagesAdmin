@@ -8,10 +8,10 @@ import static org.papaja.adminfly.module.mdbv.mysql.entity.Row.DType.F;
 
 @SuppressWarnings("unused")
 @Entity
-@Table(name = "mdbv_paths")
+@Table(name = "mdbv_rows")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "d_type", columnDefinition = "CHAR")
-public class Row extends AbstractEntity {
+abstract public class Row extends AbstractEntity {
 
     @Column(name = "path")
     private String path;

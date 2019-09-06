@@ -19,7 +19,7 @@ public class Source extends AbstractEntity {
     private String collection;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "source")
-    private Collection<SourcePath> paths;
+    private Collection<Row> rows;
 
     public String getName() {
         return name;
@@ -45,12 +45,12 @@ public class Source extends AbstractEntity {
         this.collection = collection;
     }
 
-    public Collection<SourcePath> getPaths() {
-        return paths;
+    public Collection<Row> getRows() {
+        return rows;
     }
 
-    public void setPaths(Collection<SourcePath> paths) {
-        this.paths = paths;
+    public void setRows(Collection<Row> rows) {
+        this.rows = rows;
     }
 
 }
