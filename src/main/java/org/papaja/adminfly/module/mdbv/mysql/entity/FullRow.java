@@ -6,7 +6,6 @@ import javax.persistence.*;
 
 @SuppressWarnings({"unused"})
 @Entity
-@Table(name = "mdbv_paths")
 @DiscriminatorValue("F")
 public class FullRow extends Row {
 
