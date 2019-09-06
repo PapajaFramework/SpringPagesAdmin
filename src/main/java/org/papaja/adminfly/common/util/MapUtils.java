@@ -21,7 +21,7 @@ public class MapUtils {
             Object value = entry.getValue();
             String path  = nonNull(prefix) ? format("%s.%s", prefix, key) : key;
 
-            if (Map.class.isAssignableFrom(value.getClass())) {
+            if (nonNull(value) && Map.class.isAssignableFrom(value.getClass())) {
                 collectPaths((Map<String, ?>) value, paths, path);
                 continue;
             }

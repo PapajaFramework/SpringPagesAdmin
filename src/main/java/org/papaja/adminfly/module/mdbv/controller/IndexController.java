@@ -9,8 +9,11 @@ import org.papaja.adminfly.module.mdbv.mongodb.record.MapRecord;
 import org.papaja.adminfly.module.mdbv.mongodb.service.RecordService;
 import org.papaja.adminfly.module.mdbv.mysql.dto.SourceDto;
 import org.papaja.adminfly.module.mdbv.mysql.dto.SourcePathDto;
+import org.papaja.adminfly.module.mdbv.mysql.entity.Row;
 import org.papaja.adminfly.module.mdbv.mysql.entity.ScannedPath;
+import org.papaja.adminfly.module.mdbv.mysql.entity.ShortRow;
 import org.papaja.adminfly.module.mdbv.mysql.entity.Source;
+import org.papaja.adminfly.module.mdbv.mysql.service.RowService;
 import org.papaja.adminfly.module.mdbv.mysql.service.ScannedService;
 import org.papaja.adminfly.module.mdbv.mysql.service.SourcePathService;
 import org.papaja.adminfly.module.mdbv.mysql.service.SourceService;
@@ -50,6 +53,9 @@ public class IndexController extends AbstractController {
 
     @Autowired
     private ScannedService scanned;
+
+    @Autowired
+    private RowService rows;
 
     @Autowired
     private ServletContext context;
@@ -168,6 +174,10 @@ public class IndexController extends AbstractController {
     @RequestMapping(value = "/paths/edit/{id}", method = RequestMethod.GET)
     public ModelAndView pathsEdit(@PathVariable Integer id) {
         ModelAndView mav = newView("paths/index");
+
+        for (Row row : rows.getAll("source", sources.getActiveSource())) {
+            System.out.println(row.isFull());
+        }
 
         if (sources.hasActiveSource()) {
             mav.addObject("activeSource", sources.getActiveSource());
@@ -292,12 +302,12 @@ public class IndexController extends AbstractController {
             for (MapRecord record : records.getRecords(sources.getActiveSource().getCollection(), new Query())) {
                 for (String path : MapUtils.getPaths(record)) {
                    try {
-                       ScannedPath entity = scanned.get();
+                       ShortRow row = new ShortRow();
 
-                       entity.setPath(path);
-                       entity.setSource(sources.getActiveSource());
+                       row.setPath(path);
+                       row.setSource(sources.getActiveSource());
 
-                       scanned.merge(entity);
+                       rows.merge(row);
                    } catch (PersistenceException exception) {
                        // ignoring exception dont critical here
                    }
