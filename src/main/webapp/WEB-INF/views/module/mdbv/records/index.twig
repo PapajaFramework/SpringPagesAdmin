@@ -49,7 +49,7 @@
                                     [{{ record.getId() }}]
                                 </td>
                                 <td>
-                                   db.{{ activeSource.database }}.{{ activeSource.collection }}
+                                   [{{ activeSource.database }}].[{{ activeSource.collection }}]
                                 </td>
                                 <td class="text-lg-right">
                                     <button type="button" onclick="location.href='{{ view }}'"
