@@ -4,5 +4,5 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
          id="AdminFly"
          version="2.5">
-    <display-name>AdminFly - Spring 5 MVC</display-name>
+    <display-name>AdminFly - Modular Secure Platform (Spring5 Based)</display-name>
 </web-app>

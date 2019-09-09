@@ -2,11 +2,13 @@ package org.papaja.adminfly.shared.service;
 
 import org.hibernate.query.Query;
 import org.papaja.adminfly.common.util.function.Supplier;
+import org.papaja.adminfly.common.util.structure.BiValue;
 import org.papaja.adminfly.shared.entity.AbstractEntity;
 import org.papaja.adminfly.shared.repository.AbstractRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
@@ -46,16 +48,30 @@ abstract public class AbstractService<E extends AbstractEntity, R extends Abstra
         return getRepository().getList();
     }
 
-    public <T extends Serializable> List<E> getAll(T... ids) {
+    public <T extends Number> List<E> getAll(T... ids) {
         return getAll(asList(ids));
     }
 
-    public <T extends Serializable> List<E> getAll(List<T> ids) {
+    public <T extends Number> List<E> getAll(List<T> ids) {
         return getRepository().getList(cleanIds(ids));
     }
 
     public <S extends AbstractEntity> List<E> getAll(String column, S entity) {
         return getRepository().getList(column, entity);
+    }
+
+    public List<E> getAllWithPairs(List<BiValue<String, ?>> pairs) {
+        return getRepository().getList((builder, query, root) -> {
+            for (BiValue<String, ?> pair : pairs) {
+                query.where(
+                    builder.and(builder.equal(root.get(pair.getA()), pair.getB()))
+                );
+            }
+        });
+    }
+
+    public List<E> getAllWithPairs(BiValue<String, ?>... pairs) {
+        return getAllWithPairs(Arrays.asList(pairs));
     }
 
     public <T extends Serializable> List<T> cleanIds(List<T> ids) {

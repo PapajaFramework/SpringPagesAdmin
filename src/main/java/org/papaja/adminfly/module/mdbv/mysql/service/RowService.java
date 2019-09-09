@@ -1,7 +1,6 @@
 package org.papaja.adminfly.module.mdbv.mysql.service;
 
 import org.papaja.adminfly.module.mdbv.mysql.dto.RowDto;
-import org.papaja.adminfly.module.mdbv.mysql.entity.FullRow;
 import org.papaja.adminfly.module.mdbv.mysql.entity.Row;
 import org.papaja.adminfly.module.mdbv.mysql.mapper.RowMapper;
 import org.papaja.adminfly.module.mdbv.mysql.repository.RowRepository;
@@ -24,8 +23,9 @@ public class RowService extends AbstractService<Row, RowRepository> {
     private RowMapper mapper;
 
     public void save(RowDto dto, Row row) {
-        mapper.map(dto, (FullRow) row);
+        mapper.map(dto, row);
 
+        row.setStatus(Row.Status.F);
         row.setSource(service.getActiveSource());
 
         merge(row);
@@ -38,7 +38,7 @@ public class RowService extends AbstractService<Row, RowRepository> {
 
     @Override
     public Row get() {
-        throw new UnsupportedOperationException();
+        return new Row();
     }
 
 }

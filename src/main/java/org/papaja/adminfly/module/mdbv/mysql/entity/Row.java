@@ -1,28 +1,31 @@
 package org.papaja.adminfly.module.mdbv.mysql.entity;
 
+import org.papaja.adminfly.common.converter.Format;
 import org.papaja.adminfly.shared.entity.AbstractEntity;
 
 import javax.persistence.*;
 
-import static org.papaja.adminfly.module.mdbv.mysql.entity.Row.DType.F;
-
-@SuppressWarnings("unused")
 @Entity
 @Table(name = "mdbv_rows")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "d_type", columnDefinition = "CHAR")
-abstract public class Row extends AbstractEntity {
+public class Row extends AbstractEntity {
 
     @Column(name = "path")
     private String path;
 
-    @Column(name = "d_type", columnDefinition = "CHAR", insertable = false, updatable = false)
+    @Column(name = "d_type", columnDefinition = "CHAR")
     @Enumerated(EnumType.STRING)
-    private DType dType;
+    private Status status;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "source_id")
     private Source source;
+
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "type", columnDefinition = "CHAR")
+    @Enumerated(EnumType.STRING)
+    private Format type;
 
     public String getPath() {
         return path;
@@ -40,14 +43,38 @@ abstract public class Row extends AbstractEntity {
         this.source = source;
     }
 
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
     public boolean isFull() {
-        return F.equals(dType);
+        return Status.F.equals(status);
     }
 
     public boolean isShort() {
         return !isFull();
     }
 
-    public enum DType {S, F}
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Format getType() {
+        return type;
+    }
+
+    public void setType(Format type) {
+        this.type = type;
+    }
+
+    public enum Status {S, F}
 
 }

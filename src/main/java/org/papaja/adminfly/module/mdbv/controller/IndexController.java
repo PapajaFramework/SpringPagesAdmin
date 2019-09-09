@@ -4,13 +4,13 @@ import org.papaja.adminfly.common.converter.Coders;
 import org.papaja.adminfly.common.converter.Format;
 import org.papaja.adminfly.common.util.MapPathAccessor;
 import org.papaja.adminfly.common.util.MapUtils;
+import org.papaja.adminfly.common.util.structure.BiValue;
 import org.papaja.adminfly.module.mdbv.mongodb.data.PaginationData;
 import org.papaja.adminfly.module.mdbv.mongodb.record.MapRecord;
 import org.papaja.adminfly.module.mdbv.mongodb.service.RecordService;
 import org.papaja.adminfly.module.mdbv.mysql.dto.SourceDto;
 import org.papaja.adminfly.module.mdbv.mysql.dto.RowDto;
 import org.papaja.adminfly.module.mdbv.mysql.entity.Row;
-import org.papaja.adminfly.module.mdbv.mysql.entity.ShortRow;
 import org.papaja.adminfly.module.mdbv.mysql.entity.Source;
 import org.papaja.adminfly.module.mdbv.mysql.service.RowService;
 import org.papaja.adminfly.module.mdbv.mysql.service.SourceService;
@@ -165,10 +165,6 @@ public class IndexController extends AbstractController {
     public ModelAndView rowsEdit(@PathVariable Integer id) {
         ModelAndView mav = newView("rows/index");
 
-        for (Row row : rows.getAll("source", sources.getActiveSource())) {
-            System.out.println(row.isFull());
-        }
-
         if (sources.hasActiveSource()) {
             mav.addObject("activeSource", sources.getActiveSource());
             mav.addObject("row", rows.getOne(id));
@@ -211,7 +207,7 @@ public class IndexController extends AbstractController {
         if (sources.hasActiveSource()) {
             if (result.hasErrors()) {
                 attributes.addFlashAttribute("result", result);
-                attributes.addFlashAttribute("path", dto);
+                attributes.addFlashAttribute("row", dto);
             } else {
                 rows.save(dto, rows.getOne(id));
             }
@@ -269,6 +265,11 @@ public class IndexController extends AbstractController {
             MapRecord               record   = records.getRecord(objectId);
             MapPathAccessor<Object> accessor = new MapPathAccessor<>(record);
 
+            rows.getAllWithPairs(
+                new BiValue<>("source", sources.getActiveSource()),
+                new BiValue<>("status", Row.Status.F)
+            );
+
             mav.addObject("jsonRecord", records.getJsonRecord(objectId));
             mav.addObject("record", record);
             mav.addObject("accessor", accessor);
@@ -291,14 +292,15 @@ public class IndexController extends AbstractController {
             for (MapRecord record : records.getRecords(sources.getActiveSource().getCollection(), new Query())) {
                 for (String path : MapUtils.getPaths(record)) {
                    try {
-                       ShortRow row = new ShortRow();
+                       Row row = rows.get();
 
                        row.setPath(path);
                        row.setSource(sources.getActiveSource());
+                       row.setStatus(Row.Status.S);
 
-                       rows.saveOrUpdate(row);
+                       rows.merge(row);
                    } catch (PersistenceException exception) {
-                       // ignoring exception dont critical here
+                       // ignoring exception don't critical here
                    }
                 }
             }
