@@ -30,6 +30,8 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import java.util.List;
+
 import static java.lang.String.format;
 import static java.util.Objects.isNull;
 import static org.springframework.util.StringUtils.hasText;
@@ -265,7 +267,7 @@ public class IndexController extends AbstractController {
             MapRecord               record   = records.getRecord(objectId);
             MapPathAccessor<Object> accessor = new MapPathAccessor<>(record);
 
-            rows.getAllWithPairs(
+            List<Row> rows = this.rows.getAllWithPairs(
                 new BiValue<>("source", sources.getActiveSource()),
                 new BiValue<>("status", Row.Status.F)
             );
@@ -274,7 +276,7 @@ public class IndexController extends AbstractController {
             mav.addObject("record", record);
             mav.addObject("accessor", accessor);
             mav.addObject("coders", Coders.INSTANCE);
-            mav.addObject("rows", rows.getAll("source", sources.getActiveSource()));
+            mav.addObject("rows", rows);
             mav.addObject("source", sources.getActiveSource());
         } else {
             mav = newRedirect("sources?forced=1");

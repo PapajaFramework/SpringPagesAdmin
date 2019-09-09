@@ -1,6 +1,7 @@
 package org.papaja.adminfly.module.mdbv.mysql.dto;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import static java.lang.String.format;
@@ -17,6 +18,9 @@ public class RowDto {
 
     @Size(min = 3, max = 12, message = "{validation.size}")
     private String type;
+
+    @NotNull(message = "{validation.notNull}")
+    private Integer position;
 
     public String getName() {
         return name;
@@ -40,6 +44,14 @@ public class RowDto {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public Integer getPosition() {
+        return position;
+    }
+
+    public void setPosition(Integer position) {
+        this.position = position;
     }
 
     @Override

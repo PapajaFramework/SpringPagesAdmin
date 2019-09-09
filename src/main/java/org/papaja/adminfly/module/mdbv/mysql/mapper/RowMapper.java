@@ -13,6 +13,7 @@ public class RowMapper implements Mapper<RowDto, Row> {
     public void map(RowDto source, Row target) {
         target.setName(source.getName());
         target.setPath(source.getPath());
+        target.setPosition(source.getPosition());
         target.setType(Format.valueOf(source.getType()));
     }
 

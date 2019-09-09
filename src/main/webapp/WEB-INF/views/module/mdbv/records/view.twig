@@ -20,13 +20,16 @@
                             <div class="card-title">
                                 <h3>[<b>{{ record.getId() }}</b>]</h3>
                             </div>
-                            {% for path in paths %}
-                                {% set value = accessor.get(path.path) %}
+                            {% for row in rows %}
+                                {% set value = accessor.get(row.path) %}
                                 <h6 class="card-title">
-                                    {{ path.name }}: [{{ path.type }}] [{{ path.path }}]
+                                    {{ row.name }}: [{{ row.type }}] [{{ row.path }}]
+                                    <div class="float-right">
+                                        <button type="button" class="btn btn-sm btn-dark">{{ 'label.collapse' | translate }}</button>
+                                    </div>
                                 </h6>
                                 {% if value is not null %}
-                                    <pre class="prettyprint">{% autoescape 'html' %}{{ coders.get(path.type).encode(value) }}{% endautoescape %}</pre>
+                                    <pre class="prettyprint">{% autoescape 'html' %}{{ coders.get(row.type).encode(value) }}{% endautoescape %}</pre>
                                 {% else %}
                                     <i>[undefined]</i>
                                 {% endif %}

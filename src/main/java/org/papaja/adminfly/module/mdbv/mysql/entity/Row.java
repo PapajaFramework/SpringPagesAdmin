@@ -27,6 +27,9 @@ public class Row extends AbstractEntity {
     @Enumerated(EnumType.STRING)
     private Format type;
 
+    @Column(name = "position")
+    private Integer position;
+
     public String getPath() {
         return path;
     }
@@ -73,6 +76,14 @@ public class Row extends AbstractEntity {
 
     public void setType(Format type) {
         this.type = type;
+    }
+
+    public Integer getPosition() {
+        return position;
+    }
+
+    public void setPosition(Integer position) {
+        this.position = position;
     }
 
     public enum Status {S, F}

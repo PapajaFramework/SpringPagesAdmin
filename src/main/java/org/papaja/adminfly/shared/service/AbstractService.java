@@ -7,11 +7,12 @@ import org.papaja.adminfly.shared.entity.AbstractEntity;
 import org.papaja.adminfly.shared.repository.AbstractRepository;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.criteria.Predicate;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Predicate;
 
 import static java.util.Arrays.asList;
 import static java.util.Objects.nonNull;
@@ -62,11 +63,13 @@ abstract public class AbstractService<E extends AbstractEntity, R extends Abstra
 
     public List<E> getAllWithPairs(List<BiValue<String, ?>> pairs) {
         return getRepository().getList((builder, query, root) -> {
+            List<Predicate> predicates = new ArrayList<>();
+
             for (BiValue<String, ?> pair : pairs) {
-                query.where(
-                    builder.and(builder.equal(root.get(pair.getA()), pair.getB()))
-                );
+                predicates.add(builder.equal(root.get(pair.getA()), pair.getB()));
             }
+
+            query.where(builder.and(predicates.toArray(new Predicate[] {})));
         });
     }
 
@@ -78,7 +81,7 @@ abstract public class AbstractService<E extends AbstractEntity, R extends Abstra
         return cleanIds(ids, Objects::isNull);
     }
 
-    public <T extends Serializable> List<T> cleanIds(List<T> ids, Predicate<T> predicate) {
+    public <T extends Serializable> List<T> cleanIds(List<T> ids, java.util.function.Predicate<T> predicate) {
         ids.removeIf(predicate);
 
         return ids;
