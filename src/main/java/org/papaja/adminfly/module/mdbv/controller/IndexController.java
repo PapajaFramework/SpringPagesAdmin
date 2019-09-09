@@ -251,7 +251,7 @@ public class IndexController extends AbstractController {
             }
 
             mav.addObject("pagination", new PaginationData(this.records.count(query), page, RecordService.DEFAULT_SIZE));
-            mav.addObject("rows", rows.getRows());
+            mav.addObject("rows", rows.getSortedRows());
             mav.addObject("records", this.records.getRecords(sources.getActiveSource().getCollection(), query));
 
             mav.addObject("activeSource", sources.getActiveSource());

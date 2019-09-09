@@ -17,8 +17,8 @@
                     <div class="btn-group" role="group">
                         <button id="pathItems" type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
                         <div class="dropdown-menu" aria-labelledby="pathItems">
-                            {% for path in paths %}
-                                <a class="dropdown-item" onclick="setPathToSearch('{{ path.path }}', '{{ path.type }}')">{{ path.name }}</a>
+                            {% for row in rows %}
+                                <a class="dropdown-item" onclick="setPathToSearch('{{ row.path }}', '{{ row.type }}')">{{ row.path }}</a>
                             {% endfor %}
                         </div>
                     </div>
