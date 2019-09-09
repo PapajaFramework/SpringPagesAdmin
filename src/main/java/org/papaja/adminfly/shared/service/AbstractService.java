@@ -2,12 +2,16 @@ package org.papaja.adminfly.shared.service;
 
 import org.hibernate.query.Query;
 import org.papaja.adminfly.common.util.function.Supplier;
+import org.papaja.adminfly.common.util.function.TriConsumer;
 import org.papaja.adminfly.common.util.structure.BiValue;
 import org.papaja.adminfly.shared.entity.AbstractEntity;
 import org.papaja.adminfly.shared.repository.AbstractRepository;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -54,37 +58,7 @@ abstract public class AbstractService<E extends AbstractEntity, R extends Abstra
     }
 
     public <T extends Number> List<E> getAll(List<T> ids) {
-        return getRepository().getList(cleanIds(ids));
-    }
-
-    public <S extends AbstractEntity> List<E> getAll(String column, S entity) {
-        return getRepository().getList(column, entity);
-    }
-
-    public List<E> getAllWithPairs(List<BiValue<String, ?>> pairs) {
-        return getRepository().getList((builder, query, root) -> {
-            List<Predicate> predicates = new ArrayList<>();
-
-            for (BiValue<String, ?> pair : pairs) {
-                predicates.add(builder.equal(root.get(pair.getA()), pair.getB()));
-            }
-
-            query.where(builder.and(predicates.toArray(new Predicate[] {})));
-        });
-    }
-
-    public List<E> getAllWithPairs(BiValue<String, ?>... pairs) {
-        return getAllWithPairs(Arrays.asList(pairs));
-    }
-
-    public <T extends Serializable> List<T> cleanIds(List<T> ids) {
-        return cleanIds(ids, Objects::isNull);
-    }
-
-    public <T extends Serializable> List<T> cleanIds(List<T> ids, java.util.function.Predicate<T> predicate) {
-        ids.removeIf(predicate);
-
-        return ids;
+        return getRepository().getList(ids);
     }
 
     public Query<E> getQuery() {

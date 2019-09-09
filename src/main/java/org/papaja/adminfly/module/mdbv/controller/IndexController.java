@@ -2,8 +2,10 @@ package org.papaja.adminfly.module.mdbv.controller;
 
 import org.papaja.adminfly.common.converter.Coders;
 import org.papaja.adminfly.common.converter.Format;
+import org.papaja.adminfly.common.converter.coder.QuotedStringCoder;
 import org.papaja.adminfly.common.util.MapPathAccessor;
 import org.papaja.adminfly.common.util.MapUtils;
+import org.papaja.adminfly.common.util.function.TriConsumer;
 import org.papaja.adminfly.common.util.structure.BiValue;
 import org.papaja.adminfly.module.mdbv.mongodb.data.PaginationData;
 import org.papaja.adminfly.module.mdbv.mongodb.record.MapRecord;
@@ -26,14 +28,19 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.persistence.PersistenceException;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static java.lang.String.format;
 import static java.util.Objects.isNull;
+import static org.papaja.adminfly.common.converter.Format.STRING;
 import static org.springframework.util.StringUtils.hasText;
 
 @Controller("mdbvIndexController")
@@ -153,7 +160,7 @@ public class IndexController extends AbstractController {
 
         if (sources.hasActiveSource()) {
             mav.addObject("activeSource", sources.getActiveSource());
-            mav.addObject("items", rows.getAll("source", sources.getActiveSource()));
+            mav.addObject("items", rows.getRows());
             mav.addObject("types", Format.values());
         } else {
             mav = newRedirect("sources?forced=1");
@@ -170,7 +177,7 @@ public class IndexController extends AbstractController {
         if (sources.hasActiveSource()) {
             mav.addObject("activeSource", sources.getActiveSource());
             mav.addObject("row", rows.getOne(id));
-            mav.addObject("items", rows.getAll("source", sources.getActiveSource()));
+            mav.addObject("items", rows.getRows());
             mav.addObject("types", Format.values());
         } else {
             mav = newRedirect("sources?forced=1");
@@ -237,15 +244,14 @@ public class IndexController extends AbstractController {
 
             if (hasFilterData) {
                 query = this.records.getQuery(
-                    queryPath, Format.valueOf(queryType),
-                    queryString, page - 1, RecordService.DEFAULT_SIZE
+                    queryPath, Format.valueOf(queryType), queryString, page - 1, RecordService.DEFAULT_SIZE
                 );
             } else {
                 query = this.records.getQuery(page - 1, RecordService.DEFAULT_SIZE);
             }
 
             mav.addObject("pagination", new PaginationData(this.records.count(query), page, RecordService.DEFAULT_SIZE));
-            mav.addObject("rows", rows.getAll("source", sources.getActiveSource()));
+            mav.addObject("rows", rows.getRows());
             mav.addObject("records", this.records.getRecords(sources.getActiveSource().getCollection(), query));
 
             mav.addObject("activeSource", sources.getActiveSource());
@@ -267,16 +273,13 @@ public class IndexController extends AbstractController {
             MapRecord               record   = records.getRecord(objectId);
             MapPathAccessor<Object> accessor = new MapPathAccessor<>(record);
 
-            List<Row> rows = this.rows.getAllWithPairs(
-                new BiValue<>("source", sources.getActiveSource()),
-                new BiValue<>("status", Row.Status.F)
-            );
+            ((QuotedStringCoder)Coders.INSTANCE.get(STRING)).setBraces("{'", "'}");
 
             mav.addObject("jsonRecord", records.getJsonRecord(objectId));
             mav.addObject("record", record);
             mav.addObject("accessor", accessor);
             mav.addObject("coders", Coders.INSTANCE);
-            mav.addObject("rows", rows);
+            mav.addObject("rows", this.rows.getSortedRows());
             mav.addObject("source", sources.getActiveSource());
         } else {
             mav = newRedirect("sources?forced=1");

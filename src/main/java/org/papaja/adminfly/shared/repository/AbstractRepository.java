@@ -5,15 +5,19 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.papaja.adminfly.common.util.function.TriConsumer;
+import org.papaja.adminfly.common.util.structure.BiValue;
 import org.papaja.adminfly.shared.entity.AbstractEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
@@ -93,7 +97,7 @@ abstract public class AbstractRepository<E extends AbstractEntity> {
     }
 
     public <T extends Serializable> List<E> getList(List<T> ids) {
-        return getMultiAccessor(getReflection()).multiLoad(ids);
+        return getMultiAccessor(getReflection()).multiLoad(cleanIds(ids));
     }
 
     public MultiIdentifierLoadAccess getMultiAccessor(Class<E> reflection) {
@@ -108,7 +112,7 @@ abstract public class AbstractRepository<E extends AbstractEntity> {
         return session().createQuery(criteria);
     }
 
-    public Query<E> createQuery(QueryConsumer<E> consumer) {
+    public Query<E> createQuery(TriConsumer<CriteriaBuilder, CriteriaQuery<E>, Root<E>> consumer) {
         return createQuery(criteriaQuery(consumer));
     }
 
@@ -118,7 +122,7 @@ abstract public class AbstractRepository<E extends AbstractEntity> {
         });
     }
 
-    public CriteriaQuery<E> criteriaQuery(QueryConsumer<E> consumer) {
+    public CriteriaQuery<E> criteriaQuery(TriConsumer<CriteriaBuilder, CriteriaQuery<E>, Root<E>> consumer) {
         CriteriaBuilder  builder = criteriaBuilder();
         CriteriaQuery<E> query   = builder.createQuery(getReflection());
         Root<E>          root    = query.from(getReflection());
@@ -138,18 +142,57 @@ abstract public class AbstractRepository<E extends AbstractEntity> {
         return getList(criteriaQuery(column, value));
     }
 
-    public E getOne(QueryConsumer<E> consumer) {
+    public E getOne(TriConsumer<CriteriaBuilder, CriteriaQuery<E>, Root<E>> consumer) {
         return uniqueResult(criteriaQuery(consumer));
     }
 
-    public List<E> getList(QueryConsumer<E> consumer) {
+    public List<E> getList(TriConsumer<CriteriaBuilder, CriteriaQuery<E>, Root<E>> consumer) {
         return getList(criteriaQuery(consumer));
+    }
+
+    public QueryConsumer<E> getConsumer(List<BiValue<String, ?>> pairs) {
+        return  (builder, query, root) -> {
+            List<Predicate> predicates = new ArrayList<>();
+
+            for (BiValue<String, ?> pair : pairs) {
+                predicates.add(builder.equal(root.get(pair.getA()), pair.getB()));
+            }
+
+            query.where(builder.and(predicates.toArray(new Predicate[] {})));
+        };
+    }
+
+    public CriteriaQuery<E> getQuery(List<BiValue<String, ?>> pairs) {
+        return criteriaQuery(getConsumer(pairs));
+    }
+
+    public CriteriaQuery<E> getQuery(BiValue<String, ?>... pairs) {
+        return getQuery(Arrays.asList(pairs));
+    }
+
+    public <T extends Serializable> List<T> cleanIds(List<T> ids) {
+        return cleanIds(ids, Objects::isNull);
+    }
+
+    public <T extends Serializable> List<T> cleanIds(List<T> ids, java.util.function.Predicate<T> predicate) {
+        ids.removeIf(predicate);
+
+        return ids;
     }
 
     abstract public Class<E> getReflection();
 
     @FunctionalInterface
     public interface QueryConsumer<E> extends TriConsumer<CriteriaBuilder, CriteriaQuery<E>, Root<E>> {
+
+        default QueryConsumer<E> before(QueryConsumer<E> consumer) {
+            return (a, b, c) -> { consumer.accept(a, b, c); accept(a, b, c); };
+        }
+
+        default QueryConsumer<E> after(QueryConsumer<E> consumer) {
+            return (a, b, c) -> { accept(a, b, c); consumer.accept(a, b, c); };
+        }
+
     }
 
 }
