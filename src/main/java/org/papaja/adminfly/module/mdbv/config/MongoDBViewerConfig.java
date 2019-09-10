@@ -5,6 +5,7 @@ import org.papaja.adminfly.module.mdbv.common.converter.DateTimeConverter;
 import org.papaja.adminfly.module.mdbv.common.converter.RawJsonConverter;
 import org.papaja.adminfly.module.mdbv.common.holder.SourceIdHolder;
 import org.papaja.adminfly.module.mdbv.common.manager.MongoDatabaseManager;
+import org.papaja.adminfly.shared.data.AvailableModules;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,6 +33,10 @@ public class MongoDBViewerConfig {
     public @Autowired
     MongoDBViewerConfig(Environment environment) {
         this.environment = environment;
+
+        AvailableModules.addModule(
+            environment.getProperty("module.mdbv.name"), environment.getProperty("module.mdbv.urlPath")
+        );
     }
 
     public @Bean SourceIdHolder getCollectionDetector() {

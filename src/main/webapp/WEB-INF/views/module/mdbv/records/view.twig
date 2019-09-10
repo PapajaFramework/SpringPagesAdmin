@@ -20,6 +20,7 @@
                             <div class="card-title">
                                 <h3>[<b>{{ record.getId() }}</b>]</h3>
                             </div>
+                            <hr class="mt-3 mb-3">
                             {% for row in rows %}
                                 {% set value = accessor.get(row.path) %}
                                 {% set blockID = 'rowBlock' ~ row.id %}
@@ -29,7 +30,7 @@
                                             {{ row.name }} ({{ row.type }}): <b>[{{ row.path }}]</b>
                                         </div>
                                         <div class="ml-auto item">
-                                            <button onclick="switchRowBlockDisplay('{{ blockID }}', this)" type="button" class="btn btn-sm btn-danger">{{ 'label.collapse' | translate }}</button>
+                                            <a href="#" onclick="switchRowBlockDisplay('{{ blockID }}', this); return false;">{{ 'label.collapse' | translate }}</a>
                                         </div>
                                     </div>
                                 </h6>
@@ -47,8 +48,9 @@
                     <div class="d-none" id="recordRaw">
                         <div class="card-body">
                             <div class="card-title">
-                                <h3><b>{{ record.getId() }}</b></h3>
+                                <h3>[<b>{{ record.getId() }}</b>]</h3>
                             </div>
+                            <hr class="mt-3 mb-3">
                             <h6 class="card-title">
                                 {{ 'label.raw' | translate }} JSON
                             </h6>

@@ -299,6 +299,8 @@ public class IndexController extends AbstractController {
                    try {
                        Row row = rows.get();
 
+                       row.setPosition(0);
+                       row.setType(Format.RAW);
                        row.setPath(path);
                        row.setSource(sources.getActiveSource());
                        row.setStatus(Row.Status.S);

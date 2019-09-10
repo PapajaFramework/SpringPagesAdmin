@@ -28,10 +28,21 @@
                     {% set remove = url('/mdbv/rows/remove/' ~ item.id) %}
                     <tr>
                         <td>
-                            <div>{{ item.name }}</div>
-                            <span class="small">
-                                [{{ item.path }}]
+                            <span class="small" title="[{{ item.path }}]">
+                                <b>[{{ item.status }}]</b>
                             </span>
+                            <span class="small" title="[{{ item.path }}]">
+                                <b>[{{ item.position }}]</b>
+                            </span>
+                            {% if item.name is not null %}
+                                <span class="small" title="[{{ item.path }}]">
+                                    <b>[{{ item.name }}]</b>
+                                </span>
+                            {% else %}
+                                <span class="small">
+                                    <b>[{{ item.path }}]</b>
+                                </span>
+                            {% endif %}
                         </td>
                         <td><b>[{{ item.type }}]</b></td>
                         <td class="text-lg-right">
