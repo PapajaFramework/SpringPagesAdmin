@@ -3,33 +3,58 @@ SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
+
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
-CREATE TABLE `mdbv_paths` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `source_id` int(10) UNSIGNED NOT NULL,
-  `name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
-  `path` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
-  `type` char(12) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'RAW'
+CREATE TABLE `blog_categories` (
+  `id` int(11) NOT NULL,
+  `domain_id` int(10) UNSIGNED NOT NULL,
+  `name` varchar(64) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-INSERT INTO `mdbv_paths` (`id`, `source_id`, `name`, `value_path`, `value_type`) VALUES
-(13, 1, 'BuildInfo OS', 'buildinfo.buildEnvironment.target_os', 'STRING'),
-(16, 1, 'Build Version', 'buildinfo.version', 'STRING'),
-(17, 1, 'DB Directory', 'cmdLine.storage.dbPath', 'STRING'),
-(20, 1, 'JS Engine', 'buildinfo.javascriptEngine', 'RAW');
+CREATE TABLE `blog_domains` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `name` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
+  `domain` varchar(32) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-CREATE TABLE `mdbv_scanned` (
- `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
- `source_id` int(10) unsigned NOT NULL,
- `path` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
- PRIMARY KEY (`id`),
- UNIQUE KEY `path` (`path`),
- KEY `source_id` (`source_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=788 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+CREATE TABLE `blog_files` (
+  `id` int(11) UNSIGNED NOT NULL,
+  `path` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
+  `name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+  `size` int(11) UNSIGNED NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE `blog_posts` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `domain_id` int(10) UNSIGNED NOT NULL,
+  `category_id` int(10) UNSIGNED NOT NULL,
+  `image_id` int(10) UNSIGNED DEFAULT NULL,
+  `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `body` mediumtext COLLATE utf8_unicode_ci NOT NULL,
+  `views` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  `enabled` tinyint(1) UNSIGNED NOT NULL DEFAULT '0',
+  `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE `blog_users_domains` (
+  `user_id` int(10) UNSIGNED NOT NULL,
+  `domain_id` int(10) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE `mdbv_rows` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `source_id` int(10) UNSIGNED NOT NULL,
+  `d_type` char(1) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'S',
+  `name` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `path` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+  `type` char(12) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'RAW',
+  `position` int(11) DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `mdbv_sources` (
   `id` int(10) UNSIGNED NOT NULL,
@@ -38,15 +63,13 @@ CREATE TABLE `mdbv_sources` (
   `collection` varchar(32) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-INSERT INTO `mdbv_sources` (`id`, `name`, `db`, `collection`) VALUES
-(1, 'MongoDB Startup Logs', 'local', 'startup_log');
-
 CREATE TABLE `security_privileges` (
   `id` int(10) UNSIGNED NOT NULL,
   `name` varchar(16) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO `security_privileges` (`id`, `name`) VALUES
+(2, 'CREATE'),
 (1, 'READ'),
 (3, 'REMOVE'),
 (7, 'SECURITY'),
@@ -60,8 +83,9 @@ CREATE TABLE `security_roles` (
 
 INSERT INTO `security_roles` (`id`, `name`) VALUES
 (2, 'ADMIN'),
-(1, 'SUPERUSER'),
-(4, 'WATCHER');
+(3, 'EDITOR'),
+(4, 'MANAGER'),
+(1, 'SUPERUSER');
 
 CREATE TABLE `security_roles_privileges` (
   `role_id` int(10) UNSIGNED NOT NULL,
@@ -70,13 +94,14 @@ CREATE TABLE `security_roles_privileges` (
 
 INSERT INTO `security_roles_privileges` (`role_id`, `privilege_id`) VALUES
 (1, 1),
+(1, 2),
 (1, 3),
 (1, 4),
 (1, 6),
 (1, 7),
 (2, 1),
 (2, 4),
-(2, 6),
+(3, 1),
 (4, 1);
 
 CREATE TABLE `security_users` (
@@ -104,8 +129,21 @@ INSERT INTO `security_users_roles` (`user_id`, `role_id`) VALUES
 (2, 1),
 (9, 1);
 
-ALTER TABLE `mdbv_paths`
+ALTER TABLE `blog_categories`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `blog_domains`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `blog_files`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `blog_posts`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `mdbv_rows`
   ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `source_path_uni_pair` (`source_id`,`path`) USING BTREE,
   ADD KEY `source_id` (`source_id`);
 
 ALTER TABLE `mdbv_sources`
@@ -129,11 +167,20 @@ ALTER TABLE `security_users`
 ALTER TABLE `security_users_roles`
   ADD UNIQUE KEY `unique_pair` (`user_id`,`role_id`);
 
-ALTER TABLE `mdbv_paths`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+ALTER TABLE `blog_categories`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+
+ALTER TABLE `blog_domains`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+
+ALTER TABLE `blog_posts`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+
+ALTER TABLE `mdbv_rows`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 ALTER TABLE `mdbv_sources`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 ALTER TABLE `security_privileges`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
