@@ -36,7 +36,7 @@
                     </table>
                 </div>
                 <div class="card-footer">
-                    <form method="post" action="/authority/process/role" class="form-inline my-2 my-lg-0 float-right">
+                    <form method="post" action="{{ url('/authority/process/role') }}" class="form-inline my-2 my-lg-0 float-right">
                         <input class="form-control mr-sm-2 form-control-sm" type="text" name="name" placeholder="ROLE_NAME">
                         <button class="btn btn-secondary btn-sm my-2 my-sm-0" type="submit">{{ 'label.create' | translate }}</button>
                     </form>
