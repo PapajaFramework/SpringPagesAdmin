@@ -7,6 +7,7 @@ import org.papaja.adminfly.common.util.MapPathAccessor;
 import org.papaja.adminfly.common.util.MapUtils;
 import org.papaja.adminfly.common.util.function.TriConsumer;
 import org.papaja.adminfly.common.util.structure.BiValue;
+import org.papaja.adminfly.module.mdbv.mongodb.common.filter.Filters;
 import org.papaja.adminfly.module.mdbv.mongodb.data.PaginationData;
 import org.papaja.adminfly.module.mdbv.mongodb.record.MapRecord;
 import org.papaja.adminfly.module.mdbv.mongodb.service.RecordService;
@@ -255,7 +256,7 @@ public class IndexController extends AbstractController {
             mav.addObject("pagination", new PaginationData(this.records.count(query), page, RecordService.DEFAULT_SIZE));
             mav.addObject("rows", rows.getSortedRows());
             mav.addObject("records", this.records.getRecords(sources.getActiveSource().getCollection(), query));
-
+            mav.addObject("filters", Filters.values());
             mav.addObject("activeSource", sources.getActiveSource());
         } else {
             mav = newRedirect("sources?forced=1");

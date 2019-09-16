@@ -6,12 +6,12 @@
 
     <groupId>org.papaja</groupId>
     <artifactId>AdminFly</artifactId>
-    <version>100</version>
+    <version>v0.1.0</version>
 
     <packaging>war</packaging>
 
     <properties>
-        <versionName>beta</versionName>
+        <versionName>RC</versionName>
         <timestamp>${maven.build.timestamp}</timestamp>
         <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
 
@@ -238,7 +238,7 @@
     </dependencies>
 
     <build>
-        <finalName>ROOT##build.${timestamp}.${project.version}.${versionName}</finalName>
+        <finalName>ROOT##build-${timestamp}-${project.version}-${versionName}</finalName>
 
         <sourceDirectory>src/main/java</sourceDirectory>
         <resources>
