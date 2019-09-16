@@ -9,32 +9,53 @@
     <div class="card border-light mb-3">
         <div class="card-body">
             <form method="get" action="{{ url('/mdbv/records') }}" class="form-inline my-2 my-lg-0 float-left">
-                <input id="queryInput" class="form-control mr-sm-2 form-control" type="text" name="query" value="{{ app.request.query.query }}" placeholder>
+<!--                <input id="queryInput" class="form-control mr-sm-2 form-control" type="text" name="query" value="{{ app.request.query.query }}" placeholder>-->
                 <input type="hidden" name="path" id="queryPath" value="{{ app.request.query.path }}">
                 <input type="hidden" name="type" id="queryType" value="{{ app.request.query.type }}">
 
-                <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-info">EQ</button>
-                    <div class="btn-group btn-group-sm" role="group">
-                        <button id="btnGroupDrop3" type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-                        <div class="dropdown-menu" aria-labelledby="btnGroupDrop3">
-                            {% for item in filters %}
-                            <a class="dropdown-item" href="#">{{ item }}</a>
-                            {% endfor %}
-                        </div>
-                    </div>
+<!--                <div class="btn-group" role="group">-->
+<!--                    <button type="button" class="btn btn-info">EQ</button>-->
+<!--                    <div class="btn-group btn-group-sm" role="group">-->
+<!--                        <button id="btnGroupDrop3" type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>-->
+<!--                        <div class="dropdown-menu" aria-labelledby="btnGroupDrop3">-->
+<!--                            {% for item in filters %}-->
+<!--                            <a class="dropdown-item" href="#">{{ item }}</a>-->
+<!--                            {% endfor %}-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+<!--                <div class="btn-group btn-group-sm" role="group">-->
+<!--                    <button type="submit" class="btn btn-success">{{ 'label.search' | translate }}</button>-->
+<!--                    <div class="btn-group" role="group">-->
+<!--                        <button id="pathItems" type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>-->
+<!--                        <div class="dropdown-menu" aria-labelledby="pathItems">-->
+<!--                            {% for row in rows %}-->
+<!--                            <a class="dropdown-item" onclick="setPathToSearch('{{ row.path }}', '{{ row.type }}')">{{ row.path }}</a>-->
+<!--                            {% endfor %}-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+                <div class="input-group" role="group">
+                    <select class="custom-select" onchange="setPathToSearch(this)">
+                        <option>-- {{ 'label.select' | translate }} --</option>
+                        {% for row in rows %}
+                        <option value="{{ row.type }}" {% if app.request.query.path == row.path %}selected{% endif %}>{{ row.path }}</option>
+                        {% endfor %}
+                    </select>
+                    <select class="custom-select" name="rule">
+                        {% for item in filters %}
+                        <option value="{{ item }}" {% if app.request.query.rule == item %}selected{% endif %}>{{ item }}</option>
+                        {% endfor %}
+                    </select>
+                    <input id="queryInput" class="form-control mr-sm-2 form-control" type="text" name="query" value="{{ app.request.query.query }}" placeholder>
                 </div>
 
-                <div class="btn-group btn-group-sm" role="group">
-                    <button type="submit" class="btn btn-success">{{ 'label.search' | translate }}</button>
-                    <div class="btn-group" role="group">
-                        <button id="pathItems" type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-                        <div class="dropdown-menu" aria-labelledby="pathItems">
-                            {% for row in rows %}
-                            <a class="dropdown-item" onclick="setPathToSearch('{{ row.path }}', '{{ row.type }}')">{{ row.path }}</a>
-                            {% endfor %}
-                        </div>
-                    </div>
+                <div class="btn-group" role="group">
+                    <button type="submit" class="btn btn-success">
+                        {{ 'label.search' | translate }}
+                    </button>
                 </div>
 
             </form>
@@ -81,16 +102,19 @@
         </div>
     </div>
     <script>
-        function setPathToSearch(path, type) {
+        function setPathToSearch(select) {
+            let index = select.selectedIndex;
             let queryPath = document.getElementById("queryPath");
             let queryInput = document.getElementById("queryInput");
             let queryType = document.getElementById("queryType");
 
-            queryInput.removeAttribute("value");
-            queryInput.setAttribute("placeholder", path);
+            if (index) {
+                queryInput.removeAttribute("value");
+                queryInput.setAttribute("placeholder", select.options[index].innerText);
 
-            queryPath.setAttribute("value", path);
-            queryType.setAttribute("value", type);
+                queryPath.setAttribute("value", select.options[index].innerText);
+                queryType.setAttribute("value", select.options[index].getAttribute("value"));
+            }
         }
     </script>
 {% endblock %}
