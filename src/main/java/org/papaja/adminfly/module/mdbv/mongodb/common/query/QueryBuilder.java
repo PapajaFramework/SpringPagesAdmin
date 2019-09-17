@@ -63,6 +63,8 @@ public class QueryBuilder implements Supplier<Query> {
 
         filters.put(Filters.EQ, (v) -> criteria.is(v));
 
+        filters.get(type).apply(value);
+
         switch (type) {
             case STRING:
                 value = coders.get(STRING).decode(value);
