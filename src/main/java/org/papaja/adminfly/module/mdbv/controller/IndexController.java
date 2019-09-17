@@ -5,9 +5,7 @@ import org.papaja.adminfly.common.converter.Format;
 import org.papaja.adminfly.common.converter.coder.QuotedStringCoder;
 import org.papaja.adminfly.common.util.MapPathAccessor;
 import org.papaja.adminfly.common.util.MapUtils;
-import org.papaja.adminfly.common.util.function.TriConsumer;
-import org.papaja.adminfly.common.util.structure.BiValue;
-import org.papaja.adminfly.module.mdbv.mongodb.common.filter.Filters;
+import org.papaja.adminfly.module.mdbv.mongodb.common.query.Filters;
 import org.papaja.adminfly.module.mdbv.mongodb.data.PaginationData;
 import org.papaja.adminfly.module.mdbv.mongodb.record.MapRecord;
 import org.papaja.adminfly.module.mdbv.mongodb.service.RecordService;
@@ -29,16 +27,11 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.persistence.PersistenceException;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import static java.lang.String.format;
@@ -236,7 +229,8 @@ public class IndexController extends AbstractController {
         @RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
         @RequestParam(value = "query", required = false) String queryString,
         @RequestParam(value = "path", required = false) String queryPath,
-        @RequestParam(value = "type", required = false) String queryType
+        @RequestParam(value = "type", required = false) String queryType,
+        @RequestParam(value = "rule", required = false) String queryRule
     ) {
         ModelAndView mav = newView("records/index");
 
@@ -247,7 +241,8 @@ public class IndexController extends AbstractController {
 
             if (hasFilterData) {
                 query = this.records.getQuery(
-                    queryPath, Format.valueOf(queryType), queryString, page - 1, RecordService.DEFAULT_SIZE
+                    queryPath, Format.valueOf(queryType), queryString, Filters.valueOf(queryRule),
+                        page - 1, RecordService.DEFAULT_SIZE
                 );
             } else {
                 query = this.records.getQuery(page - 1, RecordService.DEFAULT_SIZE);
