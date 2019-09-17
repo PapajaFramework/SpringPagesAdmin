@@ -2,6 +2,7 @@ package org.papaja.adminfly.module.mdbv.mongodb.common.query;
 
 import org.papaja.adminfly.common.converter.Coders;
 import org.papaja.adminfly.common.converter.Format;
+import org.papaja.adminfly.common.util.function.Function;
 import org.papaja.adminfly.common.util.function.Supplier;
 import org.papaja.adminfly.common.util.structure.TriValue;
 import org.springframework.data.domain.PageRequest;
@@ -9,6 +10,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
+import java.util.EnumMap;
 import java.util.Map;
 
 import static java.lang.String.format;
@@ -55,7 +57,11 @@ public class QueryBuilder implements Supplier<Query> {
 
     public Criteria createCriteria(String column, Format type, Object value, Filters filter) {
         Coders   coders   = Coders.INSTANCE;
-        Criteria criteria = Criteria.where(column);
+        final Criteria criteria = Criteria.where(column);
+
+        Map<Filters, Function<Object, Criteria>> filters = new EnumMap<>(Filters.class);
+
+        filters.put(Filters.EQ, (v) -> criteria.is(v));
 
         switch (type) {
             case STRING:
