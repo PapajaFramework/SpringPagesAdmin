@@ -4,7 +4,7 @@ import org.papaja.adminfly.common.converter.Format;
 import org.papaja.adminfly.common.util.structure.TriValue;
 import org.papaja.adminfly.module.mdbv.common.manager.MongoDatabaseManager;
 import org.papaja.adminfly.module.mdbv.mongodb.common.query.Filters;
-import org.papaja.adminfly.module.mdbv.mongodb.common.query.QueryBuilder;
+import org.papaja.adminfly.module.mdbv.mongodb.common.query.CriteriaHelper;
 import org.papaja.adminfly.module.mdbv.mongodb.record.MapRecord;
 import org.papaja.adminfly.module.mdbv.mysql.service.SourceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,7 @@ public class RecordService {
     private SourceService service;
 
     @Autowired
-    private QueryBuilder builder;
+    private CriteriaHelper builder;
 
     private MongoTemplate template() {
         return manager.getMongoTemplateForDatabase(database());

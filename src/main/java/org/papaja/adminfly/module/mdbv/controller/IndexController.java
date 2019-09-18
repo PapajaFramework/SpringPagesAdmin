@@ -237,7 +237,7 @@ public class IndexController extends AbstractController {
         if (sources.hasActiveSource()) {
             Query   query;
             Source  source        = sources.getActiveSource();
-            boolean hasFilterData = (hasText(queryString) && hasText(queryPath) && hasText(queryType));
+            boolean hasFilterData = (hasText(queryRule) && hasText(queryPath) && hasText(queryType));
 
             if (hasFilterData) {
                 query = this.records.getQuery(
@@ -271,7 +271,7 @@ public class IndexController extends AbstractController {
             MapRecord               record   = records.getRecord(objectId);
             MapPathAccessor<Object> accessor = new MapPathAccessor<>(record);
 
-            ((QuotedStringCoder)Coders.INSTANCE.get(STRING)).setBraces("{'", "'}");
+            ((QuotedStringCoder)Coders.INSTANCE.get(STRING)).setBraces("'", "'");
 
             mav.addObject("jsonRecord", records.getJsonRecord(objectId));
             mav.addObject("record", record);
