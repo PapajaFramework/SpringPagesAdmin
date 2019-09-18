@@ -1,9 +1,9 @@
 package org.papaja.adminfly.module.mdbv.mongodb.service;
 
 import org.papaja.adminfly.common.converter.Format;
-import org.papaja.adminfly.common.util.structure.TriValue;
+import org.papaja.adminfly.common.structure.tuple.Triplet;
 import org.papaja.adminfly.module.mdbv.common.manager.MongoDatabaseManager;
-import org.papaja.adminfly.module.mdbv.mongodb.common.query.Filters;
+import org.papaja.adminfly.module.mdbv.mongodb.common.query.Filter;
 import org.papaja.adminfly.module.mdbv.mongodb.common.query.CriteriaHelper;
 import org.papaja.adminfly.module.mdbv.mongodb.record.MapRecord;
 import org.papaja.adminfly.module.mdbv.mysql.service.SourceService;
@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import static org.papaja.adminfly.common.converter.Format.RAW;
-import static org.papaja.adminfly.module.mdbv.mongodb.common.query.Filters.EQ;
+import static org.papaja.adminfly.module.mdbv.mongodb.common.query.Filter.EQ;
 
 @Service
 @SuppressWarnings({"unused"})
@@ -82,11 +82,11 @@ public class RecordService {
         return getRecords(collection(), getQuery(0, DEFAULT_SIZE));
     }
 
-    public Query getQuery(String column, Format type, Object value, Filters filter, Integer number, Integer size) {
+    public Query getQuery(String column, Format type, Object value, Filter filter, Integer number, Integer size) {
         builder.add(PageRequest.of(number, size));
 
-        builder.addFilters(new HashMap<String, TriValue<Format, Object, Filters>>() {{
-            put(column, new TriValue<>(type, value, filter));
+        builder.addFilters(new HashMap<String, Triplet<Format, Object, Filter>>() {{
+            put(column, new Triplet<>(type, value, filter));
         }});
 
         return builder.get();
@@ -99,8 +99,8 @@ public class RecordService {
     }
 
     public Query getQuery(String id) {
-        builder.addFilters(new HashMap<String, TriValue<Format, Object, Filters>>() {{
-            put("_id", new TriValue<>(RAW, id, EQ));
+        builder.addFilters(new HashMap<String, Triplet<Format, Object, Filter>>() {{
+            put("_id", new Triplet<>(RAW, id, EQ));
         }});
 
         return builder.get();

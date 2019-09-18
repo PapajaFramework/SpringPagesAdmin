@@ -1,6 +1,6 @@
 package org.papaja.adminfly.module.mdbv.mysql.service;
 
-import org.papaja.adminfly.common.util.structure.BiValue;
+import org.papaja.adminfly.common.structure.tuple.Pair;
 import org.papaja.adminfly.module.mdbv.mysql.dto.RowDto;
 import org.papaja.adminfly.module.mdbv.mysql.entity.Row;
 import org.papaja.adminfly.module.mdbv.mysql.mapper.RowMapper;
@@ -48,14 +48,14 @@ public class RowService extends AbstractService<Row, RowRepository> {
 
     public List<Row> getRows() {
         return repository.getList(repository.getConsumer(Collections.singletonList(
-                new BiValue<>("source", sources.getActiveSource())
+                new Pair<>("source", sources.getActiveSource())
         )));
     }
 
     public List<Row> getSortedRows() {
         return repository.getList(repository.getConsumer(Arrays.asList(
-                new BiValue<>("source", sources.getActiveSource()),
-                new BiValue<>("status", Row.Status.F)
+                new Pair<>("source", sources.getActiveSource()),
+                new Pair<>("status", Row.Status.F)
         )).after((builder, query, root) -> query.orderBy(builder.asc(root.get("position")))));
     }
 

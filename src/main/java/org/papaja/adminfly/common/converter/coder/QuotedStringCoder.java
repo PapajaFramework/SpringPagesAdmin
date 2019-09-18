@@ -1,7 +1,7 @@
 package org.papaja.adminfly.common.converter.coder;
 
 import org.papaja.adminfly.common.converter.Coder;
-import org.papaja.adminfly.common.util.structure.BiValue;
+import org.papaja.adminfly.common.structure.tuple.Pair;
 
 import static java.lang.String.format;
 
@@ -35,7 +35,7 @@ public class QuotedStringCoder implements Coder<String, String> {
         this.braces = braces;
     }
 
-    private static class Braces extends BiValue<String, String> {
+    private static class Braces extends Pair<String, String> {
 
         public Braces(String a, String b) {
             super(a, b);

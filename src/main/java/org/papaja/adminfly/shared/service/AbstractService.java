@@ -1,22 +1,12 @@
 package org.papaja.adminfly.shared.service;
 
 import org.hibernate.query.Query;
-import org.papaja.adminfly.common.util.function.Supplier;
-import org.papaja.adminfly.common.util.function.TriConsumer;
-import org.papaja.adminfly.common.util.structure.BiValue;
+import org.papaja.adminfly.common.function.Supplier;
 import org.papaja.adminfly.shared.entity.AbstractEntity;
 import org.papaja.adminfly.shared.repository.AbstractRepository;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 import static java.util.Arrays.asList;
 import static java.util.Objects.nonNull;

@@ -1,7 +1,8 @@
 package org.papaja.adminfly.common.util;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.papaja.adminfly.common.util.function.Provider;
+
+import org.papaja.adminfly.common.function.Provider;
 
 import java.util.Map;
 

@@ -1,7 +1,7 @@
 package org.papaja.adminfly.common.converter;
 
 import org.papaja.adminfly.common.converter.coder.PipeCoder;
-import org.papaja.adminfly.common.util.function.Provider;
+import org.papaja.adminfly.common.function.Provider;
 
 import java.util.EnumMap;
 import java.util.Map;

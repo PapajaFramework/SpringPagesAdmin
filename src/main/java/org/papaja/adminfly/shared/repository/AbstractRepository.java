@@ -4,8 +4,8 @@ import org.hibernate.MultiIdentifierLoadAccess;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
-import org.papaja.adminfly.common.util.function.TriConsumer;
-import org.papaja.adminfly.common.util.structure.BiValue;
+import org.papaja.adminfly.common.function.TriConsumer;
+import org.papaja.adminfly.common.structure.tuple.Pair;
 import org.papaja.adminfly.shared.entity.AbstractEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -150,11 +150,11 @@ abstract public class AbstractRepository<E extends AbstractEntity> {
         return getList(criteriaQuery(consumer));
     }
 
-    public QueryConsumer<E> getConsumer(List<BiValue<String, ?>> pairs) {
+    public QueryConsumer<E> getConsumer(List<Pair<String, ?>> pairs) {
         return  (builder, query, root) -> {
             List<Predicate> predicates = new ArrayList<>();
 
-            for (BiValue<String, ?> pair : pairs) {
+            for (Pair<String, ?> pair : pairs) {
                 predicates.add(builder.equal(root.get(pair.getA()), pair.getB()));
             }
 
@@ -162,11 +162,11 @@ abstract public class AbstractRepository<E extends AbstractEntity> {
         };
     }
 
-    public CriteriaQuery<E> getQuery(List<BiValue<String, ?>> pairs) {
+    public CriteriaQuery<E> getQuery(List<Pair<String, ?>> pairs) {
         return criteriaQuery(getConsumer(pairs));
     }
 
-    public CriteriaQuery<E> getQuery(BiValue<String, ?>... pairs) {
+    public CriteriaQuery<E> getQuery(Pair<String, ?>... pairs) {
         return getQuery(Arrays.asList(pairs));
     }
 
