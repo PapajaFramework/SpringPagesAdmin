@@ -2,7 +2,7 @@ package org.papaja.adminfly.module.blog.mapper;
 
 import org.papaja.adminfly.module.blog.dto.CategoryDto;
 import org.papaja.adminfly.module.blog.entity.Category;
-import org.papaja.adminfly.common.util.Mapper;
+import org.papaja.commons.util.Mapper;
 import org.springframework.stereotype.Component;
 
 @Component

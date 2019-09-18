@@ -1,8 +1,8 @@
 package org.papaja.adminfly.module.mdbv.mysql.mapper;
 
-import org.papaja.adminfly.common.util.Mapper;
+import org.papaja.commons.util.Mapper;
 import org.papaja.adminfly.module.mdbv.mysql.dto.RowDto;
-import org.papaja.adminfly.common.converter.Format;
+import org.papaja.commons.converter.Format;
 import org.papaja.adminfly.module.mdbv.mysql.entity.Row;
 import org.springframework.stereotype.Component;
 

@@ -4,8 +4,8 @@ import org.hibernate.MultiIdentifierLoadAccess;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
-import org.papaja.adminfly.common.function.TriConsumer;
-import org.papaja.adminfly.common.structure.tuple.Pair;
+import org.papaja.commons.function.TriConsumer;
+import org.papaja.commons.structure.tuple.Pair;
 import org.papaja.adminfly.shared.entity.AbstractEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 

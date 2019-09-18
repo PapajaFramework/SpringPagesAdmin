@@ -1,6 +1,6 @@
 package org.papaja.adminfly.module.mdbv.common.holder;
 
-import org.papaja.adminfly.common.structure.Holder;
+import org.papaja.commons.structure.Holder;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.http.HttpSession;

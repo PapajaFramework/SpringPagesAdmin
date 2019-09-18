@@ -1,7 +1,7 @@
 package org.papaja.adminfly.module.mdbv.mongodb.service;
 
-import org.papaja.adminfly.common.converter.Format;
-import org.papaja.adminfly.common.structure.tuple.Triplet;
+import org.papaja.commons.converter.Format;
+import org.papaja.commons.structure.tuple.Triplet;
 import org.papaja.adminfly.module.mdbv.common.manager.MongoDatabaseManager;
 import org.papaja.adminfly.module.mdbv.mongodb.common.query.Filter;
 import org.papaja.adminfly.module.mdbv.mongodb.common.query.CriteriaHelper;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.List;
 
-import static org.papaja.adminfly.common.converter.Format.RAW;
+import static org.papaja.commons.converter.Format.RAW;
 import static org.papaja.adminfly.module.mdbv.mongodb.common.query.Filter.EQ;
 
 @Service

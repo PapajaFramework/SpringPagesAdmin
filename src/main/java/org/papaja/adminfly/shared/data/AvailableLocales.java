@@ -1,6 +1,6 @@
 package org.papaja.adminfly.shared.data;
 
-import org.papaja.adminfly.common.geo.Locale;
+import org.papaja.commons.geo.Locale;
 import org.springframework.context.i18n.LocaleContextHolder;
 
 import java.util.Arrays;

@@ -1,7 +1,7 @@
 package org.papaja.adminfly.shared.service;
 
 import org.hibernate.query.Query;
-import org.papaja.adminfly.common.function.Supplier;
+import org.papaja.commons.function.Supplier;
 import org.papaja.adminfly.shared.entity.AbstractEntity;
 import org.papaja.adminfly.shared.repository.AbstractRepository;
 import org.springframework.transaction.annotation.Transactional;

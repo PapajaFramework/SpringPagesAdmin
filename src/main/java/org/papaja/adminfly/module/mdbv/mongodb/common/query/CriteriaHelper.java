@@ -1,10 +1,10 @@
 package org.papaja.adminfly.module.mdbv.mongodb.common.query;
 
-import org.papaja.adminfly.common.converter.Coders;
-import org.papaja.adminfly.common.converter.Format;
-import org.papaja.adminfly.common.function.Supplier;
-import org.papaja.adminfly.common.structure.tuple.Quartet;
-import org.papaja.adminfly.common.structure.tuple.Triplet;
+import org.papaja.commons.converter.Coders;
+import org.papaja.commons.converter.Format;
+import org.papaja.commons.function.Supplier;
+import org.papaja.commons.structure.tuple.Quartet;
+import org.papaja.commons.structure.tuple.Triplet;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -17,7 +17,7 @@ import java.util.function.BiFunction;
 
 import static java.lang.String.format;
 import static java.lang.String.valueOf;
-import static org.papaja.adminfly.common.converter.Format.*;
+import static org.papaja.commons.converter.Format.*;
 import static org.papaja.adminfly.module.mdbv.mongodb.common.query.Filter.*;
 
 @Component

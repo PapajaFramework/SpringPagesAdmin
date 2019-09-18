@@ -1,6 +1,6 @@
 package org.papaja.adminfly.module.mdbv.mysql.service;
 
-import org.papaja.adminfly.common.structure.tuple.Pair;
+import org.papaja.commons.structure.tuple.Pair;
 import org.papaja.adminfly.module.mdbv.mysql.dto.RowDto;
 import org.papaja.adminfly.module.mdbv.mysql.entity.Row;
 import org.papaja.adminfly.module.mdbv.mysql.mapper.RowMapper;

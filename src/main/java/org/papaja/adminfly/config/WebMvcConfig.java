@@ -8,7 +8,7 @@ import org.jtwig.spring.asset.resolver.AssetResolver;
 import org.jtwig.translate.spring.SpringTranslateExtension;
 import org.jtwig.translate.spring.SpringTranslateExtensionConfiguration;
 import org.jtwig.web.servlet.JtwigRenderer;
-import org.papaja.adminfly.common.function.Supplier;
+import org.papaja.commons.function.Supplier;
 import org.papaja.adminfly.shared.vendor.jtwig.extension.url.UrlPathExtension;
 import org.papaja.adminfly.shared.vendor.jtwig.extension.asset.resolver.ResourceUrlBasedAssetResolver;
 import org.papaja.adminfly.shared.vendor.jtwig.extension.theme.ThemeResolverExtension;
@@ -48,7 +48,7 @@ import java.nio.charset.Charset;
 import java.util.Locale;
 
 import static java.lang.String.format;
-import static org.papaja.adminfly.common.util.StringUtils.substringBetween;
+import static org.papaja.commons.util.StringUtils.substringBetween;
 
 @SuppressWarnings({"unused"})
 @Configuration

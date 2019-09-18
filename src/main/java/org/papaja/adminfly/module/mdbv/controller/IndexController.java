@@ -1,10 +1,10 @@
 package org.papaja.adminfly.module.mdbv.controller;
 
-import org.papaja.adminfly.common.converter.Coders;
-import org.papaja.adminfly.common.converter.Format;
-import org.papaja.adminfly.common.converter.coder.QuotedStringCoder;
-import org.papaja.adminfly.common.util.MapPathAccessor;
-import org.papaja.adminfly.common.util.MapUtils;
+import org.papaja.commons.converter.Coders;
+import org.papaja.commons.converter.Format;
+import org.papaja.commons.converter.coder.QuotedStringCoder;
+import org.papaja.commons.util.MapPathAccessor;
+import org.papaja.commons.util.MapUtils;
 import org.papaja.adminfly.module.mdbv.mongodb.common.query.Filter;
 import org.papaja.adminfly.module.mdbv.mongodb.data.PaginationData;
 import org.papaja.adminfly.module.mdbv.mongodb.record.MapRecord;
@@ -36,7 +36,7 @@ import java.util.Set;
 
 import static java.lang.String.format;
 import static java.util.Objects.isNull;
-import static org.papaja.adminfly.common.converter.Format.STRING;
+import static org.papaja.commons.converter.Format.STRING;
 import static org.springframework.util.StringUtils.hasText;
 
 @Controller("mdbvIndexController")
