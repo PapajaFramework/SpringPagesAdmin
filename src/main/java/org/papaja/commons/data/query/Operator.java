@@ -11,7 +11,7 @@ public class Operator {
     }
 
     public static Pair<Comparison, Logical> of(Comparison comparison) {
-        return new Pair<>(comparison, NONE);
+        return of(comparison, NONE);
     }
 
     public enum Comparison {
