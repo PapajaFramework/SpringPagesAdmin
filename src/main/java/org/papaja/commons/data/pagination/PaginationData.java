@@ -1,4 +1,4 @@
-package org.papaja.adminfly.module.mdbv.mongodb.data;
+package org.papaja.commons.data.pagination;
 
 public class PaginationData {
 

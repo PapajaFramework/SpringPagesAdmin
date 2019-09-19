@@ -1,7 +1,7 @@
 package org.papaja.adminfly.module.mdbv.controller;
 
 import org.papaja.adminfly.module.mdbv.dto.Filter;
-import org.papaja.adminfly.module.mdbv.mongodb.data.PaginationData;
+import org.papaja.commons.data.pagination.PaginationData;
 import org.papaja.adminfly.module.mdbv.mongodb.record.MapRecord;
 import org.papaja.adminfly.module.mdbv.mongodb.service.RecordService;
 import org.papaja.adminfly.module.mdbv.mysql.dto.RowDto;

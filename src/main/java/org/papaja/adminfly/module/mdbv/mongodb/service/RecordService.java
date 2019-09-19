@@ -1,10 +1,11 @@
 package org.papaja.adminfly.module.mdbv.mongodb.service;
 
+import org.papaja.adminfly.module.mdbv.mongodb.data.query.FilterTuple;
 import org.papaja.commons.converter.Format;
 import org.papaja.commons.structure.tuple.Triplet;
 import org.papaja.adminfly.module.mdbv.common.manager.MongoDatabaseManager;
 import org.papaja.commons.data.query.Operator;
-import org.papaja.adminfly.module.mdbv.mongodb.common.query.CriteriaHelper;
+import org.papaja.adminfly.module.mdbv.mongodb.data.query.QueryHelper;
 import org.papaja.adminfly.module.mdbv.mongodb.record.MapRecord;
 import org.papaja.adminfly.module.mdbv.mysql.service.SourceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -32,7 +34,7 @@ public class RecordService {
     private SourceService service;
 
     @Autowired
-    private CriteriaHelper builder;
+    private QueryHelper helper;
 
     private MongoTemplate template() {
         return manager.getMongoTemplateForDatabase(database());
@@ -51,7 +53,7 @@ public class RecordService {
     }
 
     public Long count(String collection) {
-        return count(builder.get(), collection);
+        return count(helper.get(), collection);
     }
 
     public Long count(Query query) {
@@ -65,7 +67,7 @@ public class RecordService {
     public List<MapRecord> getRecords(String collection, Query query) {
         List<MapRecord> records = template().find(query, MapRecord.class, collection);
 
-        builder.reset();
+        helper.reset();
 
         return records;
     }
@@ -83,33 +85,39 @@ public class RecordService {
     }
 
     public Query getQuery(String column, Format type, Object value, Operator.Comparison filter, Integer number, Integer size) {
-        builder.add(PageRequest.of(number, size));
+        helper.add(PageRequest.of(number, size));
 
-        builder.addFilters(new HashMap<String, Triplet<Format, Object, Operator.Comparison>>() {{
+//        helper.createCriteria(new ArrayList<FilterTuple>() {{
+//            add(new FilterTuple(column, value, type, filter, Operator.Logical.NONE));
+//            add(new FilterTuple(column, value, type, filter, Operator.Logical.AND));
+//            add(new FilterTuple(column, value, type, filter, Operator.Logical.OR));
+//        }});
+
+        helper.addFilters(new HashMap<String, Triplet<Format, Object, Operator.Comparison>>() {{
             put(column, new Triplet<>(type, value, filter));
         }});
 
-        return builder.get();
+        return helper.get();
     }
 
     public Query getQuery(Integer number, Integer size) {
-        builder.add(PageRequest.of(number, size));
+        helper.add(PageRequest.of(number, size));
 
-        return builder.get();
+        return helper.get();
     }
 
     public Query getQuery(String id) {
-        builder.addFilters(new HashMap<String, Triplet<Format, Object, Operator.Comparison>>() {{
+        helper.addFilters(new HashMap<String, Triplet<Format, Object, Operator.Comparison>>() {{
             put("_id", new Triplet<>(RAW, id, EQ));
         }});
 
-        return builder.get();
+        return helper.get();
     }
 
     public <T> T getRecord(String id, Class<T> reflection) {
         T record = template().findOne(getQuery(id), reflection, service.getActiveSource().getCollection());
 
-        builder.reset();
+        helper.reset();
 
         return record;
     }

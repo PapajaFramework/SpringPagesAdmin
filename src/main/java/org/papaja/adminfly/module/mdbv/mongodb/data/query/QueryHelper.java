@@ -1,4 +1,4 @@
-package org.papaja.adminfly.module.mdbv.mongodb.common.query;
+package org.papaja.adminfly.module.mdbv.mongodb.data.query;
 
 import org.papaja.commons.converter.Coders;
 import org.papaja.commons.converter.Format;
@@ -17,12 +17,11 @@ import java.util.function.BiFunction;
 
 import static java.lang.String.format;
 import static java.lang.String.valueOf;
-import static org.papaja.commons.converter.Format.*;
 import static org.papaja.commons.data.query.Operator.Comparison.*;
 
 @Component
 @SuppressWarnings({"all"})
-public class CriteriaHelper implements Supplier<org.springframework.data.mongodb.core.query.Query> {
+public class QueryHelper implements Supplier<org.springframework.data.mongodb.core.query.Query> {
 
     private org.springframework.data.mongodb.core.query.Query query;
 
@@ -43,7 +42,7 @@ public class CriteriaHelper implements Supplier<org.springframework.data.mongodb
         FILTERS_MAP.put(NOT_NULL, (criteria, value) -> criteria.ne(null));
     }
 
-    public CriteriaHelper() {
+    public QueryHelper() {
         reset();
     }
 
@@ -75,11 +74,20 @@ public class CriteriaHelper implements Supplier<org.springframework.data.mongodb
         return createCriteria(column, type, value, EQ);
     }
 
-    public Criteria createCriteria(List<Quartet<String, Object, Format, Operator.Comparison>> quartets) {
+    public Criteria createCriteria(List<FilterTuple> tuples) {
         Criteria criteria = null;
 
-        for (Quartet<String, Object, Format, Operator.Comparison> quartet : quartets) {
-            criteria = createCriteria(quartet);
+        for (FilterTuple tuple : tuples) {
+
+            if (tuple.getLogical().equals(Operator.Logical.NONE)) {
+                criteria = Criteria.where(tuple.getColumn());
+            } else {
+                criteria.and(tuple.getColumn());
+            }
+
+            BiFunction<Criteria, Object, Criteria> filter = FILTERS_MAP.get(tuple.getComparison());
+
+            criteria = criteria = filter.apply(criteria, convertValue(tuple.getFormat(), tuple.getValue()));
         }
 
         return criteria;
@@ -90,25 +98,24 @@ public class CriteriaHelper implements Supplier<org.springframework.data.mongodb
     }
 
     public Criteria createCriteria(String column, Format type, Object value, Operator.Comparison filter) {
-        Coders   coders   = Coders.INSTANCE;
         Criteria criteria = Criteria.where(column);
 
-        switch (type) {
+        criteria = FILTERS_MAP.get(filter).apply(criteria, convertValue(type, value));
+
+        return criteria;
+    }
+
+    public <T> T convertValue(Format format, Object value) {
+        switch (format) {
             case STRING:
-                value = coders.get(STRING).decode(value);
-                break;
             case JAVA_DATE:
-                value = coders.get(JAVA_DATE).decode(value);
-                break;
             case MAP:
             case LIST:
-                value = coders.get(type).decode(value);
+                value = Coders.INSTANCE.get(format).decode(value);
                 break;
         }
 
-        criteria = FILTERS_MAP.get(filter).apply(criteria, value);
-
-        return criteria;
+        return (T) value;
     }
 
     @Override
