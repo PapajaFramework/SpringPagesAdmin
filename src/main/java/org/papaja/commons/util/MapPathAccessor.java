@@ -7,18 +7,11 @@ import org.papaja.commons.function.Provider;
 import java.util.Map;
 
 @SuppressWarnings({"unchecked"})
-public class MapPathAccessor<V> implements Provider<String, V> {
+public class MapPathAccessor {
 
-    private Map<String, V> map;
-
-    public MapPathAccessor(Map<String, V> map) {
-        this.map = map;
-    }
-
-    @Override
-    public V get(String key) {
+    public Object get(Map<String, Object> map, String key) {
         try {
-            return (V) PropertyUtils.getProperty(map, key);
+            return PropertyUtils.getProperty(map, key);
         } catch (Exception exception) {
             throw new RuntimeException(exception);
         }

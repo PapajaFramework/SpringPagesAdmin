@@ -1,5 +1,6 @@
 package org.papaja.commons.function;
 
+@FunctionalInterface
 public interface BiFunction<Z, A, B> {
 
     Z apply(A a, B b);

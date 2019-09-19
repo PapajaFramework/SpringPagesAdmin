@@ -8,14 +8,17 @@
     </div>
     <div class="card border-light mb-3">
         <div class="card-body">
-            <form method="get" action="{{ url('/mdbv/filters') }}" class="form-inline my-2 my-lg-0 float-left">
-                <input type="hidden" name="path" id="queryPath" value="{{ app.request.query.path }}">
-                <input type="hidden" name="type" id="queryType" value="{{ app.request.query.type }}">
+            <form method="get" action="{{ url('/mdbv/records') }}" class="form-inline my-2 my-lg-0 float-left">
+
                 <div class="input-group" role="group">
-                    <select class="custom-select" onchange="setPathToSearch(this)">
-                        <option>-- {{ 'label.select' | translate }} --</option>
+                    <select class="custom-select" name="path">
                         {% for row in rows %}
-                        <option value="{{ row.type }}" {% if app.request.query.path == row.path %}selected{% endif %}>{{ row.path }}</option>
+                        <option value="{{ row.path }}" {% if app.request.query.path == row.path %}selected{% endif %}>{{ row.name }}</option>
+                        {% endfor %}
+                    </select>
+                    <select class="custom-select" name="format">
+                        {% for format in formats %}
+                            <option value="{{ format }}" {% if app.request.query.format == format %}selected{% endif %}>{{ format }}</option>
                         {% endfor %}
                     </select>
                     <select class="custom-select" name="rule">
@@ -23,10 +26,11 @@
                         <option value="{{ item }}" {% if app.request.query.rule == item %}selected{% endif %}>{{ item }}</option>
                         {% endfor %}
                     </select>
-                    <input id="queryInput" class="form-control mr-sm-2 form-control" type="text" name="query" value="{{ app.request.query.query }}" placeholder>
+                    <input class="form-control mr-sm-2 form-control" type="text" name="query" value="{{ app.request.query.query }}" placeholder>
                 </div>
 
                 <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-danger">+</button>
                     <button type="submit" class="btn btn-success">
                         {{ 'label.search' | translate }}
                     </button>
@@ -45,8 +49,9 @@
                     <table class="table table-hover">
                         <thead>
                         <tr>
-                            <th scope="col">{{ 'label.id' | translate }}</th>
-                            <th scope="col">[{{ 'label.database' | translate }}].[{{ 'label.collection' | translate }}]</th>
+                            {% for item in preview %}
+                                <th scope="col" class="w-25">{{ item.name }}</th>
+                            {% endfor %}
                             <th scope="col" class="w-25"></th>
                         </tr>
                         </thead>
@@ -54,12 +59,12 @@
                         {% for record in records %}
                             {% set view = url('/mdbv/records/view/' ~ record.getId()) %}
                             <tr>
-                                <td>
-                                    [{{ record.getId() }}]
-                                </td>
-                                <td>
-                                   [{{ activeSource.database }}].[{{ activeSource.collection }}]
-                                </td>
+                                {% for item in preview %}
+                                    {% set value = accessor.get(record, item.path) %}
+                                    <td>
+                                        <small>{{ coders.get(item.type).encode(value) }}</small>
+                                    </td>
+                                {% endfor %}
                                 <td class="text-lg-right">
                                     <button type="button" onclick="location.href='{{ view }}'"
                                             class="btn btn-sm btn-primary">{{ 'label.view' | translate }}</button>
@@ -76,19 +81,6 @@
         </div>
     </div>
     <script>
-        function setPathToSearch(select) {
-            let index = select.selectedIndex;
-            let queryPath = document.getElementById("queryPath");
-            let queryInput = document.getElementById("queryInput");
-            let queryType = document.getElementById("queryType");
 
-            if (index) {
-                queryInput.removeAttribute("value");
-                queryInput.setAttribute("placeholder", select.options[index].innerText);
-
-                queryPath.setAttribute("value", select.options[index].innerText);
-                queryType.setAttribute("value", select.options[index].getAttribute("value"));
-            }
-        }
     </script>
 {% endblock %}

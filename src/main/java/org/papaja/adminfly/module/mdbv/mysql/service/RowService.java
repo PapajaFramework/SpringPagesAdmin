@@ -30,6 +30,7 @@ public class RowService extends AbstractService<Row, RowRepository> {
     public void save(RowDto dto, Row row) {
         mapper.map(dto, row);
 
+        row.setPreview(dto.isPreview());
         row.setStatus(Row.Status.F);
         row.setSource(sources.getActiveSource());
 
@@ -46,10 +47,16 @@ public class RowService extends AbstractService<Row, RowRepository> {
         return new Row();
     }
 
+    public List<Row> getPreviewRows() {
+        return repository.getList(repository.getConsumer(
+            Arrays.asList(new Pair<>("source", sources.getActiveSource()), new Pair<>("preview", 1))
+        ));
+    }
+
     public List<Row> getRows() {
         return repository.getList(repository.getConsumer(Collections.singletonList(
                 new Pair<>("source", sources.getActiveSource())
-        )));
+        )).after((builder, query, root) -> query.orderBy(builder.asc(root.get("status")))));
     }
 
     public List<Row> getSortedRows() {

@@ -35,4 +35,8 @@ public class FilterTuple extends Quintet<String, Object, Format, Comparison, Log
         return getE();
     }
 
+    @Override
+    public String toString() {
+        return String.format("FilterTuple{a=%s, b=%s, c=%s, d=%s, e=%s}", a, b, c, d, e);
+    }
 }

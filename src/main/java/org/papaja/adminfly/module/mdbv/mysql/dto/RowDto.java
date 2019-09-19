@@ -22,6 +22,8 @@ public class RowDto {
     @NotNull(message = "{validation.notNull}")
     private Integer position;
 
+    private boolean preview;
+
     public String getName() {
         return name;
     }
@@ -52,6 +54,14 @@ public class RowDto {
 
     public void setPosition(Integer position) {
         this.position = position;
+    }
+
+    public boolean isPreview() {
+        return preview;
+    }
+
+    public void setPreview(boolean preview) {
+        this.preview = preview;
     }
 
     @Override

@@ -22,7 +22,7 @@
                             </div>
                             <hr class="mt-3 mb-3">
                             {% for row in rows %}
-                                {% set value = accessor.get(row.path) %}
+                                {% set value = accessor.get(record, row.path) %}
                                 {% set blockID = 'rowBlock' ~ row.id %}
                                 <h6 class="card-title">
                                     <div class="d-flex m-2 cl">

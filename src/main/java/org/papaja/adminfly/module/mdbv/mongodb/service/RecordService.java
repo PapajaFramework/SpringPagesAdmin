@@ -2,6 +2,7 @@ package org.papaja.adminfly.module.mdbv.mongodb.service;
 
 import org.papaja.adminfly.module.mdbv.mongodb.data.query.FilterTuple;
 import org.papaja.commons.converter.Format;
+import org.papaja.commons.data.query.Operator.Comparison;
 import org.papaja.commons.structure.tuple.Triplet;
 import org.papaja.adminfly.module.mdbv.common.manager.MongoDatabaseManager;
 import org.papaja.commons.data.query.Operator;
@@ -22,7 +23,7 @@ import static org.papaja.commons.converter.Format.RAW;
 import static org.papaja.commons.data.query.Operator.Comparison.EQ;
 
 @Service
-@SuppressWarnings({"unused"})
+@SuppressWarnings({"all"})
 public class RecordService {
 
     public static final Integer DEFAULT_SIZE = 5;
@@ -84,34 +85,22 @@ public class RecordService {
         return getRecords(collection(), getQuery(0, DEFAULT_SIZE));
     }
 
-    public Query getQuery(String column, Format type, Object value, Operator.Comparison filter, Integer number, Integer size) {
+    public Query getQuery(String column, Format type, Object value, Comparison filter, Integer number, Integer size) {
         helper.add(PageRequest.of(number, size));
 
-//        helper.createCriteria(new ArrayList<FilterTuple>() {{
-//            add(new FilterTuple(column, value, type, filter, Operator.Logical.NONE));
-//            add(new FilterTuple(column, value, type, filter, Operator.Logical.AND));
-//            add(new FilterTuple(column, value, type, filter, Operator.Logical.OR));
-//        }});
-
-        helper.addFilters(new HashMap<String, Triplet<Format, Object, Operator.Comparison>>() {{
-            put(column, new Triplet<>(type, value, filter));
-        }});
-
-        return helper.get();
+        return helper.add(helper.filters(new ArrayList<FilterTuple>() {{
+            add(new FilterTuple(column, value, type, filter, Operator.Logical.NONE));
+        }}));
     }
 
     public Query getQuery(Integer number, Integer size) {
-        helper.add(PageRequest.of(number, size));
-
-        return helper.get();
+        return helper.add(PageRequest.of(number, size));
     }
 
     public Query getQuery(String id) {
-        helper.addFilters(new HashMap<String, Triplet<Format, Object, Operator.Comparison>>() {{
-            put("_id", new Triplet<>(RAW, id, EQ));
-        }});
-
-        return helper.get();
+        return helper.add(helper.filters(new ArrayList<FilterTuple>() {{
+            add(new FilterTuple("_id", id, RAW, EQ, Operator.Logical.NONE));
+        }}));
     }
 
     public <T> T getRecord(String id, Class<T> reflection) {

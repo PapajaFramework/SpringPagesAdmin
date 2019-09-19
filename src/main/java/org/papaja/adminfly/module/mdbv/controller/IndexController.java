@@ -1,6 +1,7 @@
 package org.papaja.adminfly.module.mdbv.controller;
 
 import org.papaja.adminfly.module.mdbv.dto.Filter;
+import org.papaja.adminfly.module.mdbv.mongodb.data.query.FilterTuple;
 import org.papaja.commons.data.pagination.PaginationData;
 import org.papaja.adminfly.module.mdbv.mongodb.record.MapRecord;
 import org.papaja.adminfly.module.mdbv.mongodb.service.RecordService;
@@ -31,7 +32,9 @@ import javax.persistence.PersistenceException;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static java.lang.String.format;
@@ -224,16 +227,6 @@ public class IndexController extends AbstractController {
     }
 
     @PreAuthorize("hasAuthority('READ')")
-    @RequestMapping("/filters")
-    @ResponseBody
-    public String records(Filter filter) {
-
-        System.out.println(filter);
-
-        return getClass().getName();
-    }
-
-    @PreAuthorize("hasAuthority('READ')")
     @RequestMapping("/records")
     public ModelAndView records(
         @RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
@@ -261,8 +254,12 @@ public class IndexController extends AbstractController {
             mav.addObject("pagination", new PaginationData(this.records.count(query), page, RecordService.DEFAULT_SIZE));
             mav.addObject("rows", rows.getSortedRows());
             mav.addObject("records", this.records.getRecords(sources.getActiveSource().getCollection(), query));
+            mav.addObject("formats", Format.values());
             mav.addObject("filters", Operator.Comparison.values());
             mav.addObject("activeSource", sources.getActiveSource());
+            mav.addObject("preview", rows.getPreviewRows());
+            mav.addObject("coders", Coders.INSTANCE);
+            mav.addObject("accessor", new MapPathAccessor());
         } else {
             mav = newRedirect("sources?forced=1");
         }
@@ -279,13 +276,12 @@ public class IndexController extends AbstractController {
 
         if (sources.hasActiveSource()) {
             MapRecord               record   = records.getRecord(objectId);
-            MapPathAccessor<Object> accessor = new MapPathAccessor<>(record);
 
             ((QuotedStringCoder)Coders.INSTANCE.get(STRING)).setBraces("'", "'");
 
             mav.addObject("jsonRecord", records.getJsonRecord(objectId));
             mav.addObject("record", record);
-            mav.addObject("accessor", accessor);
+            mav.addObject("accessor", new MapPathAccessor());
             mav.addObject("coders", Coders.INSTANCE);
             mav.addObject("rows", this.rows.getSortedRows());
             mav.addObject("source", sources.getActiveSource());

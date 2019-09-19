@@ -16,6 +16,9 @@ public class Row extends AbstractEntity {
     @Enumerated(EnumType.STRING)
     private Status status;
 
+    @Column(name = "column_preview", columnDefinition = "TINYINT(1)")
+    private Boolean preview;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "source_id")
     private Source source;
@@ -52,6 +55,14 @@ public class Row extends AbstractEntity {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public Boolean getPreview() {
+        return preview;
+    }
+
+    public void setPreview(Boolean preview) {
+        this.preview = preview;
     }
 
     public boolean isFull() {

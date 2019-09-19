@@ -5,7 +5,7 @@ import java.util.List;
 public class Filter {
 
     private List<String> query;
-    private List<String> types;
+    private List<String> formats;
     private List<String> rules;
     private List<String> paths;
 
@@ -17,12 +17,12 @@ public class Filter {
         this.query = query;
     }
 
-    public List<String> getType() {
-        return types;
+    public List<String> getFormat() {
+        return formats;
     }
 
-    public void setType(List<String> types) {
-        this.types = types;
+    public void setFormat(List<String> types) {
+        this.formats = types;
     }
 
     public List<String> getRule() {
@@ -43,7 +43,7 @@ public class Filter {
 
     @Override
     public String toString() {
-        return String.format("Filter{query=%s, types=%s, rules=%s, paths=%s}", query, types, rules, paths);
+        return String.format("Filter{query=%s, formats=%s, rules=%s, paths=%s}", query, formats, rules, paths);
     }
 
 }
