@@ -3,7 +3,7 @@ package org.papaja.adminfly.module.mdbv.mongodb.service;
 import org.papaja.commons.converter.Format;
 import org.papaja.commons.structure.tuple.Triplet;
 import org.papaja.adminfly.module.mdbv.common.manager.MongoDatabaseManager;
-import org.papaja.adminfly.module.mdbv.mongodb.common.query.Filter;
+import org.papaja.commons.data.query.Operator;
 import org.papaja.adminfly.module.mdbv.mongodb.common.query.CriteriaHelper;
 import org.papaja.adminfly.module.mdbv.mongodb.record.MapRecord;
 import org.papaja.adminfly.module.mdbv.mysql.service.SourceService;
@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import static org.papaja.commons.converter.Format.RAW;
-import static org.papaja.adminfly.module.mdbv.mongodb.common.query.Filter.EQ;
+import static org.papaja.commons.data.query.Operator.Comparison.EQ;
 
 @Service
 @SuppressWarnings({"unused"})
@@ -82,10 +82,10 @@ public class RecordService {
         return getRecords(collection(), getQuery(0, DEFAULT_SIZE));
     }
 
-    public Query getQuery(String column, Format type, Object value, Filter filter, Integer number, Integer size) {
+    public Query getQuery(String column, Format type, Object value, Operator.Comparison filter, Integer number, Integer size) {
         builder.add(PageRequest.of(number, size));
 
-        builder.addFilters(new HashMap<String, Triplet<Format, Object, Filter>>() {{
+        builder.addFilters(new HashMap<String, Triplet<Format, Object, Operator.Comparison>>() {{
             put(column, new Triplet<>(type, value, filter));
         }});
 
@@ -99,7 +99,7 @@ public class RecordService {
     }
 
     public Query getQuery(String id) {
-        builder.addFilters(new HashMap<String, Triplet<Format, Object, Filter>>() {{
+        builder.addFilters(new HashMap<String, Triplet<Format, Object, Operator.Comparison>>() {{
             put("_id", new Triplet<>(RAW, id, EQ));
         }});
 

@@ -1,21 +1,22 @@
 package org.papaja.adminfly.module.mdbv.controller;
 
-import org.papaja.commons.converter.Coders;
-import org.papaja.commons.converter.Format;
-import org.papaja.commons.converter.coder.QuotedStringCoder;
-import org.papaja.commons.util.MapPathAccessor;
-import org.papaja.commons.util.MapUtils;
-import org.papaja.adminfly.module.mdbv.mongodb.common.query.Filter;
+import org.papaja.adminfly.module.mdbv.dto.Filter;
 import org.papaja.adminfly.module.mdbv.mongodb.data.PaginationData;
 import org.papaja.adminfly.module.mdbv.mongodb.record.MapRecord;
 import org.papaja.adminfly.module.mdbv.mongodb.service.RecordService;
-import org.papaja.adminfly.module.mdbv.mysql.dto.SourceDto;
 import org.papaja.adminfly.module.mdbv.mysql.dto.RowDto;
+import org.papaja.adminfly.module.mdbv.mysql.dto.SourceDto;
 import org.papaja.adminfly.module.mdbv.mysql.entity.Row;
 import org.papaja.adminfly.module.mdbv.mysql.entity.Source;
 import org.papaja.adminfly.module.mdbv.mysql.service.RowService;
 import org.papaja.adminfly.module.mdbv.mysql.service.SourceService;
 import org.papaja.adminfly.shared.controller.AbstractController;
+import org.papaja.commons.converter.Coders;
+import org.papaja.commons.converter.Format;
+import org.papaja.commons.converter.coder.QuotedStringCoder;
+import org.papaja.commons.data.query.Operator;
+import org.papaja.commons.util.MapPathAccessor;
+import org.papaja.commons.util.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.query.Query;
@@ -30,7 +31,6 @@ import javax.persistence.PersistenceException;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -224,6 +224,16 @@ public class IndexController extends AbstractController {
     }
 
     @PreAuthorize("hasAuthority('READ')")
+    @RequestMapping("/filters")
+    @ResponseBody
+    public String records(Filter filter) {
+
+        System.out.println(filter);
+
+        return getClass().getName();
+    }
+
+    @PreAuthorize("hasAuthority('READ')")
     @RequestMapping("/records")
     public ModelAndView records(
         @RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
@@ -241,7 +251,7 @@ public class IndexController extends AbstractController {
 
             if (hasFilterData) {
                 query = this.records.getQuery(
-                    queryPath, Format.valueOf(queryType), queryString, Filter.valueOf(queryRule),
+                        queryPath, Format.valueOf(queryType), queryString, Operator.Comparison.valueOf(queryRule),
                         page - 1, RecordService.DEFAULT_SIZE
                 );
             } else {
@@ -251,7 +261,7 @@ public class IndexController extends AbstractController {
             mav.addObject("pagination", new PaginationData(this.records.count(query), page, RecordService.DEFAULT_SIZE));
             mav.addObject("rows", rows.getSortedRows());
             mav.addObject("records", this.records.getRecords(sources.getActiveSource().getCollection(), query));
-            mav.addObject("filters", Filter.values());
+            mav.addObject("filters", Operator.Comparison.values());
             mav.addObject("activeSource", sources.getActiveSource());
         } else {
             mav = newRedirect("sources?forced=1");
