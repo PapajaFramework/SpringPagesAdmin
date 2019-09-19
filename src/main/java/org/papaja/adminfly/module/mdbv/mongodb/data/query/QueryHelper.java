@@ -74,11 +74,12 @@ public class QueryHelper implements Supplier<org.springframework.data.mongodb.co
         return createCriteria(column, type, value, EQ);
     }
 
-    public Criteria createCriteria(List<FilterTuple> tuples) {
+    public Criteria filters(List<FilterTuple> tuples) {
         Criteria criteria = null;
 
         for (FilterTuple tuple : tuples) {
 
+            // todo: get criteria for tuple
             if (tuple.getLogical().equals(Operator.Logical.NONE)) {
                 criteria = Criteria.where(tuple.getColumn());
             } else {
@@ -89,6 +90,8 @@ public class QueryHelper implements Supplier<org.springframework.data.mongodb.co
 
             criteria = criteria = filter.apply(criteria, convertValue(tuple.getFormat(), tuple.getValue()));
         }
+
+        criteria.getCriteriaObject().toJson();
 
         return criteria;
     }
