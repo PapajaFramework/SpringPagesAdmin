@@ -35,7 +35,7 @@ public class MongoDBViewerConfig {
         this.environment = environment;
 
         AvailableModules.addModule(
-            environment.getProperty("module.mdbv.name"), environment.getProperty("module.mdbv.urlPath")
+            environment.getProperty("module.mdbv.name"), environment.getProperty("module.mdbv.path")
         );
     }
 

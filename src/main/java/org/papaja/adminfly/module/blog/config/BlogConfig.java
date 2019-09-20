@@ -19,7 +19,7 @@ public class BlogConfig {
         this.environment = environment;
 
         AvailableModules.addModule(
-            environment.getProperty("module.blog.name"), environment.getProperty("module.blog.urlPath")
+            environment.getProperty("module.blog.name"), environment.getProperty("module.blog.path")
         );
     }
 

@@ -19,7 +19,8 @@ public class KVStorageConfig {
         this.environment = environment;
 
         AvailableModules.addModule(
-                environment.getProperty("module.kv.name"), environment.getProperty("module.kv.urlPath")
+                environment.getProperty("module.kv.name"),
+                environment.getProperty("module.kv.path")
         );
     }
 
