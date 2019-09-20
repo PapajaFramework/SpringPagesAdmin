@@ -58,7 +58,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().anyRequest()
                 .authenticated();
 
-        http.authorizeRequests().antMatchers("/*/auth/**", "/auth/**")
+        http.authorizeRequests().antMatchers("/*/auth/**", "/auth/**", "/shared/*")
                 .permitAll();
 
         http.formLogin().loginPage("/auth/login")
