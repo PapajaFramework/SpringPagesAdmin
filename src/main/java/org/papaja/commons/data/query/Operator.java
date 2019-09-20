@@ -22,4 +22,8 @@ public class Operator {
         NONE, AND, OR, XOR
     }
 
+    public enum Sort {
+        ASC, DESC
+    }
+
 }

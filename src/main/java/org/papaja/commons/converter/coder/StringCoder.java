@@ -5,10 +5,14 @@ import org.papaja.commons.structure.tuple.Pair;
 
 import static java.lang.String.format;
 
-public class QuotedStringCoder implements Coder<String, String> {
+public class StringCoder implements Coder<String, String> {
 
-    public static final Braces DEFAULT_BRACES = new Braces("'", "'");
-    private             Braces braces         = DEFAULT_BRACES;
+    public static final Braces DEFAULT_BRACES      = new Braces("'", "'");
+    public static final Braces DOUBLE_QUOTE_BRACES = new Braces('"', '"');
+    public static final Braces CURLY_BRACES        = new Braces("{'", "'}");
+    public static final Braces SQUARE_BRACES       = new Braces("['", "']");
+
+    private             Braces braces              = DEFAULT_BRACES;
 
     @Override
     public String decode(String source) {
@@ -39,6 +43,10 @@ public class QuotedStringCoder implements Coder<String, String> {
 
         public Braces(String a, String b) {
             super(a, b);
+        }
+
+        public Braces(char a, char b) {
+            this(new String(new char[]{a}), new String(new char[]{b}));
         }
 
         public int sizeA() {

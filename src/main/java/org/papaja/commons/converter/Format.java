@@ -9,7 +9,7 @@ public enum Format {
     LIST(new ListCoder()),
     MAP(new MapCoder()),
     JAVA_DATE(new JavaDateCoder()),
-    STRING(new QuotedStringCoder());
+    STRING(new StringCoder());
 
     private Coder coder;
 

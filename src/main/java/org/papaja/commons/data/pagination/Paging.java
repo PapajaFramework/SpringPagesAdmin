@@ -1,10 +1,10 @@
 package org.papaja.commons.data.pagination;
 
-public class PaginationData {
+public class Paging {
 
     private Number total, current, size;
 
-    public PaginationData(Number total, Number current, Number size) {
+    public Paging(Number total, Number current, Number size) {
         this.total = total;
         this.current = current;
         this.size = size;

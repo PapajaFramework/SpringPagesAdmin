@@ -1,8 +1,8 @@
 package org.papaja.adminfly.module.mdbv.controller;
 
-import org.papaja.adminfly.module.mdbv.dto.Filter;
-import org.papaja.adminfly.module.mdbv.mongodb.data.query.FilterTuple;
-import org.papaja.commons.data.pagination.PaginationData;
+import org.papaja.adminfly.module.mdbv.mongodb.data.query.tuple.FilterTuple;
+import org.papaja.adminfly.module.mdbv.mongodb.data.query.tuple.PageTuple;
+import org.papaja.adminfly.module.mdbv.mongodb.data.query.tuple.SortTuple;
 import org.papaja.adminfly.module.mdbv.mongodb.record.MapRecord;
 import org.papaja.adminfly.module.mdbv.mongodb.service.RecordService;
 import org.papaja.adminfly.module.mdbv.mysql.dto.RowDto;
@@ -12,9 +12,9 @@ import org.papaja.adminfly.module.mdbv.mysql.entity.Source;
 import org.papaja.adminfly.module.mdbv.mysql.service.RowService;
 import org.papaja.adminfly.module.mdbv.mysql.service.SourceService;
 import org.papaja.adminfly.shared.controller.AbstractController;
-import org.papaja.commons.converter.Coders;
 import org.papaja.commons.converter.Format;
-import org.papaja.commons.converter.coder.QuotedStringCoder;
+import org.papaja.commons.converter.coder.StringCoder;
+import org.papaja.commons.data.pagination.Paging;
 import org.papaja.commons.data.query.Operator;
 import org.papaja.commons.util.MapPathAccessor;
 import org.papaja.commons.util.MapUtils;
@@ -32,20 +32,23 @@ import javax.persistence.PersistenceException;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import static java.lang.String.format;
 import static java.util.Objects.isNull;
+import static org.papaja.commons.converter.Coders.INSTANCE;
 import static org.papaja.commons.converter.Format.STRING;
-import static org.springframework.util.StringUtils.hasText;
+import static org.papaja.commons.converter.coder.StringCoder.SQUARE_BRACES;
 
 @Controller("mdbvIndexController")
 @RequestMapping("/mdbv")
 @SuppressWarnings({"unused"})
 public class IndexController extends AbstractController {
+
+    static {
+        ((StringCoder) INSTANCE.get(STRING)).setBraces(SQUARE_BRACES);
+    }
 
     @Autowired
     private RecordService records;
@@ -228,37 +231,31 @@ public class IndexController extends AbstractController {
 
     @PreAuthorize("hasAuthority('READ')")
     @RequestMapping("/records")
-    public ModelAndView records(
-        @RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
-        @RequestParam(value = "query", required = false) String queryString,
-        @RequestParam(value = "path", required = false) String queryPath,
-        @RequestParam(value = "type", required = false) String queryType,
-        @RequestParam(value = "rule", required = false) String queryRule
-    ) {
+    public ModelAndView records(FilterTuple filter, SortTuple sort, PageTuple page) {
         ModelAndView mav = newView("records/index");
 
+        System.out.println(page);
+        System.out.println(filter);
+        System.out.println(sort);
+
         if (sources.hasActiveSource()) {
-            Query   query;
-            Source  source        = sources.getActiveSource();
-            boolean hasFilterData = (hasText(queryRule) && hasText(queryPath) && hasText(queryType));
+            Query  query  = records.getQuery(filter, page, sort);
+            Source source = sources.getActiveSource();
 
-            if (hasFilterData) {
-                query = this.records.getQuery(
-                        queryPath, Format.valueOf(queryType), queryString, Operator.Comparison.valueOf(queryRule),
-                        page - 1, RecordService.DEFAULT_SIZE
-                );
-            } else {
-                query = this.records.getQuery(page - 1, RecordService.DEFAULT_SIZE);
-            }
+            System.out.println(query.getQueryObject().toJson());
+            System.out.println(query.getSortObject().toJson());
 
-            mav.addObject("pagination", new PaginationData(this.records.count(query), page, RecordService.DEFAULT_SIZE));
+            // rows
             mav.addObject("rows", rows.getSortedRows());
-            mav.addObject("records", this.records.getRecords(sources.getActiveSource().getCollection(), query));
+            mav.addObject("preview", rows.getPreviewRows());
+            // records
+            mav.addObject("records", records.getRecords(sources.getActiveSource().getCollection(), query));
+            mav.addObject("pagination", new Paging(records.count(query), page.getPage(), PageTuple.DEFAULT_COUNT));
+            // additional
             mav.addObject("formats", Format.values());
             mav.addObject("filters", Operator.Comparison.values());
-            mav.addObject("activeSource", sources.getActiveSource());
-            mav.addObject("preview", rows.getPreviewRows());
-            mav.addObject("coders", Coders.INSTANCE);
+            mav.addObject("source", sources.getActiveSource());
+            mav.addObject("coders", INSTANCE);
             mav.addObject("accessor", new MapPathAccessor());
         } else {
             mav = newRedirect("sources?forced=1");
@@ -277,12 +274,10 @@ public class IndexController extends AbstractController {
         if (sources.hasActiveSource()) {
             MapRecord               record   = records.getRecord(objectId);
 
-            ((QuotedStringCoder)Coders.INSTANCE.get(STRING)).setBraces("'", "'");
-
             mav.addObject("jsonRecord", records.getJsonRecord(objectId));
             mav.addObject("record", record);
             mav.addObject("accessor", new MapPathAccessor());
-            mav.addObject("coders", Coders.INSTANCE);
+            mav.addObject("coders", INSTANCE);
             mav.addObject("rows", this.rows.getSortedRows());
             mav.addObject("source", sources.getActiveSource());
         } else {

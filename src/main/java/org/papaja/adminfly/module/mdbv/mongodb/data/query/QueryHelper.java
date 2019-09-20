@@ -1,11 +1,16 @@
 package org.papaja.adminfly.module.mdbv.mongodb.data.query;
 
+import org.papaja.adminfly.module.mdbv.mongodb.data.query.tuple.FilterTuple;
+import org.papaja.adminfly.module.mdbv.mongodb.data.query.tuple.PageTuple;
+import org.papaja.adminfly.module.mdbv.mongodb.data.query.tuple.SortTuple;
 import org.papaja.commons.converter.Coders;
 import org.papaja.commons.converter.Format;
 import org.papaja.commons.data.query.Operator;
 import org.papaja.commons.function.BiFunction;
 import org.papaja.commons.function.Supplier;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
@@ -14,6 +19,7 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
+import static java.lang.Math.max;
 import static java.lang.String.format;
 import static java.lang.String.valueOf;
 import static org.papaja.commons.data.query.Operator.Comparison.*;
@@ -64,32 +70,40 @@ public class QueryHelper implements Supplier<Query> {
         return query.addCriteria(criteria);
     }
 
-    public Criteria filters(List<FilterTuple> tuples) {
+    public Query add(Sort sort) {
+        return query.with(sort);
+    }
+
+    public void page(PageTuple page) {
+        add(PageRequest.of(max(page.getPage() - 1, 0), page.getCount()));
+    }
+
+    public void sort(List<SortTuple> tuples) {
+        tuples.forEach(this::sort);
+    }
+
+    public void sort(SortTuple tuple) {
+        add(new Sort(Direction.valueOf(tuple.getVector().toString()), tuple.getColumn()));
+    }
+
+    public void filters(List<FilterTuple> tuples) {
         Criteria criteria = null;
 
         for (FilterTuple tuple : tuples) {
-            criteria = filter(criteria(criteria, tuple), tuple);
+            criteria = FILTERS_MAP.get(tuple.getComparison())
+                    .apply(criteria(criteria, tuple), value(tuple.getFormat(), tuple.getQuery()));
         }
 
-        System.out.println(criteria.getCriteriaObject().toJson());
-
-        return criteria;
+        add(criteria);
     }
 
-    public Criteria filter(Criteria criteria, FilterTuple tuple) {
-        return FILTERS_MAP.get(tuple.getComparison()).apply(criteria, value(tuple.getFormat(), tuple.getValue()));
+    private Criteria criteria(Criteria criteria, FilterTuple tuple) {
+        return tuple.getLogical().equals(NONE)
+                ? Criteria.where(tuple.getPath())
+                : LOGICAL_MAP.get(tuple.getLogical()).apply(criteria, tuple.getPath());
     }
 
-    public Criteria criteria(Criteria criteria, FilterTuple tuple) {
-        return tuple.getLogical().equals(NONE) ? Criteria.where(tuple.getColumn()) : logical(criteria, tuple);
-    }
-
-    public Criteria logical(Criteria criteria, FilterTuple tuple) {
-        // todo: not applicable only AND operator
-        return LOGICAL_MAP.get(tuple.getLogical()).apply(criteria, tuple.getColumn());
-    }
-
-    public <T> T value(Format format, Object value) {
+    private <T> T value(Format format, Object value) {
         switch (format) {
             case STRING:
             case JAVA_DATE:

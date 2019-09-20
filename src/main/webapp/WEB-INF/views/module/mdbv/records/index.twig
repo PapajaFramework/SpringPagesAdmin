@@ -4,7 +4,7 @@
 {% block title %}MongoDB Viewer | {{ 'label.records' | translate }}{% endblock %}
 {% block content %}
     <div class="page-header mb-4">
-        <h1 id="tables">{{ 'label.records' | translate }} [{{ activeSource.name }}]</h1>
+        <h1 id="tables">{{ 'label.records' | translate }}: [{{ source.getDatabase() }}].[{{ source.getCollection() }}]</h1>
     </div>
     <div class="card border-light mb-3">
         <div class="card-body">
@@ -21,17 +21,16 @@
                             <option value="{{ format }}" {% if app.request.query.format == format %}selected{% endif %}>{{ format }}</option>
                         {% endfor %}
                     </select>
-                    <select class="custom-select" name="rule">
+                    <select class="custom-select" name="comparison">
                         {% for item in filters %}
-                        <option value="{{ item }}" {% if app.request.query.rule == item %}selected{% endif %}>{{ item }}</option>
+                        <option value="{{ item }}" {% if app.request.query.comparison == item %}selected{% endif %}>{{ item }}</option>
                         {% endfor %}
                     </select>
                     <input class="form-control mr-sm-2 form-control" type="text" name="query" value="{{ app.request.query.query }}" placeholder>
                 </div>
 
                 <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-danger">+</button>
-                    <button type="submit" class="btn btn-success">
+                    <button type="submit" class="btn btn-danger">
                         {{ 'label.search' | translate }}
                     </button>
                 </div>
@@ -49,8 +48,12 @@
                     <table class="table table-hover">
                         <thead>
                         <tr>
-                            {% for item in preview %}
-                                <th scope="col" class="w-25">{{ item.name }}</th>
+                            {% for column in preview %}
+                                <th scope="col" class="w-25">
+                                    <a href="{{ url('/mdbv/records', app.request.query, {column : column.path, vector: (app.request.query.vector == 'ASC') ? 'DESC' : 'ASC'}) }}">
+                                        {{ column.name }}
+                                    </a>
+                                </th>
                             {% endfor %}
                             <th scope="col" class="w-25"></th>
                         </tr>
@@ -59,10 +62,10 @@
                         {% for record in records %}
                             {% set view = url('/mdbv/records/view/' ~ record.getId()) %}
                             <tr>
-                                {% for item in preview %}
-                                    {% set value = accessor.get(record, item.path) %}
+                                {% for column in preview %}
+                                    {% set value = accessor.get(record, column.path) %}
                                     <td>
-                                        <small>{{ coders.get(item.type).encode(value) }}</small>
+                                        <small>{{ coders.get(column.type).encode(value) }}</small>
                                     </td>
                                 {% endfor %}
                                 <td class="text-lg-right">
