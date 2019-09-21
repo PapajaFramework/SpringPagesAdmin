@@ -5,7 +5,7 @@ import java.util.Set;
 
 import static java.util.Objects.*;
 
-public class AvailableModules {
+public class AdminFlyModules {
 
     public Set<Module> getModules() {
         return Holder.INSTANCE.getModules();

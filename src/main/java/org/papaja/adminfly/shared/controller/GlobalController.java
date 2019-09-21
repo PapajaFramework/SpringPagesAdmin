@@ -2,7 +2,7 @@ package org.papaja.adminfly.shared.controller;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.papaja.adminfly.shared.data.AvailableLocales;
-import org.papaja.adminfly.shared.data.AvailableModules;
+import org.papaja.adminfly.shared.data.AdminFlyModules;
 import org.papaja.adminfly.shared.data.AvailableThemes;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -49,7 +49,7 @@ public class GlobalController {
     public void handleRequest(HttpServletRequest request, Model view) {
         view.addAttribute("languages", new AvailableLocales());
         view.addAttribute("themes", new AvailableThemes());
-        view.addAttribute("modules", new AvailableModules());
+        view.addAttribute("modules", new AdminFlyModules());
         view.addAttribute("principal", request.getUserPrincipal());
     }
 

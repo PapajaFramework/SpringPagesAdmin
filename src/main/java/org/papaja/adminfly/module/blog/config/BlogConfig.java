@@ -1,6 +1,6 @@
 package org.papaja.adminfly.module.blog.config;
 
-import org.papaja.adminfly.shared.data.AvailableModules;
+import org.papaja.adminfly.shared.data.AdminFlyModules;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -18,7 +18,7 @@ public class BlogConfig {
     BlogConfig(Environment environment) {
         this.environment = environment;
 
-        AvailableModules.addModule(
+        AdminFlyModules.addModule(
             environment.getProperty("module.blog.name"), environment.getProperty("module.blog.path")
         );
     }

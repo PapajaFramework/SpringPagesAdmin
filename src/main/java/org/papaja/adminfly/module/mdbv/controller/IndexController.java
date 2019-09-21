@@ -234,16 +234,12 @@ public class IndexController extends AbstractController {
     public ModelAndView records(FilterTuple filter, SortTuple sort, PageTuple page) {
         ModelAndView mav = newView("records/index");
 
-        System.out.println(page);
-        System.out.println(filter);
-        System.out.println(sort);
-
         if (sources.hasActiveSource()) {
             Query  query  = records.getQuery(filter, page, sort);
             Source source = sources.getActiveSource();
 
             System.out.println(query.getQueryObject().toJson());
-            System.out.println(query.getSortObject().toJson());
+            System.out.println(records.count(query));
 
             // rows
             mav.addObject("rows", rows.getSortedRows());

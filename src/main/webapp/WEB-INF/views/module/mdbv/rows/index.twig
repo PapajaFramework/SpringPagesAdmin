@@ -6,66 +6,9 @@
     <h1 id="tables">{{ 'label.rows' | translate }}: [{% if activeSource is not null %}{{ activeSource.name }}{% else %}?{% endif %}]</h1>
 </div>
 <div class="row">
-    <div class="col-lg-7">
-        <div class="card border-light mb-3">
-            <div class="card-header">
-                {% include '../partials/setting-header-buttons.twig' %}
-                <button onclick="location.href='{{ url('/mdbv/scan') }}'"
-                        type="button" class="btn btn-sm btn-danger">{{ 'label.scan' | translate }}</button>
-            </div>
-            <div class="card-body">
-                <table class="table table-hover">
-                    <thead>
-                    <tr>
-                        <th scope="col">{{ 'label.name' | translate }}</th>
-                        <th scope="col">{{ 'label.type' | translate }}</th>
-                        <th scope="col" class="w-25"></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for item in items %}
-                    {% set edit = url('/mdbv/rows/edit/' ~ item.id) %}
-                    {% set remove = url('/mdbv/rows/remove/' ~ item.id) %}
-                    <tr>
-                        <td>
-                            <span class="small" title="[{{ item.path }}]">
-                                <b style="color: {% if item.status == 'F' %}green{% else %}red{% endif %}">&#x25C9;</b>
-                                <b style="color: {% if item.preview == true %}blue{% else %}gray{% endif %}">&#x25C9;</b>
-                            </span>
-                            <span class="small" title="[{{ item.path }}]">
-                                <b>[{{ item.position }}]</b>
-                            </span>
-                            {% if item.name is not null %}
-                                <span class="small" title="[{{ item.path }}]">
-                                    <b>[{{ item.name }}]</b>
-                                </span>
-                            {% else %}
-                                <span class="small">
-                                    <b>[{{ item.path }}]</b>
-                                </span>
-                            {% endif %}
-                        </td>
-                        <td><b>[{{ item.type }}]</b></td>
-                        <td class="text-lg-right">
-                            <div class="btn-group btn-group-sm" role="group">
-                                <button type="button" onclick="location.href='{{ edit }}'"
-                                        class="btn btn-sm btn-primary">{{ 'label.edit' | translate }}
-                                </button>
-                                <button type="button" onclick="confirm('{{ 'text.areYouSure' | translate }}') ? location.href='{{ remove }}' : false"
-                                        class="btn btn-sm btn-danger">{{ 'label.remove' | translate }}
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-5">
+    <div class="col-lg-12">
         <form action="{{ url('/mdbv/rows/edit') }}{% if not empty(row.id) %}/{{ row.id }}{% endif %}" method="post">
-            <div class="card border-light mb-3">
+            <div class="card bg-light mb-3">
                 <div class="card-header">{{ 'label.editing' | translate }}</div>
                 <div class="card-body">
                     <div class="form-group">
@@ -104,11 +47,69 @@
                         {{ fields.error(result, 'type') }}
                     </div>
                 </div>
-            </div>
-            <div class="card-footer">
-                <button class="btn btn-secondary btn-sm my-2 my-sm-0" type="submit">{{ 'label.save' | translate }}</button>
+                <div class="card-footer">
+                    <button class="btn btn-secondary btn-sm my-2 my-sm-0" type="submit">{{ 'label.save' | translate }}</button>
+                </div>
             </div>
         </form>
+    </div>
+    <hr class="m-3">
+    <div class="col-lg-12">
+        <div class="card border-light mb-3">
+            <div class="card-header">
+                {% include '../partials/setting-header-buttons.twig' %}
+                <button onclick="location.href='{{ url('/mdbv/scan') }}'"
+                        type="button" class="btn btn-sm btn-danger">{{ 'label.scan' | translate }}</button>
+            </div>
+            <div class="card-body">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th scope="col">{{ 'label.name' | translate }}</th>
+                        <th scope="col">{{ 'label.type' | translate }}</th>
+                        <th scope="col" class="w-25"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for item in items %}
+                    {% set edit = url('/mdbv/rows/edit/' ~ item.id) %}
+                    {% set remove = url('/mdbv/rows/remove/' ~ item.id) %}
+                    <tr>
+                        <td>
+                            <span title="[{{ item.path }}]">
+                                <b style="color: {% if item.status == 'F' %}green{% else %}red{% endif %}">&#x25C9;</b>
+                                <b style="color: {% if item.preview == true %}blue{% else %}gray{% endif %}">&#x25C9;</b>
+                            </span>
+                            <span title="[{{ item.path }}]">
+                                <b>[{{ item.position }}]</b>
+                            </span>
+                            {% if item.name is not null %}
+                                <span title="[{{ item.path }}]">
+                                    <b>[{{ item.name }}]</b>
+                                </span>
+                            {% else %}
+                                <span>
+                                    <b>[{{ item.path }}]</b>
+                                </span>
+                            {% endif %}
+                        </td>
+                        <td><b>[{{ item.type }}]</b></td>
+                        <td class="text-lg-right">
+                            <div class="btn-group btn-group-sm" role="group">
+                                <button type="button" onclick="location.href='{{ edit }}'"
+                                        class="btn btn-sm btn-primary">{{ 'label.edit' | translate }}
+                                </button>
+                                <button type="button" onclick="confirm('{{ 'text.areYouSure' | translate }}') ? location.href='{{ remove }}' : false"
+                                        class="btn btn-sm btn-danger">{{ 'label.remove' | translate }}
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
 <script>
