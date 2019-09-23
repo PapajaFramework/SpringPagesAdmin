@@ -32,6 +32,7 @@ import javax.persistence.PersistenceException;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -292,6 +293,7 @@ public class IndexController extends AbstractController {
             Set<String> paths      = new HashSet<>();
             int[]       counter    = new int[]{0};
             String      collection = sources.getActiveSource().getCollection();
+            Set<String> predefined = new HashSet<>(Arrays.asList("_id", "_time", "time"));
 
             for (MapRecord record : records.getRecords(collection, new Query())) {
                 paths.addAll(MapUtils.getPaths(record));
@@ -309,6 +311,12 @@ public class IndexController extends AbstractController {
                     row.setSource(sources.getActiveSource());
                     row.setStatus(Row.Status.S);
 
+                    if (predefined.contains(path)) {
+                        row.setPreview(true);
+                        row.setStatus(Row.Status.F);
+                        row.setName(format("[%s]", path));
+                    }
+
                     rows.merge(row);
                 } catch (PersistenceException exception) {
                     counter[0]--;
@@ -316,7 +324,8 @@ public class IndexController extends AbstractController {
             });
 
             attributes.addFlashAttribute("message",
-                    messages.getSuccessMessage("mdbv.mongodb.scanned", collection, paths.size(), counter[0]));
+                    messages.getSuccessMessage("mdbv.mongodb.scanned",
+                        collection, paths.size(), counter[0]));
         } else {
             mav = newRedirect("sources?forced=1");
         }

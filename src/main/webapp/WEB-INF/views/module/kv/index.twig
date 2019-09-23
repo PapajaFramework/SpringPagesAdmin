@@ -1,0 +1,72 @@
+{% extends './layout-link.twig' %}
+{% import '../../shared/macro/fields.twig' as fields %}
+{% block title %}KV Vault{% endblock %}
+{% block content %}
+    <div class="page-header mb-4">
+        <h1 id="tables">KV Vault</h1>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card bg-light mb-3">
+                <div class="card-body">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th scope="col">{{ 'label.key' | translate }}</th>
+                            <th scope="col">{{ 'label.value' | translate }}</th>
+                            <th scope="col" class="w-25"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for item in kvs %}
+                            {% set edit = url('/kv/edit') %}
+                            {% set remove = url('/kv/remove/' ~ item.key) %}
+                            {% set view = url('/kv/get/' ~ item.key) %}
+                            {% set save = url('/kv/save') %}
+                            <tr>
+                                <td>{{ item.key }}</td>
+                                <td>{{ item.value }}</td>
+                                <td class="text-lg-right">
+                                    <div class="btn-group btn-group-sm" role="group">
+                                        <button type="submit" onclick="location.href='{{ edit ~ '/' ~ item.id }}'"
+                                                class="btn btn-sm btn-info">{{ 'label.edit' | translate }}
+                                        </button>
+                                        <button type="submit"
+                                                onclick="confirm('{{ 'text.areYouSure' | translate }}') ? location.href='{{ remove }}' : false"
+                                                class="btn btn-sm btn-danger">{{ 'label.remove' | translate }}
+                                        </button>
+                                        <button type="button"
+                                                onclick="location.href='{{ view }}'"
+                                                class="btn btn-sm btn-success">{{ 'label.view' | translate }}
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        <tr>
+                            <form action="{{ save }}{% if not empty(entity.id) %}/{{ entity.id }}{% endif %}" method="post">
+                                <td>
+                                    <input type="text" name="key" class="form-control {{ fields.ifError(result, 'key', 'is-invalid') }}" value="{{ entity.key }}">
+                                    <input type="hidden" name="id" value="{{ entity.id }}">
+                                    {{ fields.error(result, 'key') }}
+                                </td>
+                                <td>
+                                    <input type="text" name="value" class="form-control {{ fields.ifError(result, 'value', 'is-invalid') }}" value="{{ entity.value }}">
+                                    {{ fields.error(result, 'value') }}
+                                </td>
+                                <td class="text-lg-right">
+                                    <div class="btn-group btn-group-sm" role="group">
+                                        <button type="submit" onclick="location.href='{{ save }}'"
+                                                class="btn btn-sm btn-primary">{{ 'label.save' | translate }}
+                                        </button>
+                                    </div>
+                                </td>
+                            </form>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

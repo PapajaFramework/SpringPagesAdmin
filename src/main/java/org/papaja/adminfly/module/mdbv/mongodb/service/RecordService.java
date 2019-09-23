@@ -4,7 +4,6 @@ import org.papaja.adminfly.module.mdbv.mongodb.data.query.tuple.FilterTuple;
 import org.papaja.adminfly.module.mdbv.common.manager.MongoDatabaseManager;
 import org.papaja.adminfly.module.mdbv.mongodb.data.query.tuple.PageTuple;
 import org.papaja.adminfly.module.mdbv.mongodb.data.query.tuple.SortTuple;
-import org.papaja.commons.data.query.Operator;
 import org.papaja.adminfly.module.mdbv.mongodb.data.query.QueryHelper;
 import org.papaja.adminfly.module.mdbv.mongodb.record.MapRecord;
 import org.papaja.adminfly.module.mdbv.mysql.service.SourceService;
@@ -15,11 +14,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
-import static java.util.Objects.nonNull;
 import static org.papaja.commons.converter.Format.RAW;
 import static org.papaja.commons.data.query.Operator.Comparison.EQ;
+import static org.papaja.commons.data.query.Operator.Logical.NONE;
 
 @Service
 @SuppressWarnings({"all"})
@@ -65,7 +63,7 @@ public class RecordService {
     }
 
     public Query getQuery(String id) {
-        return getQuery(new FilterTuple("_id", id, RAW, EQ, Operator.Logical.NONE), new PageTuple(), new SortTuple());
+        return getQuery(new FilterTuple("_id", id, RAW, EQ, NONE), new PageTuple(), new SortTuple());
     }
 
     public Query getQuery(FilterTuple filter, PageTuple page, SortTuple sort) {

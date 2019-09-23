@@ -52,10 +52,13 @@ public class QueryHelper implements Supplier<Query> {
         FILTERS_MAP.put(IS_NULL, (column, criteria, value) -> criteria.is(null));
         FILTERS_MAP.put(NOT_NULL, (column, criteria, value) -> criteria.ne(null));
         FILTERS_MAP.put(EMPTY, (column, criteria, value) -> new Criteria().orOperator(
-            where(column).exists(true).size(0), where(column).is(Collections.EMPTY_MAP)
+            where(column).exists(true).size(0),
+            where(column).is(Collections.EMPTY_MAP)
         ));
-        FILTERS_MAP.put(NOT_EMPTY, (column, criteria, value) -> new Criteria().orOperator(
-            where(column).exists(true).not().size(0), where(column).gt(Collections.EMPTY_MAP)
+        FILTERS_MAP.put(NOT_EMPTY, (column, criteria, value) -> new Criteria().andOperator(
+            where(column).ne(Collections.EMPTY_MAP),
+            where(column).ne(Collections.EMPTY_LIST),
+            where(column).ne(null)
         ));
 
         LOGICAL_MAP.put(AND, (criteria, column) -> criteria.and(column));
